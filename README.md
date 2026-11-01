@@ -10,7 +10,7 @@ Built with **Astro 4 (Hybrid Rendering)**, **TypeScript**, **Tailwind CSS**, **S
 
 - **Editorial Visual Identity**: Warm parchment background (`#FAF7F2`), deep charcoal typography, subtle borders, and earthy terracotta/sage accents.
 - **Dual Publishing Workflows**:
-  - **Browser Admin Dashboard (`/admin`)**: Restricted via GitHub OAuth exclusively to `LikithaTummapudi`. Features a split-pane live Markdown preview, category/tag selectors, cover image upload, draft support, and commits directly to GitHub via the GitHub Contents API.
+  - **Browser Admin Dashboard (`/admin`)**: Password-protected editorial portal with 30-day persistent session. Features a split-pane live Markdown preview, category/tag selectors, cover image upload, draft support, and commits directly to GitHub via the GitHub Contents API.
   - **Local Git Commits**: Write standard Markdown files in `src/content/blogs/` with frontmatter and push to GitHub.
 - **Database-Backed Email Subscriptions**:
   - Real reader newsletter subscriptions powered by **Supabase**.
@@ -44,7 +44,7 @@ Built with **Astro 4 (Hybrid Rendering)**, **TypeScript**, **Tailwind CSS**, **S
 | **Serverless Adapter** | [`@astrojs/vercel/serverless`](https://docs.astro.build/en/guides/integrations-guide/vercel/) |
 | **Database** | [Supabase](https://supabase.com/) (PostgreSQL for email subscribers) |
 | **Transactional Email**| [Resend](https://resend.com/) (Welcome & new post broadcast emails) |
-| **Admin Authentication**| GitHub OAuth (Restricted strictly to `LikithaTummapudi`) |
+| **Admin Authentication**| Password Authentication (`ADMIN_PASSWORD`, 30-day session) |
 | **Styling** | [Tailwind CSS](https://tailwindcss.com/) + `@tailwindcss/typography` |
 | **Syntax Highlighting** | [Shiki](https://shiki.style/) (`github-dark-dimmed` theme) |
 | **Typography** | Newsreader (Serif), Plus Jakarta Sans (Sans-serif), JetBrains Mono (Code) |
@@ -213,24 +213,22 @@ create index if not exists idx_sent_notifications_slug on sent_notifications(art
 
 ---
 
-## 🔐 GitHub OAuth Setup (Admin Portal Access)
+## 🔐 Admin Authentication (Password-Protected)
 
-The `/admin` route is protected by GitHub OAuth and will **only** permit login from `LikithaTummapudi`.
+The `/admin` dashboard and all article management endpoints are protected server-side with a secure password and 30-day signed session cookies.
 
-1. Go to your GitHub account: **Settings** &rarr; **Developer Settings** &rarr; **OAuth Apps** &rarr; **New OAuth App**.
-2. Configure the application:
-   - **Application Name**: `Chronicles & Code Admin`
-   - **Homepage URL**: `http://localhost:4321` (or your production Vercel URL)
-   - **Authorization callback URL**: `http://localhost:4321/api/auth/callback`  
-     *(In production: `https://your-domain.vercel.app/api/auth/callback`)*
-3. Click **Register Application**, then click **Generate a new client secret**.
-4. Copy the **Client ID** and **Client Secret** into your `.env`:
-   ```env
-   GITHUB_CLIENT_ID=your_client_id
-   GITHUB_CLIENT_SECRET=your_client_secret
-   ADMIN_USERNAME=LikithaTummapudi
-   SESSION_SECRET=a_random_32_character_string_for_cookie_signing
-   ```
+- **Environment Variable**: `ADMIN_PASSWORD`
+- **Initial Password**: `LikithaLucky#1`
+- **Session Duration**: 30 days (persists across browser restarts via HttpOnly signed cookie)
+
+### Where to configure `ADMIN_PASSWORD`:
+1. **Local Development**:
+   Set `ADMIN_PASSWORD=LikithaLucky#1` (or your preferred password) in your root `.env` file.
+2. **Production on Vercel**:
+   Go to your project on Vercel &rarr; **Settings** &rarr; **Environment Variables**, and add:
+   - Key: `ADMIN_PASSWORD`
+   - Value: `LikithaLucky#1` (or your custom password)
+   - Environments: **Production**, **Preview**, **Development**
 
 ---
 
@@ -238,7 +236,7 @@ The `/admin` route is protected by GitHub OAuth and will **only** permit login f
 
 ### Workflow A: Through the Private `/admin` Portal (Recommended)
 1. Navigate to `/admin` in your browser.
-2. Click **Sign in with GitHub**. Only `LikithaTummapudi` will be granted access.
+2. Enter your admin password (`LikithaLucky#1` initially) and click **Continue to Admin**.
 3. In the admin dashboard:
    - Click **+ New Article**.
    - Fill in Title, Excerpt / Description, Category, Tags, and Cover Image (or upload one directly from your machine).

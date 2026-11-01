@@ -13,7 +13,7 @@ export interface PostWithMeta extends BlogPost {
  * In production, draft posts are excluded.
  */
 export async function getAllBlogs(): Promise<PostWithMeta[]> {
-  const isProd = import.meta.env.PROD;
+  const isProd = import.meta.env?.PROD ?? (process.env.NODE_ENV === 'production');
   const posts = await getCollection('blogs', ({ data }) => {
     return isProd ? !data.draft : true;
   });

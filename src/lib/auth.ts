@@ -1,95 +1,48 @@
 import crypto from 'node:crypto';
 
 export const ADMIN_USERNAME = (process.env.ADMIN_USERNAME || 'LikithaTummapudi').toLowerCase();
-const GITHUB_CLIENT_ID = process.env.GITHUB_CLIENT_ID || '';
-const GITHUB_CLIENT_SECRET = process.env.GITHUB_CLIENT_SECRET || '';
+export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'LikithaLucky#1';
 const SESSION_SECRET = process.env.SESSION_SECRET || 'likitha-blog-editorial-secret-key-2026';
+
+// 30 days in seconds (30 * 24 * 60 * 60 = 2,592,000)
+export const SESSION_DURATION_SECONDS = 30 * 24 * 60 * 60;
 
 export interface AdminUser {
   username: string;
   name: string;
   avatar_url: string;
-  github_token: string;
+  github_token?: string;
 }
 
 /**
- * Returns GitHub OAuth Authorization URL
+ * Validates the admin password in constant time to prevent timing attacks.
+ * Defaults to 'LikithaLucky#1' if ADMIN_PASSWORD is not set in environment.
  */
-export function getGitHubAuthUrl(redirectUri: string): string {
-  const params = new URLSearchParams({
-    client_id: GITHUB_CLIENT_ID,
-    redirect_uri: redirectUri,
-    scope: 'repo read:user user:email',
-    state: crypto.randomBytes(16).toString('hex'),
-  });
+export function verifyAdminPassword(password: string): boolean {
+  if (!password || typeof password !== 'string') return false;
 
-  return `https://github.com/login/oauth/authorize?${params.toString()}`;
-}
+  const currentExpected = process.env.ADMIN_PASSWORD || 'LikithaLucky#1';
+  const inputBuffer = Buffer.from(password);
+  const expectedBuffer = Buffer.from(currentExpected);
 
-/**
- * Exchanges OAuth authorization code for GitHub access token
- */
-export async function exchangeCodeForToken(code: string, redirectUri: string): Promise<string | null> {
-  if (!GITHUB_CLIENT_ID || !GITHUB_CLIENT_SECRET) {
-    console.error('GITHUB_CLIENT_ID or GITHUB_CLIENT_SECRET missing in environment');
-    return null;
+  if (inputBuffer.length !== expectedBuffer.length) {
+    return false;
   }
 
-  try {
-    const res = await fetch('https://github.com/login/oauth/access_token', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        client_id: GITHUB_CLIENT_ID,
-        client_secret: GITHUB_CLIENT_SECRET,
-        code,
-        redirect_uri: redirectUri,
-      }),
-    });
-
-    const data = await res.json();
-    return data.access_token || null;
-  } catch (err) {
-    console.error('Failed to exchange GitHub code for token:', err);
-    return null;
-  }
+  return crypto.timingSafeEqual(inputBuffer, expectedBuffer);
 }
 
 /**
- * Fetches authenticated GitHub user profile
+ * Signs and creates a 30-day session cookie string using HMAC-SHA256
  */
-export async function getGitHubUserProfile(token: string): Promise<{
-  login: string;
-  name: string;
-  avatar_url: string;
-} | null> {
-  try {
-    const res = await fetch('https://api.github.com/user', {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'User-Agent': 'Likitha-Personal-Blog-Admin',
-        Accept: 'application/vnd.github.v3+json',
-      },
-    });
-
-    if (!res.ok) return null;
-    return await res.json();
-  } catch (err) {
-    console.error('Failed to fetch GitHub user:', err);
-    return null;
-  }
-}
-
-/**
- * Signs and creates a session cookie string
- */
-export function createSessionCookie(user: AdminUser): string {
+export function createSessionCookie(
+  user: AdminUser,
+  durationSeconds: number = SESSION_DURATION_SECONDS
+): string {
+  const expiresAt = Date.now() + durationSeconds * 1000;
   const payload = JSON.stringify({
     ...user,
-    expiresAt: Date.now() + 7 * 24 * 60 * 60 * 1000, // 7 days
+    expiresAt,
   });
 
   const base64Payload = Buffer.from(payload).toString('base64url');
