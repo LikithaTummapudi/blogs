@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { getAllCategories } from '@utils/content';
+import { url } from '@utils/paths';
 
 const categories = await getAllCategories();
 ---
@@ -29,7 +30,7 @@ const categories = await getAllCategories();
       {
         categories.map((cat) => (
           <a
-            href={`/categories/${cat.slug}`}
+            href={url(`/categories/${cat.slug}`)}
             class="group p-8 rounded-2xl bg-white border border-parchment-300 hover:border-terracotta-300 transition-all duration-200 flex flex-col justify-between shadow-2xs hover:shadow-md h-full"
           >
             <div>

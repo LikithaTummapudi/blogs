@@ -2,6 +2,7 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PostCard from '@components/PostCard.astro';
 import { getAllBlogs, getAllCategories, getAllTags } from '@utils/content';
+import { url } from '@utils/paths';
 
 const allPosts = await getAllBlogs();
 const categories = await getAllCategories();
@@ -163,7 +164,7 @@ const allTags = await getAllTags();
             The publication is currently empty as fresh writings are being finalized. Subscribe using the button in the navigation to get notified the moment the first article is published.
           </p>
           <a
-            href="/"
+            href={url('/')}
             class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 text-xs font-semibold tracking-wide transition-colors"
           >
             &larr; Return to Homepage

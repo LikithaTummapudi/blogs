@@ -5,6 +5,7 @@ import FeaturedPost from '@components/FeaturedPost.astro';
 import PostCard from '@components/PostCard.astro';
 import { getAllBlogs, getFeaturedBlog, getAllCategories } from '@utils/content';
 import { siteConfig } from '@config/site';
+import { url } from '@utils/paths';
 
 const allPosts = await getAllBlogs();
 const featuredPost = await getFeaturedBlog();
@@ -41,7 +42,7 @@ const latestPosts = allPosts.slice(0, 6);
         {
           allPosts.length > 0 && (
             <a
-              href="/blogs"
+              href={url('/blogs')}
               class="inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700 transition-colors group"
             >
               View All {allPosts.length} Articles
@@ -74,7 +75,7 @@ const latestPosts = allPosts.slice(0, 6);
               The journal is freshly established. Thoughtful explorations in software development, machine learning, and systems architectures are currently being written.
             </p>
             <a
-              href="/about"
+              href={url('/about')}
               class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 text-xs font-semibold tracking-wide transition-colors"
             >
               Learn More About the Author &rarr;
@@ -95,7 +96,7 @@ const latestPosts = allPosts.slice(0, 6);
             Explore by Category
           </h2>
         </div>
-        <a href="/categories" class="text-xs font-mono text-terracotta-700 hover:underline">
+        <a href={url('/categories')} class="text-xs font-mono text-terracotta-700 hover:underline">
           All Categories &rarr;
         </a>
       </div>
@@ -104,7 +105,7 @@ const latestPosts = allPosts.slice(0, 6);
         {
           categories.map((cat) => (
             <a
-              href={`/categories/${cat.slug}`}
+              href={url(`/categories/${cat.slug}`)}
               class="group p-6 rounded-xl bg-white border border-parchment-300 hover:border-terracotta-300 transition-all duration-200 flex flex-col justify-between shadow-2xs hover:shadow-sm"
             >
               <div>
@@ -136,7 +137,7 @@ const latestPosts = allPosts.slice(0, 6);
           <div class="md:col-span-3 flex justify-center">
             <div class="relative">
               <img
-                src={siteConfig.author.avatar}
+                src={url(siteConfig.author.avatar)}
                 alt={siteConfig.author.name}
                 class="w-32 h-32 rounded-full border-2 border-parchment-300 object-cover bg-white shadow-sm"
               />
@@ -158,7 +159,7 @@ const latestPosts = allPosts.slice(0, 6);
             </p>
             <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-4">
               <a
-                href="/about"
+                href={url('/about')}
                 class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 text-xs font-semibold tracking-wide transition-colors shadow-2xs"
               >
                 Read Complete Bio &rarr;

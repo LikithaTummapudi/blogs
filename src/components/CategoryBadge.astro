@@ -1,5 +1,6 @@
 ---
 import { slugify } from '@utils/content';
+import { url } from '@utils/paths';
 
 interface Props {
   category: string;
@@ -30,7 +31,7 @@ const slug = slugify(category);
 {
   clickable ? (
     <a
-      href={`/categories/${slug}`}
+      href={url(`/categories/${slug}`)}
       class={`inline-flex items-center font-medium rounded-full border transition-colors duration-150 tracking-wide uppercase ${sizeClasses} ${colorClasses}`}
     >
       {category}

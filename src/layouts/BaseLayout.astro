@@ -6,6 +6,7 @@ import SearchModal from '@components/SearchModal.astro';
 import NewsletterModal from '@components/NewsletterModal.astro';
 import BackToTop from '@components/BackToTop.astro';
 import { siteConfig } from '@config/site';
+import { url } from '@utils/paths';
 import '@styles/global.css';
 
 interface Props {
@@ -35,7 +36,7 @@ const ogImageURL = new URL(image, Astro.site || siteConfig.url).toString();
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
     <meta name="generator" content={Astro.generator} />
 
     <!-- Primary Meta Tags -->

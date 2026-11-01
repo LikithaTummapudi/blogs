@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from '@config/site';
+import { url } from '@utils/paths';
 
 interface Props {
   currentPath?: string;
@@ -11,7 +12,7 @@ const { currentPath = Astro.url.pathname } = Astro.props;
 <header class="sticky top-0 z-40 w-full bg-parchment-50/90 backdrop-blur-md border-b border-parchment-200 transition-all duration-200">
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-18 py-4 flex items-center justify-between">
     <!-- Brand / Logo -->
-    <a href="/" class="group flex items-center gap-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-500 rounded">
+    <a href={url('/')} class="group flex items-center gap-2.5 focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-500 rounded">
       <div class="w-8 h-8 rounded-lg bg-charcoal-900 flex items-center justify-center text-parchment-50 font-serif font-bold text-lg shadow-sm group-hover:bg-terracotta-600 transition-colors">
         C
       </div>

@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from '@config/site';
+import { url } from '@utils/paths';
 
 interface Props {
   currentPath?: string;
@@ -21,7 +22,7 @@ const { currentPath = Astro.url.pathname } = Astro.props;
     <div>
       <!-- Drawer Header -->
       <div class="flex items-center justify-between pb-6 border-b border-parchment-200">
-        <a href="/" class="flex items-center gap-2">
+        <a href={url('/')} class="flex items-center gap-2">
           <div class="w-7 h-7 rounded bg-charcoal-900 text-parchment-50 font-serif font-bold text-sm flex items-center justify-center">
             C
           </div>

@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import { siteConfig } from '@config/site';
+import { url } from '@utils/paths';
 ---
 
 <BaseLayout
@@ -10,7 +11,7 @@ import { siteConfig } from '@config/site';
   <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-24">
     <!-- Breadcrumb Navigation -->
     <nav class="mb-10 flex items-center gap-2 text-xs font-mono text-charcoal-500">
-      <a href="/" class="hover:text-charcoal-900 transition-colors">Home</a>
+      <a href={url('/')} class="hover:text-charcoal-900 transition-colors">Home</a>
       <span>/</span>
       <span class="text-terracotta-700 font-semibold">About</span>
     </nav>
@@ -55,7 +56,7 @@ import { siteConfig } from '@config/site';
         <div class="w-full max-w-[320px] sm:max-w-[340px] p-3 bg-white rounded-2xl border border-parchment-300 shadow-sm">
           <div class="w-full aspect-square rounded-xl overflow-hidden bg-parchment-100 flex items-center justify-center border border-parchment-200">
             <img
-              src="/images/about-illustration.svg"
+              src={url('/images/about-illustration.svg')}
               alt="Hand-drawn editorial illustration of a cozy creative workspace with laptop, books, and plants"
               class="w-full h-full object-contain select-none"
               loading="eager"

@@ -2,6 +2,7 @@
 import type { PostWithMeta } from '@utils/content';
 import { formatDate } from '@utils/content';
 import CategoryBadge from './CategoryBadge.astro';
+import { url } from '@utils/paths';
 
 interface Props {
   post: PostWithMeta;
@@ -24,15 +25,28 @@ const { post } = Astro.props;
   <article class="group relative rounded-2xl bg-white border border-parchment-300 hover:border-terracotta-300 transition-all duration-300 overflow-hidden shadow-2xs hover:shadow-md">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
       <!-- Image Column (5 cols) -->
-      <div class="lg:col-span-5 relative overflow-hidden bg-charcoal-900 min-h-[260px] lg:min-h-full">
-        <a href={`/blogs/${post.slug}`} class="block w-full h-full">
-          <img
-            src={post.data.coverImage}
-            alt={post.data.coverAlt || post.data.title}
-            class="w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-500"
-            loading="eager"
-          />
-        </a>
+      <div class="lg:col-span-5 relative overflow-hidden bg-charcoal-900 min-h-[260px] lg:min-h-full flex items-center justify-center">
+        {
+          post.data.coverImage ? (
+            <a href={url(`/blogs/${post.slug}`)} class="block w-full h-full">
+              <img
+                src={url(post.data.coverImage)}
+                alt={post.data.coverAlt || post.data.title}
+                class="w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-500"
+                loading="eager"
+              />
+            </a>
+          ) : (
+            <a href={url(`/blogs/${post.slug}`)} class="w-full h-full p-8 flex flex-col justify-between bg-gradient-to-br from-charcoal-900 via-charcoal-800 to-terracotta-950 text-parchment-100 group">
+              <span class="text-xs font-mono tracking-widest uppercase text-terracotta-400">Chronicles &amp; Code</span>
+              <div class="my-auto py-6">
+                <span class="text-xs font-mono px-2 py-0.5 rounded bg-white/10 text-terracotta-300 mb-2 inline-block">Featured Story</span>
+                <h4 class="font-serif text-2xl font-bold leading-snug group-hover:text-terracotta-200 transition-colors">{post.data.title}</h4>
+              </div>
+              <span class="text-xs font-mono text-charcoal-400">{post.readingTime}</span>
+            </a>
+          )
+        }
       </div>
 
       <!-- Content Column (7 cols) -->
@@ -53,7 +67,7 @@ const { post } = Astro.props;
 
           <!-- Title -->
           <h3 class="font-serif text-2xl sm:text-3xl lg:text-3xl font-bold text-charcoal-950 group-hover:text-terracotta-700 transition-colors leading-tight mb-4">
-            <a href={`/blogs/${post.slug}`} class="focus:outline-none">
+            <a href={url(`/blogs/${post.slug}`)} class="focus:outline-none">
               {post.data.title}
             </a>
           </h3>
@@ -68,7 +82,7 @@ const { post } = Astro.props;
             {
               post.data.tags.map((tag) => (
                 <a
-                  href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                  href={url(`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`)}
                   class="text-xs font-mono px-2.5 py-0.5 rounded bg-parchment-100 hover:bg-parchment-200 text-charcoal-600 transition-colors"
                 >
                   #{tag}
@@ -90,7 +104,7 @@ const { post } = Astro.props;
           </div>
 
           <a
-            href={`/blogs/${post.slug}`}
+            href={url(`/blogs/${post.slug}`)}
             class="inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700 group-hover:translate-x-0.5 transition-all"
           >
             Read Article

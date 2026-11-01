@@ -8,7 +8,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "postinstall": "node scripts/patch-vercel-adapter.cjs"
+    "postinstall": "node scripts/patch-rollup.cjs"
   },
   "engines": {
     "node": "22.x"

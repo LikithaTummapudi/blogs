@@ -1,5 +1,6 @@
 ---
 import { siteConfig } from '@config/site';
+import { url } from '@utils/paths';
 ---
 
 <section class="relative pt-12 pb-16 md:pt-20 md:pb-24 border-b border-parchment-200 overflow-hidden">
@@ -30,7 +31,7 @@ import { siteConfig } from '@config/site';
         <!-- Action buttons -->
         <div class="flex flex-wrap items-center gap-4">
           <a
-            href="/blogs"
+            href={url('/blogs')}
             class="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 font-medium text-sm transition-all duration-200 shadow-sm group focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-500"
           >
             Explore Publications
@@ -40,7 +41,7 @@ import { siteConfig } from '@config/site';
           </a>
 
           <a
-            href="/about"
+            href={url('/about')}
             class="inline-flex items-center justify-center px-5 py-3 rounded-lg border border-parchment-300 bg-white hover:bg-parchment-100 text-charcoal-800 font-medium text-sm transition-colors shadow-2xs"
           >
             About Likitha

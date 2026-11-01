@@ -6,6 +6,7 @@ import ReadingProgress from '@components/ReadingProgress.astro';
 import PostCard from '@components/PostCard.astro';
 import { formatDate, type PostWithMeta } from '@utils/content';
 import { siteConfig } from '@config/site';
+import { url } from '@utils/paths';
 import type { MarkdownHeading } from 'astro';
 
 interface Props {
@@ -34,7 +35,7 @@ const currentUrl = new URL(Astro.url.pathname, Astro.site || siteConfig.url).toS
     <!-- Breadcrumb & Back Link -->
     <div class="mb-8 flex items-center justify-between text-xs font-mono text-charcoal-500">
       <a
-        href="/blogs"
+        href={url('/blogs')}
         class="inline-flex items-center gap-1.5 text-charcoal-600 hover:text-terracotta-600 transition-colors group"
       >
         <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,7 +46,7 @@ const currentUrl = new URL(Astro.url.pathname, Astro.site || siteConfig.url).toS
 
       <div class="flex items-center gap-2">
         <span class="text-charcoal-400">Published in</span>
-        <a href={`/categories/${post.data.category.toLowerCase().replace(/\s+/g, '-')}`} class="text-terracotta-700 hover:underline">
+        <a href={url(`/categories/${post.data.category.toLowerCase().replace(/\s+/g, '-')}`)} class="text-terracotta-700 hover:underline">
           {post.data.category}
         </a>
       </div>
@@ -102,20 +103,22 @@ const currentUrl = new URL(Astro.url.pathname, Astro.site || siteConfig.url).toS
     </header>
 
     <!-- Cover Image -->
-    <div class="max-w-4xl mx-auto mb-14 rounded-2xl overflow-hidden border border-parchment-300 shadow-sm bg-charcoal-950">
-      <img
-        src={post.data.coverImage}
-        alt={post.data.coverAlt || post.data.title}
-        class="w-full max-h-[500px] object-cover object-center"
-      />
-      {
-        post.data.coverAlt && (
-          <div class="px-4 py-2.5 bg-parchment-100/80 border-t border-parchment-200 text-center text-xs font-mono text-charcoal-500">
-            {post.data.coverAlt}
-          </div>
-        )
-      }
-    </div>
+    {
+      post.data.coverImage && (
+        <div class="max-w-4xl mx-auto mb-14 rounded-2xl overflow-hidden border border-parchment-300 shadow-sm bg-charcoal-950">
+          <img
+            src={url(post.data.coverImage)}
+            alt={post.data.coverAlt || post.data.title}
+            class="w-full max-h-[500px] object-cover object-center"
+          />
+          {post.data.coverAlt && (
+            <div class="px-4 py-2.5 bg-parchment-100/80 border-t border-parchment-200 text-center text-xs font-mono text-charcoal-500">
+              {post.data.coverAlt}
+            </div>
+          )}
+        </div>
+      )
+    }
 
     <!-- Article Body with Sticky Table of Contents -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start max-w-5xl mx-auto">
@@ -134,7 +137,7 @@ const currentUrl = new URL(Astro.url.pathname, Astro.site || siteConfig.url).toS
             {
               post.data.tags.map((tag) => (
                 <a
-                  href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                  href={url(`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`)}
                   class="text-xs font-mono px-3 py-1 rounded-md bg-parchment-100 hover:bg-parchment-200 text-charcoal-700 transition-colors border border-parchment-200"
                 >
                   #{tag}
@@ -198,7 +201,7 @@ const currentUrl = new URL(Astro.url.pathname, Astro.site || siteConfig.url).toS
           {
             prevPost ? (
               <a
-                href={`/blogs/${prevPost.slug}`}
+                href={url(`/blogs/${prevPost.slug}`)}
                 class="group p-4 rounded-xl border border-parchment-200 bg-white hover:border-terracotta-300 hover:bg-parchment-100 transition-all flex flex-col justify-between shadow-2xs"
               >
                 <div class="text-[11px] font-mono text-charcoal-400 mb-1 flex items-center gap-1">
@@ -216,7 +219,7 @@ const currentUrl = new URL(Astro.url.pathname, Astro.site || siteConfig.url).toS
           {
             nextPost ? (
               <a
-                href={`/blogs/${nextPost.slug}`}
+                href={url(`/blogs/${nextPost.slug}`)}
                 class="group p-4 rounded-xl border border-parchment-200 bg-white hover:border-terracotta-300 hover:bg-parchment-100 transition-all flex flex-col justify-between text-right shadow-2xs"
               >
                 <div class="text-[11px] font-mono text-charcoal-400 mb-1 flex items-center justify-end gap-1">
@@ -248,7 +251,7 @@ const currentUrl = new URL(Astro.url.pathname, Astro.site || siteConfig.url).toS
               Related Publications
             </h3>
             <a
-              href="/blogs"
+              href={url('/blogs')}
               class="text-xs font-mono text-terracotta-700 hover:underline inline-flex items-center gap-1"
             >
               All Articles &rarr;

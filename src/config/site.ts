@@ -35,12 +35,12 @@ export const siteConfig: SiteConfig = {
   title: 'Chronicles & Code — Likitha Tummapudi',
   description: 'An editorial publication exploring computer science, systems, machine learning, and personal engineering journeys by Likitha Tummapudi.',
   tagline: 'Ideas, Experiments & Everything In Between',
-  url: 'https://my-editorial-blog.vercel.app',
+  url: 'https://likithatummapudi.github.io/blogs',
   author: {
     name: 'Likitha Tummapudi',
     role: 'Computer Science Undergraduate & Software Developer',
     bio: 'Pursuing B.Tech in CSE at VIT-AP University (2024–2028, CGPA: 9.14). Passionate about software development, AI, machine learning, and quantum computing.',
-    avatar: '/images/avatar.svg',
+    avatar: '/blogs/images/avatar.svg',
     academic: 'B.Tech in Computer Science and Engineering — VIT-AP University (2024–2028)',
     location: 'Andhra Pradesh, India',
     email: 'likitha.tummapudi1@gmail.com',
@@ -51,10 +51,10 @@ export const siteConfig: SiteConfig = {
     email: 'mailto:likitha.tummapudi1@gmail.com',
   },
   nav: [
-    { title: 'Home', href: '/' },
-    { title: 'All Blogs', href: '/blogs' },
-    { title: 'Categories', href: '/categories' },
-    { title: 'About', href: '/about' },
+    { title: 'Home', href: '/blogs/' },
+    { title: 'All Blogs', href: '/blogs/blogs' },
+    { title: 'Categories', href: '/blogs/categories' },
+    { title: 'About', href: '/blogs/about' },
   ],
   categories: [
     {

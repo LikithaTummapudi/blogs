@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
+import { url } from '@utils/paths';
 ---
 
 <BaseLayout
@@ -21,14 +22,14 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 
     <div class="flex flex-wrap items-center justify-center gap-4">
       <a
-        href="/"
+        href={url('/')}
         class="px-5 py-2.5 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 text-xs font-semibold tracking-wide transition-colors shadow-2xs"
       >
         Return to Homepage &rarr;
       </a>
 
       <a
-        href="/blogs"
+        href={url('/blogs')}
         class="px-5 py-2.5 rounded-lg bg-white border border-parchment-300 hover:bg-parchment-100 text-charcoal-700 text-xs font-medium transition-colors"
       >
         Browse All Articles
