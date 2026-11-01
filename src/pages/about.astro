@@ -5,7 +5,7 @@ import { siteConfig } from '@config/site';
 
 <BaseLayout
   title={`About — ${siteConfig.author.name}`}
-  description={`Background, technical interests, learning roadmap, and writing philosophy of ${siteConfig.author.name}.`}
+  description={`Academic background, technical interests, projects, and learning journey of ${siteConfig.author.name}.`}
 >
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-24">
     <!-- Breadcrumb -->
@@ -21,13 +21,13 @@ import { siteConfig } from '@config/site';
         <div class="md:col-span-8">
           <div class="inline-flex items-center gap-2 text-xs font-mono font-bold tracking-widest uppercase text-terracotta-700 bg-terracotta-50 border border-terracotta-200 px-3 py-1 rounded-full mb-4">
             <span class="w-1.5 h-1.5 rounded-full bg-terracotta-600"></span>
-            Author Biography &amp; Journal Manifesto
+            About the Author
           </div>
           <h1 class="font-serif text-4xl sm:text-5xl font-bold tracking-tight text-charcoal-950 mb-4">
             Hello, I'm {siteConfig.author.name}.
           </h1>
           <p class="text-lg text-charcoal-600 font-sans leading-relaxed">
-            {siteConfig.author.role} based in {siteConfig.author.location}. This publication is my public learning laboratory—a weekly commitment to distill computer science concepts, explore systems architectures, and write with rigorous technical clarity.
+            I am a Computer Science student at VIT-AP University. I created this space to document what I learn, share hands-on software experiments, deconstruct challenging concepts, and keep a thoughtful record of my technical journey.
           </p>
         </div>
 
@@ -43,7 +43,7 @@ import { siteConfig } from '@config/site';
                 {siteConfig.author.name}
               </span>
               <span class="text-[11px] font-mono text-terracotta-700 block">
-                Writing Every Sunday
+                VIT-AP University &bull; 2024–2028
               </span>
             </div>
           </div>
@@ -53,7 +53,7 @@ import { siteConfig } from '@config/site';
 
     <!-- Content Sections -->
     <div class="mt-12 space-y-16">
-      <!-- 1. Introduction -->
+      <!-- 1. Personal Introduction -->
       <section>
         <h2 class="font-serif text-2xl font-bold text-charcoal-950 mb-4 pb-2 border-b border-parchment-200 flex items-center gap-2">
           <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-parchment-200 text-charcoal-700">01</span>
@@ -61,160 +61,373 @@ import { siteConfig } from '@config/site';
         </h2>
         <div class="prose prose-charcoal max-w-none text-charcoal-700 leading-relaxed space-y-4">
           <p>
-            I am a software engineer and computer science student with a deep fascination for how software systems work beneath high-level abstractions. Whether it is understanding memory layouts and zero-cost abstractions, dissecting attention matrices in modern neural networks, or analyzing distributed consensus protocols, I believe the best way to master a subject is to deconstruct it and explain it simply.
+            I am currently pursuing my Bachelor of Technology in Computer Science and Engineering at VIT-AP University (Batch of 2024–2028), holding a current CGPA of 9.14.
           </p>
           <p>
-            This website serves as my primary technical journal. My mentor visits weekly to inspect my publications, critique my architectural thinking, and track my progress. I have built this site to uphold the highest standard of craftsmanship, readability, and intellectual honesty.
+            What excites me most about computer science is the process of taking abstract mathematical and algorithmic ideas and turning them into practical, functioning tools. Whether it involves experimenting with predictive machine learning models, exploring quantum circuits with Qiskit, or writing web applications that solve everyday challenges, I enjoy diving beneath the surface to understand how things work under the hood.
+          </p>
+          <p>
+            My primary technical interests center on software development, artificial intelligence, machine learning, data science, and quantum computing. I consider myself a lifelong learner who values depth, consistency, and building software thoughtfully.
           </p>
         </div>
       </section>
 
-      <!-- 2. Academic Background -->
+      <!-- 2. Education -->
       <section>
         <h2 class="font-serif text-2xl font-bold text-charcoal-950 mb-4 pb-2 border-b border-parchment-200 flex items-center gap-2">
           <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-parchment-200 text-charcoal-700">02</span>
-          Academic Background
+          Education
         </h2>
         <div class="p-6 rounded-xl bg-white border border-parchment-300 space-y-3">
           <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
             <h3 class="font-serif font-bold text-lg text-charcoal-950">
-              {siteConfig.author.academic}
+              Bachelor of Technology in Computer Science &amp; Engineering
             </h3>
-            <span class="text-xs font-mono text-charcoal-500 bg-parchment-100 px-2.5 py-1 rounded">
-              Undergraduate Degree [Year &bull; Institution Placeholder]
+            <span class="text-xs font-mono text-terracotta-700 bg-terracotta-50 border border-terracotta-200 px-2.5 py-1 rounded font-semibold">
+              CGPA: 9.14
             </span>
           </div>
-          <p class="text-sm text-charcoal-600 leading-relaxed">
-            Core Coursework: Data Structures &amp; Algorithms, Computer Systems Architecture, Operating Systems Internals, Database Management Systems, Theory of Computation, and Computer Networks.
+          <p class="text-sm font-medium text-charcoal-700">
+            VIT-AP University, Andhra Pradesh
+          </p>
+          <p class="text-xs font-mono text-charcoal-500">
+            Duration: 2024 – 2028
+          </p>
+          <p class="text-xs text-charcoal-600 leading-relaxed pt-1">
+            Focus Areas: Data Structures and Algorithms, Object-Oriented Programming, Database Management Systems, Software Engineering, Probability &amp; Statistics, and Artificial Intelligence.
           </p>
         </div>
       </section>
 
-      <!-- 3. Technical Interests & Areas I Enjoy Exploring -->
+      <!-- 3. Technical Interests & Skills -->
       <section>
         <h2 class="font-serif text-2xl font-bold text-charcoal-950 mb-4 pb-2 border-b border-parchment-200 flex items-center gap-2">
           <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-parchment-200 text-charcoal-700">03</span>
-          Technical Interests &amp; Focus Areas
+          Technical Skills &amp; Focus Areas
         </h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- Group 1: Programming Languages -->
           <div class="p-5 rounded-xl bg-white border border-parchment-300">
-            <div class="w-8 h-8 rounded-lg bg-terracotta-50 text-terracotta-600 flex items-center justify-center font-bold text-sm mb-3">
-              AI
+            <div class="w-8 h-8 rounded-lg bg-terracotta-50 text-terracotta-600 flex items-center justify-center font-bold text-xs mb-3 font-mono">
+              &lt;/&gt;
             </div>
-            <h3 class="font-serif font-bold text-base text-charcoal-900 mb-1">
-              Deep Learning &amp; AI Fundamentals
+            <h3 class="font-serif font-bold text-base text-charcoal-900 mb-2">
+              Programming Languages
             </h3>
-            <p class="text-xs text-charcoal-600 leading-relaxed">
-              Transformer architectures, tokenization mechanics, attention optimization techniques (FlashAttention), and fine-tuning open-weights models.
+            <p class="text-xs text-charcoal-600 leading-relaxed mb-3">
+              Core languages used for problem solving, algorithmic challenges, and application logic.
             </p>
+            <div class="flex flex-wrap gap-1.5">
+              {['Java', 'Python', 'C', 'C++', 'SQL', 'JavaScript'].map((skill) => (
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-parchment-100 text-charcoal-700 border border-parchment-200">
+                  {skill}
+                </span>
+              ))}
+            </div>
           </div>
 
+          <!-- Group 2: Data Science & ML -->
           <div class="p-5 rounded-xl bg-white border border-parchment-300">
-            <div class="w-8 h-8 rounded-lg bg-sage-50 text-sage-600 flex items-center justify-center font-bold text-sm mb-3">
-              SYS
+            <div class="w-8 h-8 rounded-lg bg-sage-50 text-sage-600 flex items-center justify-center font-bold text-xs mb-3 font-mono">
+              ML
             </div>
-            <h3 class="font-serif font-bold text-base text-charcoal-900 mb-1">
-              Systems Programming &amp; Memory
+            <h3 class="font-serif font-bold text-base text-charcoal-900 mb-2">
+              Data Science &amp; Machine Learning
             </h3>
-            <p class="text-xs text-charcoal-600 leading-relaxed">
-              Rust ownership semantics, concurrency without data races, POSIX system calls, cache locality, and asynchronous I/O models.
+            <p class="text-xs text-charcoal-600 leading-relaxed mb-3">
+              Libraries and workflows for exploratory data analysis, feature engineering, and modeling.
             </p>
+            <div class="flex flex-wrap gap-1.5">
+              {['NumPy', 'Pandas', 'Matplotlib', 'Scikit-learn', 'Seaborn', 'Machine Learning'].map((skill) => (
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-parchment-100 text-charcoal-700 border border-parchment-200">
+                  {skill}
+                </span>
+              ))}
+            </div>
           </div>
 
+          <!-- Group 3: Computer Science Fundamentals -->
           <div class="p-5 rounded-xl bg-white border border-parchment-300">
-            <div class="w-8 h-8 rounded-lg bg-amberGold-50 text-amberGold-600 flex items-center justify-center font-bold text-sm mb-3">
-              API
+            <div class="w-8 h-8 rounded-lg bg-amberGold-50 text-amberGold-600 flex items-center justify-center font-bold text-xs mb-3 font-mono">
+              CS
             </div>
-            <h3 class="font-serif font-bold text-base text-charcoal-900 mb-1">
-              Resilient Backend Architecture
+            <h3 class="font-serif font-bold text-base text-charcoal-900 mb-2">
+              Computer Science Core
             </h3>
-            <p class="text-xs text-charcoal-600 leading-relaxed">
-              Distributed transactions, idempotency patterns, circuit breakers, event-driven messaging, and high-availability database replication.
+            <p class="text-xs text-charcoal-600 leading-relaxed mb-3">
+              Theoretical foundations, software design principles, and data management.
             </p>
+            <div class="flex flex-wrap gap-1.5">
+              {['Data Structures & Algorithms', 'DBMS', 'Object-Oriented Programming', 'Software Engineering', 'Probability & Statistics'].map((skill) => (
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-parchment-100 text-charcoal-700 border border-parchment-200">
+                  {skill}
+                </span>
+              ))}
+            </div>
           </div>
 
+          <!-- Group 4: Emerging Tech, Web & Tools -->
           <div class="p-5 rounded-xl bg-white border border-parchment-300">
-            <div class="w-8 h-8 rounded-lg bg-parchment-200 text-charcoal-700 flex items-center justify-center font-bold text-sm mb-3">
-              WEB
+            <div class="w-8 h-8 rounded-lg bg-parchment-200 text-charcoal-700 flex items-center justify-center font-bold text-xs mb-3 font-mono">
+              LAB
             </div>
-            <h3 class="font-serif font-bold text-base text-charcoal-900 mb-1">
-              Pragmatic Frontend Engineering
+            <h3 class="font-serif font-bold text-base text-charcoal-900 mb-2">
+              Emerging Tech &amp; Tools
             </h3>
-            <p class="text-xs text-charcoal-600 leading-relaxed">
-              Static site generation, accessible component systems, performance budgets, minimal runtime JS footprints, and typographic excellence.
+            <p class="text-xs text-charcoal-600 leading-relaxed mb-3">
+              Quantum experimentation, backend frameworks, and engineering tooling.
             </p>
+            <div class="flex flex-wrap gap-1.5">
+              {['Artificial Intelligence', 'Quantum Computing', 'Qiskit', 'Flask', 'HTML/CSS', 'Git & GitHub', 'VS Code', 'Oracle SQL', 'Google Colab', 'Figma', 'Canva'].map((skill) => (
+                <span class="text-[11px] font-mono px-2 py-0.5 rounded bg-parchment-100 text-charcoal-700 border border-parchment-200">
+                  {skill}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- 4. What I am Currently Learning -->
+      <!-- 4. Projects -->
       <section>
         <h2 class="font-serif text-2xl font-bold text-charcoal-950 mb-4 pb-2 border-b border-parchment-200 flex items-center gap-2">
           <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-parchment-200 text-charcoal-700">04</span>
-          Current Learning Roadmap
+          Selected Projects
         </h2>
-        <div class="p-6 rounded-xl bg-white border border-parchment-300 space-y-4">
-          <p class="text-sm text-charcoal-600">
-            My active weekly study tracks for this quarter:
-          </p>
-          <ul class="space-y-3 text-sm text-charcoal-700">
-            <li class="flex items-start gap-3">
-              <span class="w-5 h-5 rounded-full bg-sage-100 text-sage-700 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                1
+        <div class="space-y-4">
+          <!-- Project 1 -->
+          <div class="p-6 rounded-xl bg-white border border-parchment-300">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+              <h3 class="font-serif font-bold text-lg text-charcoal-950">
+                AI Study Buddy
+              </h3>
+              <span class="text-xs font-mono text-terracotta-700 bg-terracotta-50 px-2.5 py-0.5 rounded border border-terracotta-200">
+                Flask &bull; Google Gemini API &bull; Python
               </span>
-              <div>
-                <strong class="font-medium text-charcoal-900">Distributed Consensus Algorithms:</strong>
-                <span class="text-charcoal-600"> Studying the Raft and Paxos protocols by implementing a miniature leader election state machine.</span>
-              </div>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="w-5 h-5 rounded-full bg-terracotta-100 text-terracotta-700 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                2
+            </div>
+            <p class="text-sm text-charcoal-600 leading-relaxed">
+              A web application designed to support students in their daily studies. Features include interactive topic explanations, intelligent note summarization, automated quiz generation, and digital flashcard creation for effective revision.
+            </p>
+          </div>
+
+          <!-- Project 2 -->
+          <div class="p-6 rounded-xl bg-white border border-parchment-300">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+              <h3 class="font-serif font-bold text-lg text-charcoal-950">
+                Car Price Prediction
+              </h3>
+              <span class="text-xs font-mono text-sage-700 bg-sage-50 px-2.5 py-0.5 rounded border border-sage-200">
+                Machine Learning &bull; Random Forest &bull; Scikit-learn
               </span>
-              <div>
-                <strong class="font-medium text-charcoal-900">CUDA &amp; GPU Kernel Optimization:</strong>
-                <span class="text-charcoal-600"> Understanding memory tiling, warp divergence, and shared memory coalescing for matrix multiplication kernels.</span>
-              </div>
-            </li>
-            <li class="flex items-start gap-3">
-              <span class="w-5 h-5 rounded-full bg-amberGold-100 text-amberGold-700 flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">
-                3
+            </div>
+            <p class="text-sm text-charcoal-600 leading-relaxed">
+              A predictive machine learning project utilizing historical vehicle listing data. Involves exploratory data analysis, data cleaning, feature encoding, and price estimation trained using ensemble methods including Random Forest regression.
+            </p>
+          </div>
+
+          <!-- Project 3 -->
+          <div class="p-6 rounded-xl bg-white border border-parchment-300">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+              <h3 class="font-serif font-bold text-lg text-charcoal-950">
+                Income Classification
+              </h3>
+              <span class="text-xs font-mono text-amberGold-700 bg-amberGold-50 px-2.5 py-0.5 rounded border border-amberGold-200">
+                Python &bull; Pandas &bull; Classification Algorithms
               </span>
-              <div>
-                <strong class="font-medium text-charcoal-900">Advanced Rust Async Runtimes:</strong>
-                <span class="text-charcoal-600"> Deep dive into Tokio internals, epoll/kqueue event loops, and manual `Future` state machine pin projections.</span>
-              </div>
-            </li>
-          </ul>
+            </div>
+            <p class="text-sm text-charcoal-600 leading-relaxed">
+              A supervised machine learning classification project involving structured demographic data preprocessing, handling class imbalances, feature scaling, and comparing multiple classifier baselines to predict income brackets.
+            </p>
+          </div>
+
+          <!-- Project 4 -->
+          <div class="p-6 rounded-xl bg-white border border-parchment-300">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+              <h3 class="font-serif font-bold text-lg text-charcoal-950">
+                Quantum Teleportation Protocol
+              </h3>
+              <span class="text-xs font-mono text-charcoal-700 bg-parchment-100 px-2.5 py-0.5 rounded border border-parchment-300">
+                Qiskit &bull; Quantum Computing &bull; Python
+              </span>
+            </div>
+            <p class="text-sm text-charcoal-600 leading-relaxed">
+              An implementation of the foundational quantum teleportation protocol using IBM's Qiskit framework, constructing quantum circuits with Bell states, entanglement, Hadamard gates, and measurement-based classical state reconstruction.
+            </p>
+          </div>
+
+          <!-- Project 5 -->
+          <div class="p-6 rounded-xl bg-white border border-parchment-300">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
+              <h3 class="font-serif font-bold text-lg text-charcoal-950">
+                Air Quality Prediction
+              </h3>
+              <span class="text-xs font-mono text-terracotta-700 bg-terracotta-50 px-2.5 py-0.5 rounded border border-terracotta-200">
+                Flask &bull; Machine Learning &bull; Environmental Data
+              </span>
+            </div>
+            <p class="text-sm text-charcoal-600 leading-relaxed">
+              A Flask-based machine learning application that predicts air quality metrics using environmental parameters as inputs, providing a straightforward web interface to test model predictions.
+            </p>
+          </div>
         </div>
       </section>
 
-      <!-- 5. Why I Write Blogs -->
+      <!-- 5. Experience, Leadership & Open Source -->
       <section>
         <h2 class="font-serif text-2xl font-bold text-charcoal-950 mb-4 pb-2 border-b border-parchment-200 flex items-center gap-2">
           <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-parchment-200 text-charcoal-700">05</span>
+          Experience, Leadership &amp; Open Source
+        </h2>
+        <div class="space-y-4">
+          <div class="p-6 rounded-xl bg-white border border-parchment-300">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
+              <h3 class="font-serif font-bold text-base text-charcoal-950">
+                CodeCrux — Former Tech Development Team Lead
+              </h3>
+              <span class="text-xs font-mono text-charcoal-500">
+                Technical Leadership &amp; Collaboration
+              </span>
+            </div>
+            <p class="text-xs text-charcoal-600 leading-relaxed">
+              Previously served as a Tech Development Team Lead in the CodeCrux technical development team, participating in collaborative development activities, project coordination, and technical initiatives.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-xl bg-white border border-parchment-300">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
+              <h3 class="font-serif font-bold text-base text-charcoal-950">
+                GirlScript Summer of Code (GSSoC 2026) — Open-Source Contributor
+              </h3>
+              <span class="text-xs font-mono text-terracotta-700">
+                4 Merged Pull Requests &bull; EaseMotion-css
+              </span>
+            </div>
+            <p class="text-xs text-charcoal-600 leading-relaxed">
+              Contributed 4 merged pull requests to the EaseMotion-css repository during GirlScript Summer of Code 2026, gaining practical experience in open-source collaboration, Git workflows, and code review standards.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-xl bg-white border border-parchment-300">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
+              <h3 class="font-serif font-bold text-base text-charcoal-950">
+                PixelCompute — Selected Training Program
+              </h3>
+              <span class="text-xs font-mono text-charcoal-500">
+                Skill Development
+              </span>
+            </div>
+            <p class="text-xs text-charcoal-600 leading-relaxed">
+              Selected for the PixelCompute training program, focusing on strengthening programming fundamentals, algorithms, and practical problem-solving capabilities.
+            </p>
+          </div>
+
+          <div class="p-6 rounded-xl bg-white border border-parchment-300">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-1">
+              <h3 class="font-serif font-bold text-base text-charcoal-950">
+                Virtual Learning &amp; Internship Programs
+              </h3>
+              <span class="text-xs font-mono text-charcoal-500">
+                Edunet &bull; 1M1B &bull; Infosys Springboard
+              </span>
+            </div>
+            <p class="text-xs text-charcoal-600 leading-relaxed">
+              Participated in structured virtual learning and internship programs organized through Edunet, 1M1B, and Infosys Springboard, developing industry knowledge in AI fundamentals and sustainable development.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6. Certifications & Highlights -->
+      <section>
+        <h2 class="font-serif text-2xl font-bold text-charcoal-950 mb-4 pb-2 border-b border-parchment-200 flex items-center gap-2">
+          <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-parchment-200 text-charcoal-700">06</span>
+          Certifications &amp; Learning Highlights
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+          <div class="p-4 rounded-lg bg-white border border-parchment-300 flex items-start gap-2.5">
+            <span class="text-terracotta-600 font-bold font-mono">01</span>
+            <div>
+              <p class="font-semibold text-charcoal-900 font-sans">NPTEL — Python for Data Science</p>
+              <p class="text-charcoal-500 font-mono">Elite + Silver (82%, Top 5% of candidates)</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-lg bg-white border border-parchment-300 flex items-start gap-2.5">
+            <span class="text-terracotta-600 font-bold font-mono">02</span>
+            <div>
+              <p class="font-semibold text-charcoal-900 font-sans">Oracle Cloud Infrastructure (OCI)</p>
+              <p class="text-charcoal-500 font-mono">AI Foundations Associate</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-lg bg-white border border-parchment-300 flex items-start gap-2.5">
+            <span class="text-terracotta-600 font-bold font-mono">03</span>
+            <div>
+              <p class="font-semibold text-charcoal-900 font-sans">WISER — Quantum Fundamentals</p>
+              <p class="text-charcoal-500 font-mono">Certified Program</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-lg bg-white border border-parchment-300 flex items-start gap-2.5">
+            <span class="text-terracotta-600 font-bold font-mono">04</span>
+            <div>
+              <p class="font-semibold text-charcoal-900 font-sans">IBM — AI Fundamentals</p>
+              <p class="text-charcoal-500 font-mono">Foundational Knowledge Badge</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-lg bg-white border border-parchment-300 flex items-start gap-2.5">
+            <span class="text-terracotta-600 font-bold font-mono">05</span>
+            <div>
+              <p class="font-semibold text-charcoal-900 font-sans">IBM — DevOps, Agile &amp; Design Thinking</p>
+              <p class="text-charcoal-500 font-mono">Methodology &amp; Practices</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-lg bg-white border border-parchment-300 flex items-start gap-2.5">
+            <span class="text-terracotta-600 font-bold font-mono">06</span>
+            <div>
+              <p class="font-semibold text-charcoal-900 font-sans">Wadhwani Ignite India</p>
+              <p class="text-charcoal-500 font-mono">Certified Practice Venture</p>
+            </div>
+          </div>
+
+          <div class="p-4 rounded-lg bg-white border border-parchment-300 flex items-start gap-2.5 sm:col-span-2">
+            <span class="text-terracotta-600 font-bold font-mono">07</span>
+            <div>
+              <p class="font-semibold text-charcoal-900 font-sans">1M1B — AI for Sustainability</p>
+              <p class="text-charcoal-500 font-mono">Global Program Certification</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 7. Why I Write -->
+      <section>
+        <h2 class="font-serif text-2xl font-bold text-charcoal-950 mb-4 pb-2 border-b border-parchment-200 flex items-center gap-2">
+          <span class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-parchment-200 text-charcoal-700">07</span>
           Why I Write
         </h2>
         <div class="prose prose-charcoal max-w-none text-charcoal-700 leading-relaxed space-y-4">
           <blockquote>
-            "If you cannot explain a technical concept in plain English and implement a minimal reproducible prototype, you do not truly understand it yet."
+            "Writing about what you learn turns passive consumption into active mastery."
           </blockquote>
           <p>
-            Writing forces intellectual discipline. It exposes illusory clarity—those moments when you assume you understand an algorithm until you are forced to define the invariants on paper.
+            I write because explaining concepts clearly is the most rigorous test of my own understanding. In coursework and side projects, it is easy to assume you understand a framework or algorithm until you sit down to articulate the underlying mechanics, tradeoffs, and edge cases.
           </p>
           <p>
-            By publishing weekly, I hold myself accountable to continuous exploration. Each article published here represents hours of reading whitepapers, running benchmarks, testing failure modes, and refining prose.
+            This website serves as my public notebook. Here, I break down complex computer science ideas, document bugs and breakthroughs from my projects, and build a lasting archive of my growth as an engineer.
           </p>
         </div>
       </section>
 
-      <!-- 6. Connect & Social Links -->
+      <!-- 8. Connect & Social Links -->
       <section class="pt-6 border-t border-parchment-200">
         <h2 class="font-serif text-2xl font-bold text-charcoal-950 mb-4">
-          Connect &amp; Collaborate
+          Connect &amp; Say Hello
         </h2>
         <p class="text-sm text-charcoal-600 mb-6 leading-relaxed">
-          I welcome questions, constructive peer critiques, mentor feedback, and interesting engineering conversations. You can find me across these channels:
+          I am always open to discussing new ideas, collaborative projects, or constructive feedback. Feel free to connect across any of these channels:
         </p>
 
         <div class="flex flex-wrap gap-4">
@@ -249,7 +462,7 @@ import { siteConfig } from '@config/site';
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
             </svg>
-            Send Email
+            {siteConfig.author.email}
           </a>
         </div>
       </section>

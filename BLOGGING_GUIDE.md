@@ -38,7 +38,7 @@ coverImage: "/images/blogs/transformers.svg"
 coverAlt: "Descriptive caption for the cover image"
 featured: false
 draft: false
-author: "Alex Rivera"
+author: "Likitha Tummapudi"
 ---
 ```
 
@@ -56,7 +56,7 @@ author: "Alex Rivera"
 | `coverAlt` | String (Optional) | Caption and accessible description of the cover image. | `"Raft State Machine Diagram"` |
 | `featured` | Boolean (`true`/`false`)| If `true`, prominently highlights this post on the homepage. | `false` |
 | `draft` | Boolean (`true`/`false`)| If `true`, visible **only** during local dev; hidden in production! | `false` |
-| `author` | String | Author name. | `"Alex Rivera"` |
+| `author` | String | Author name. | `"Likitha Tummapudi"` |
 
 #### Available Categories:
 - `Technology`
@@ -159,7 +159,7 @@ coverImage: "/images/blogs/transformers.svg"
 coverAlt: "Technical architecture diagram"
 featured: false
 draft: false
-author: "Alex Rivera"
+author: "Likitha Tummapudi"
 ---
 
 A brief opening paragraph setting the context. Why is this topic important? What problem does it solve? What sparked your curiosity to explore it this week?

@@ -14,7 +14,7 @@ import { siteConfig } from '@config/site';
     <button
       type="button"
       id="newsletter-close-btn"
-      class="absolute top-4 right-4 p-1.5 text-charcoal-400 hover:text-charcoal-700 hover:bg-parchment-100 rounded-lg transition-colors"
+      class="absolute top-4 right-4 p-1.5 text-charcoal-400 hover:text-charcoal-700 hover:bg-parchment-100 rounded-lg transition-colors cursor-pointer"
       aria-label="Close dialog"
     >
       <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -25,7 +25,7 @@ import { siteConfig } from '@config/site';
     <!-- Top Badge -->
     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-terracotta-50 border border-terracotta-200 text-[11px] font-mono tracking-widest text-terracotta-700 uppercase mb-4">
       <span class="w-1.5 h-1.5 rounded-full bg-terracotta-600"></span>
-      Weekly Dispatch
+      Email Publications
     </div>
 
     <!-- Title & Desc -->
@@ -33,7 +33,7 @@ import { siteConfig } from '@config/site';
       Stay in the Loop
     </h3>
     <p class="text-sm text-charcoal-600 mb-6 leading-relaxed">
-      Receive thoughtful weekly essays on software architecture, systems programming, and machine learning straight to your inbox every Sunday. No spam, ever.
+      Receive thoughtful technical essays on software development, machine learning, and systems architectures straight to your inbox whenever a new article is published. No spam, ever.
     </p>
 
     <!-- Form Section -->
@@ -46,21 +46,26 @@ import { siteConfig } from '@config/site';
           type="email"
           id="subscriber-email"
           required
-          placeholder="mentor@example.com"
+          placeholder="your.email@example.com"
           class="w-full px-3.5 py-2.5 rounded-lg border border-parchment-300 bg-parchment-50 text-charcoal-900 placeholder-charcoal-400 text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-500 focus:bg-white transition-all font-sans"
         />
+        <p id="newsletter-error" class="hidden text-xs text-terracotta-600 mt-1.5 font-sans"></p>
       </div>
 
       <button
         type="submit"
         id="newsletter-submit-btn"
-        class="w-full py-2.5 px-4 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 text-sm font-semibold transition-colors shadow-2xs cursor-pointer"
+        class="w-full py-2.5 px-4 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 text-sm font-semibold transition-colors shadow-2xs cursor-pointer flex items-center justify-center gap-2"
       >
-        Subscribe for Free
+        <span id="newsletter-btn-text">Subscribe for Free</span>
+        <svg id="newsletter-spinner" class="hidden w-4 h-4 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
       </button>
 
       <p class="text-[11px] text-charcoal-400 text-center font-mono">
-        Or subscribe via <a href="/rss.xml" class="text-terracotta-600 underline">RSS Feed</a> anytime.
+        Unsubscribe at any time with a single click.
       </p>
     </form>
 
@@ -72,15 +77,15 @@ import { siteConfig } from '@config/site';
         </svg>
       </div>
       <h4 class="font-serif text-xl font-bold text-charcoal-950">You're Subscribed!</h4>
-      <p class="text-xs text-charcoal-600 leading-relaxed max-w-xs mx-auto">
-        Thank you for following along. You will receive the next edition this Sunday.
+      <p id="newsletter-success-msg" class="text-xs text-charcoal-600 leading-relaxed max-w-xs mx-auto">
+        A confirmation welcome email has been sent to your inbox. Thank you for following along!
       </p>
       <button
         type="button"
         id="newsletter-done-btn"
-        class="mt-2 px-4 py-2 rounded-lg bg-parchment-200 hover:bg-parchment-300 text-charcoal-800 text-xs font-medium transition-colors"
+        class="mt-2 px-4 py-2 rounded-lg bg-parchment-200 hover:bg-parchment-300 text-charcoal-800 text-xs font-medium transition-colors cursor-pointer"
       >
-        Done
+        Close
       </button>
     </div>
   </div>
@@ -93,7 +98,12 @@ import { siteConfig } from '@config/site';
     const closeBtn = document.getElementById('newsletter-close-btn');
     const form = document.getElementById('newsletter-form') as HTMLFormElement | null;
     const emailInput = document.getElementById('subscriber-email') as HTMLInputElement | null;
+    const errorMsg = document.getElementById('newsletter-error');
+    const submitBtn = document.getElementById('newsletter-submit-btn');
+    const btnText = document.getElementById('newsletter-btn-text');
+    const spinner = document.getElementById('newsletter-spinner');
     const successBox = document.getElementById('newsletter-success');
+    const successMsg = document.getElementById('newsletter-success-msg');
     const doneBtn = document.getElementById('newsletter-done-btn');
 
     if (!modal) return;
@@ -102,6 +112,10 @@ import { siteConfig } from '@config/site';
       modal?.classList.remove('hidden');
       modal?.classList.add('flex');
       document.body.style.overflow = 'hidden';
+      if (errorMsg) {
+        errorMsg.classList.add('hidden');
+        errorMsg.textContent = '';
+      }
       setTimeout(() => emailInput?.focus(), 50);
     }
 
@@ -121,21 +135,52 @@ import { siteConfig } from '@config/site';
       if (e.target === modal) closeModal();
     });
 
-    form?.addEventListener('submit', (e) => {
+    form?.addEventListener('submit', async (e) => {
       e.preventDefault();
       const email = emailInput?.value.trim();
       if (!email) return;
 
-      try {
-        const subs = JSON.parse(localStorage.getItem('subscribed_emails') || '[]');
-        subs.push({ email, date: new Date().toISOString() });
-        localStorage.setItem('subscribed_emails', JSON.stringify(subs));
-      } catch (err) {
-        console.warn('Storage unavailable', err);
+      if (errorMsg) {
+        errorMsg.classList.add('hidden');
+        errorMsg.textContent = '';
       }
 
-      form.classList.add('hidden');
-      successBox?.classList.remove('hidden');
+      // Show loading spinner
+      if (submitBtn) (submitBtn as HTMLButtonElement).disabled = true;
+      if (btnText) btnText.textContent = 'Subscribing...';
+      if (spinner) spinner.classList.remove('hidden');
+
+      try {
+        const res = await fetch('/api/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email }),
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          form.classList.add('hidden');
+          if (successBox) successBox.classList.remove('hidden');
+          if (successMsg && data.message) {
+            successMsg.textContent = data.message;
+          }
+        } else {
+          if (errorMsg) {
+            errorMsg.textContent = data.error || 'Failed to register subscription. Please try again.';
+            errorMsg.classList.remove('hidden');
+          }
+        }
+      } catch (err) {
+        if (errorMsg) {
+          errorMsg.textContent = 'Network error. Please try again.';
+          errorMsg.classList.remove('hidden');
+        }
+      } finally {
+        if (submitBtn) (submitBtn as HTMLButtonElement).disabled = false;
+        if (btnText) btnText.textContent = 'Subscribe for Free';
+        if (spinner) spinner.classList.add('hidden');
+      }
     });
   }
 

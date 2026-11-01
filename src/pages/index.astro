@@ -10,7 +10,7 @@ const allPosts = await getAllBlogs();
 const featuredPost = await getFeaturedBlog();
 const categories = await getAllCategories();
 
-// Get the latest 6 posts (excluding the featured one if you wish, or keeping newest first)
+// Get latest 6 posts
 const latestPosts = allPosts.slice(0, 6);
 ---
 
@@ -22,10 +22,10 @@ const latestPosts = allPosts.slice(0, 6);
   <Hero />
 
   <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-    <!-- Featured Article Section -->
+    <!-- Featured Article Section (only rendered when an article exists) -->
     {featuredPost && <FeaturedPost post={featuredPost} />}
 
-    <!-- Latest Articles Grid Section -->
+    <!-- Publications Section -->
     <section class="py-16 border-b border-parchment-200">
       <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
         <div>
@@ -38,28 +38,50 @@ const latestPosts = allPosts.slice(0, 6);
           </h2>
         </div>
 
-        <a
-          href="/blogs"
-          class="inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700 transition-colors group"
-        >
-          View All {allPosts.length} Articles
-          <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-          </svg>
-        </a>
+        {
+          allPosts.length > 0 && (
+            <a
+              href="/blogs"
+              class="inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700 transition-colors group"
+            >
+              View All {allPosts.length} Articles
+              <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+              </svg>
+            </a>
+          )
+        }
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {latestPosts.map((post) => (
-          <PostCard post={post} />
-        ))}
-      </div>
-
-      {latestPosts.length === 0 && (
-        <div class="py-12 text-center text-charcoal-500 font-sans">
-          No articles published yet. New articles will appear here automatically.
-        </div>
-      )}
+      {
+        latestPosts.length > 0 ? (
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {latestPosts.map((post) => (
+              <PostCard post={post} />
+            ))}
+          </div>
+        ) : (
+          <div class="py-16 text-center rounded-2xl bg-white border border-parchment-300 shadow-2xs p-8 max-w-xl mx-auto my-4">
+            <div class="w-12 h-12 rounded-full bg-parchment-100 text-charcoal-500 flex items-center justify-center mx-auto mb-4 border border-parchment-200">
+              <svg class="w-6 h-6 text-terracotta-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+              </svg>
+            </div>
+            <h3 class="font-serif text-2xl font-bold text-charcoal-950 mb-2">
+              No stories yet. Something interesting is coming.
+            </h3>
+            <p class="text-sm text-charcoal-600 font-sans leading-relaxed max-w-md mx-auto mb-6">
+              The journal is freshly established. Thoughtful explorations in software development, machine learning, and systems architectures are currently being written.
+            </p>
+            <a
+              href="/about"
+              class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 text-xs font-semibold tracking-wide transition-colors"
+            >
+              Learn More About the Author &rarr;
+            </a>
+          </div>
+        )
+      }
     </section>
 
     <!-- Categories Directory Section -->
@@ -107,7 +129,7 @@ const latestPosts = allPosts.slice(0, 6);
       </div>
     </section>
 
-    <!-- Author & Mentor Preview Section -->
+    <!-- Author Preview Section -->
     <section class="py-16">
       <div class="rounded-2xl bg-parchment-100 border border-parchment-300 p-8 sm:p-12 relative overflow-hidden">
         <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
@@ -129,10 +151,10 @@ const latestPosts = allPosts.slice(0, 6);
               About the Author
             </div>
             <h2 class="font-serif text-2xl sm:text-3xl font-bold text-charcoal-950">
-              Curiosity-driven engineering and weekly accountability.
+              Curiosity-driven engineering, continuous learning, and technical depth.
             </h2>
             <p class="text-sm sm:text-base text-charcoal-600 leading-relaxed max-w-2xl">
-              I am {siteConfig.author.name}, currently pursuing {siteConfig.author.academic}. I started this publication as a disciplined commitment to write weekly technical syntheses, deepen my engineering fundamentals, and receive constructive feedback from my mentors and peers.
+              I am {siteConfig.author.name}, currently pursuing {siteConfig.author.academic}. I started this publication as a dedicated space to synthesize computer science concepts, explore systems architectures, and document my engineering journey.
             </p>
             <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-4">
               <a

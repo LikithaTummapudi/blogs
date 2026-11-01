@@ -1,0 +1,60 @@
+---
+export const prerender = false;
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+
+const url = new URL(Astro.request.url);
+const status = url.searchParams.get('status') || 'success';
+const errorMessage = url.searchParams.get('message') || '';
+---
+
+<BaseLayout
+  title="Unsubscribe Confirmation — Chronicles & Code"
+  description="Manage your subscription to Likitha's blog."
+>
+  <div class="max-w-xl mx-auto px-4 py-24 sm:py-32 text-center">
+    {status === 'success' ? (
+      <div class="p-8 sm:p-10 rounded-2xl bg-white border border-parchment-300 shadow-sm">
+        <div class="w-14 h-14 rounded-full bg-sage-50 text-sage-600 flex items-center justify-center mx-auto mb-4 border border-sage-200">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h1 class="font-serif text-3xl font-bold text-charcoal-950 mb-3">
+          You Have Been Unsubscribed
+        </h1>
+        <p class="text-sm text-charcoal-600 font-sans leading-relaxed mb-6">
+          Your email has been removed from future article notifications. You will not receive any more emails from this publication.
+        </p>
+        <div class="pt-4 border-t border-parchment-200 flex flex-col sm:flex-row items-center justify-center gap-3">
+          <a
+            href="/"
+            class="px-5 py-2.5 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 text-xs font-semibold tracking-wide transition-colors"
+          >
+            Return to Homepage
+          </a>
+        </div>
+      </div>
+    ) : (
+      <div class="p-8 sm:p-10 rounded-2xl bg-white border border-parchment-300 shadow-sm">
+        <div class="w-14 h-14 rounded-full bg-terracotta-50 text-terracotta-600 flex items-center justify-center mx-auto mb-4 border border-terracotta-200">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+        </div>
+        <h1 class="font-serif text-2xl font-bold text-charcoal-950 mb-2">
+          Unable to Process Request
+        </h1>
+        <p class="text-xs text-charcoal-600 font-sans leading-relaxed mb-6">
+          {errorMessage || 'The unsubscribe link appears to be invalid or has already been used.'}
+        </p>
+        <a
+          href="/"
+          class="px-5 py-2.5 rounded-lg bg-charcoal-900 text-parchment-50 text-xs font-semibold hover:bg-terracotta-600 transition-colors"
+        >
+          Return to Homepage
+        </a>
+      </div>
+    )}
+  </div>
+</BaseLayout>

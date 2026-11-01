@@ -1,0 +1,979 @@
+---
+export const prerender = false;
+
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { getAuthenticatedUser } from '../../lib/auth';
+import { siteConfig } from '@config/site';
+
+const user = getAuthenticatedUser(Astro.request);
+---
+
+<BaseLayout
+  title="Admin Publishing Dashboard — Chronicles & Code"
+  description="Private article management and publishing administration."
+>
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+    {
+      !user ? (
+        <!-- Unauthenticated State: Sign in with GitHub Gate -->
+        <div class="max-w-md mx-auto my-16 p-8 sm:p-10 rounded-2xl bg-white border border-parchment-300 shadow-md text-center">
+          <div class="w-12 h-12 rounded-xl bg-charcoal-900 text-parchment-50 font-serif font-bold text-2xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+            C
+          </div>
+
+          <h1 class="font-serif text-3xl font-bold text-charcoal-950 mb-2">
+            Admin Publication Suite
+          </h1>
+          <p class="text-sm text-charcoal-600 font-sans leading-relaxed mb-6">
+            Private writing, editorial publishing, and subscriber dashboard for <strong>Likitha Tummapudi</strong>.
+          </p>
+
+          <a
+            href="/api/auth/github"
+            class="w-full inline-flex items-center justify-center gap-3 px-5 py-3 rounded-xl bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 font-semibold text-sm transition-all shadow-sm group"
+          >
+            <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+            </svg>
+            Sign in with GitHub
+          </a>
+
+          <div class="mt-6 pt-6 border-t border-parchment-200 text-xs text-charcoal-400 font-mono">
+            Access strictly restricted to @{siteConfig.author.name}
+          </div>
+        </div>
+      ) : (
+        <!-- Authenticated State: Admin Workspace -->
+        <div id="admin-workspace">
+          <!-- Admin Header Bar -->
+          <div class="flex flex-col md:flex-row md:items-center justify-between pb-6 border-b border-parchment-200 gap-4 mb-8">
+            <div class="flex items-center gap-3.5">
+              <img
+                src={user.avatar_url || siteConfig.author.avatar}
+                alt={user.name}
+                class="w-12 h-12 rounded-xl border border-parchment-300 object-cover"
+              />
+              <div>
+                <div class="flex items-center gap-2">
+                  <h1 class="font-serif text-2xl font-bold text-charcoal-950">
+                    Editorial Dashboard
+                  </h1>
+                  <span class="text-[11px] font-mono px-2 py-0.5 rounded-full bg-sage-50 text-sage-700 border border-sage-200 font-semibold">
+                    Authorized Administrator
+                  </span>
+                </div>
+                <p class="text-xs text-charcoal-500 font-mono">
+                  Signed in as @{user.username}
+                </p>
+              </div>
+            </div>
+
+            <!-- Top Header Stats & Actions -->
+            <div class="flex flex-wrap items-center gap-3">
+              <div class="px-3.5 py-1.5 rounded-lg bg-white border border-parchment-300 text-xs font-mono text-charcoal-700 flex items-center gap-2 shadow-2xs">
+                <span class="w-2 h-2 rounded-full bg-terracotta-600"></span>
+                <span id="subscriber-badge-count">... Subscribers</span>
+              </div>
+
+              <a
+                href="/"
+                target="_blank"
+                class="px-3.5 py-1.5 rounded-lg bg-white border border-parchment-300 hover:bg-parchment-100 text-charcoal-700 text-xs font-medium transition-colors"
+              >
+                View Public Site &rarr;
+              </a>
+
+              <a
+                href="/api/auth/logout"
+                class="px-3 py-1.5 rounded-lg border border-parchment-300 hover:bg-parchment-200 text-charcoal-600 hover:text-charcoal-900 text-xs font-medium transition-colors"
+              >
+                Sign Out
+              </a>
+            </div>
+          </div>
+
+          <!-- Tab Navigation -->
+          <div class="flex items-center justify-between border-b border-parchment-200 mb-8">
+            <div class="flex items-center gap-1 sm:gap-2">
+              <button
+                type="button"
+                class="admin-tab-btn active px-4 py-2.5 border-b-2 border-terracotta-600 text-sm font-semibold text-charcoal-950 transition-colors"
+                data-tab="overview"
+              >
+                Dashboard Overview
+              </button>
+              <button
+                type="button"
+                class="admin-tab-btn px-4 py-2.5 border-b-2 border-transparent text-sm font-medium text-charcoal-600 hover:text-charcoal-950 transition-colors"
+                data-tab="articles"
+              >
+                All Articles (<span id="tab-article-count">0</span>)
+              </button>
+              <button
+                type="button"
+                class="admin-tab-btn px-4 py-2.5 border-b-2 border-transparent text-sm font-medium text-charcoal-600 hover:text-charcoal-950 transition-colors"
+                data-tab="editor"
+              >
+                <span id="editor-tab-label">+ Create New Blog</span>
+              </button>
+            </div>
+
+            <button
+              type="button"
+              id="quick-create-btn"
+              class="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 text-xs font-semibold tracking-wide transition-colors shadow-2xs cursor-pointer"
+            >
+              <span>+ Create New Blog</span>
+            </button>
+          </div>
+
+          <!-- TAB 1: OVERVIEW -->
+          <div id="tab-content-overview" class="tab-pane space-y-8">
+            <!-- Metric Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+              <div class="p-6 rounded-2xl bg-white border border-parchment-300 shadow-2xs">
+                <span class="text-xs font-mono uppercase tracking-wider text-charcoal-400 block mb-1">
+                  Published Stories
+                </span>
+                <span id="stat-published" class="font-serif text-4xl font-bold text-charcoal-950">
+                  0
+                </span>
+                <p class="text-xs text-charcoal-500 mt-2 font-mono">Live on public website</p>
+              </div>
+
+              <div class="p-6 rounded-2xl bg-white border border-parchment-300 shadow-2xs">
+                <span class="text-xs font-mono uppercase tracking-wider text-charcoal-400 block mb-1">
+                  Unpublished Drafts
+                </span>
+                <span id="stat-drafts" class="font-serif text-4xl font-bold text-amberGold-600">
+                  0
+                </span>
+                <p class="text-xs text-charcoal-500 mt-2 font-mono">Hidden from public view</p>
+              </div>
+
+              <div class="p-6 rounded-2xl bg-white border border-parchment-300 shadow-2xs">
+                <span class="text-xs font-mono uppercase tracking-wider text-charcoal-400 block mb-1">
+                  Active Subscribers
+                </span>
+                <span id="stat-subscribers" class="font-serif text-4xl font-bold text-terracotta-700">
+                  0
+                </span>
+                <p class="text-xs text-charcoal-500 mt-2 font-mono">Will receive new article emails</p>
+              </div>
+            </div>
+
+            <!-- Recent Articles Table / Empty Prompt -->
+            <div class="rounded-2xl bg-white border border-parchment-300 shadow-2xs p-6 sm:p-8">
+              <div class="flex items-center justify-between mb-6 pb-4 border-b border-parchment-200">
+                <h3 class="font-serif text-xl font-bold text-charcoal-950">
+                  Recent Articles &amp; Drafts
+                </h3>
+                <button
+                  type="button"
+                  class="text-xs font-mono text-terracotta-700 hover:underline cursor-pointer"
+                  onclick="switchTab('articles')"
+                >
+                  View All &rarr;
+                </button>
+              </div>
+
+              <div id="overview-article-list" class="space-y-3">
+                <p class="text-xs text-charcoal-400 font-mono py-4 text-center">Loading articles...</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 2: ARTICLES MANAGEMENT -->
+          <div id="tab-content-articles" class="tab-pane hidden space-y-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-2">
+                <button
+                  type="button"
+                  class="article-filter-badge active px-3 py-1 rounded-full text-xs font-mono font-medium bg-charcoal-900 text-parchment-50 cursor-pointer"
+                  data-filter="all"
+                >
+                  All (<span id="filter-count-all">0</span>)
+                </button>
+                <button
+                  type="button"
+                  class="article-filter-badge px-3 py-1 rounded-full text-xs font-mono font-medium bg-white border border-parchment-300 text-charcoal-700 hover:bg-parchment-100 cursor-pointer"
+                  data-filter="published"
+                >
+                  Published (<span id="filter-count-published">0</span>)
+                </button>
+                <button
+                  type="button"
+                  class="article-filter-badge px-3 py-1 rounded-full text-xs font-mono font-medium bg-white border border-parchment-300 text-charcoal-700 hover:bg-parchment-100 cursor-pointer"
+                  data-filter="drafts"
+                >
+                  Drafts (<span id="filter-count-drafts">0</span>)
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onclick="openCreateArticle()"
+                class="px-4 py-2 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 text-xs font-semibold tracking-wide transition-colors shadow-2xs cursor-pointer"
+              >
+                + New Article
+              </button>
+            </div>
+
+            <!-- Articles Table -->
+            <div class="rounded-2xl bg-white border border-parchment-300 shadow-2xs overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left text-sm text-charcoal-700">
+                  <thead class="bg-parchment-100/75 border-b border-parchment-200 text-xs font-mono uppercase text-charcoal-500">
+                    <tr>
+                      <th class="py-3 px-4">Title &amp; Subtitle</th>
+                      <th class="py-3 px-4">Category</th>
+                      <th class="py-3 px-4">Status</th>
+                      <th class="py-3 px-4">Date</th>
+                      <th class="py-3 px-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="articles-table-body" class="divide-y divide-parchment-200">
+                    <tr>
+                      <td colspan="5" class="py-8 text-center text-xs text-charcoal-400 font-mono">
+                        Loading articles...
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB 3: CREATE / EDIT BLOG EDITOR -->
+          <div id="tab-content-editor" class="tab-pane hidden space-y-6">
+            <div class="flex items-center justify-between pb-4 border-b border-parchment-200">
+              <div>
+                <h2 id="editor-heading" class="font-serif text-2xl font-bold text-charcoal-950">
+                  Create New Blog
+                </h2>
+                <p class="text-xs text-charcoal-500 font-mono mt-0.5">
+                  URL slug: <span id="slug-preview" class="text-terracotta-700">/blogs/your-article-slug</span>
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onclick="cancelEdit()"
+                class="px-3.5 py-1.5 rounded-lg border border-parchment-300 hover:bg-parchment-200 text-xs font-mono text-charcoal-700 cursor-pointer"
+              >
+                Cancel
+              </button>
+            </div>
+
+            <!-- Form Fields -->
+            <form id="article-form" class="space-y-6">
+              <!-- Title & Slug -->
+              <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="md:col-span-2">
+                  <label for="form-title" class="block text-xs font-mono font-medium text-charcoal-700 mb-1">
+                    Article Title *
+                  </label>
+                  <input
+                    type="text"
+                    id="form-title"
+                    required
+                    placeholder="e.g. Understanding Quantum Teleportation with Qiskit"
+                    class="w-full px-4 py-2.5 rounded-xl border border-parchment-300 bg-white text-charcoal-950 font-serif font-bold text-lg focus:outline-none focus:ring-2 focus:ring-terracotta-500 transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label for="form-slug" class="block text-xs font-mono font-medium text-charcoal-700 mb-1">
+                    Custom Slug (Optional)
+                  </label>
+                  <input
+                    type="text"
+                    id="form-slug"
+                    placeholder="auto-generated-from-title"
+                    class="w-full px-3.5 py-2.5 rounded-xl border border-parchment-300 bg-parchment-50 text-charcoal-900 font-mono text-xs focus:outline-none focus:ring-2 focus:ring-terracotta-500 transition-all"
+                  />
+                </div>
+              </div>
+
+              <!-- Description / Subtitle -->
+              <div>
+                <label for="form-description" class="block text-xs font-mono font-medium text-charcoal-700 mb-1">
+                  Short Description / Subtitle *
+                </label>
+                <textarea
+                  id="form-description"
+                  rows="2"
+                  required
+                  placeholder="A concise 1-2 sentence overview of what this article explains..."
+                  class="w-full px-4 py-2 rounded-xl border border-parchment-300 bg-white text-charcoal-800 text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-500 transition-all font-sans"
+                ></textarea>
+              </div>
+
+              <!-- Metadata Row: Category, Tags, Date, Featured -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 rounded-xl bg-parchment-100 border border-parchment-200">
+                <!-- Category -->
+                <div>
+                  <label for="form-category" class="block text-xs font-mono font-medium text-charcoal-700 mb-1">
+                    Category
+                  </label>
+                  <select
+                    id="form-category"
+                    class="w-full px-3 py-2 rounded-lg border border-parchment-300 bg-white text-xs font-sans text-charcoal-800 focus:outline-none focus:ring-2 focus:ring-terracotta-500"
+                  >
+                    {siteConfig.categories.map((c) => (
+                      <option value={c.name}>{c.name}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <!-- Tags -->
+                <div>
+                  <label for="form-tags" class="block text-xs font-mono font-medium text-charcoal-700 mb-1">
+                    Tags (comma separated)
+                  </label>
+                  <input
+                    type="text"
+                    id="form-tags"
+                    placeholder="Python, ML, Qiskit"
+                    class="w-full px-3 py-2 rounded-lg border border-parchment-300 bg-white text-xs font-mono text-charcoal-800 focus:outline-none focus:ring-2 focus:ring-terracotta-500"
+                  />
+                </div>
+
+                <!-- Pub Date -->
+                <div>
+                  <label for="form-date" class="block text-xs font-mono font-medium text-charcoal-700 mb-1">
+                    Publication Date
+                  </label>
+                  <input
+                    type="date"
+                    id="form-date"
+                    class="w-full px-3 py-2 rounded-lg border border-parchment-300 bg-white text-xs font-mono text-charcoal-800 focus:outline-none focus:ring-2 focus:ring-terracotta-500"
+                  />
+                </div>
+
+                <!-- Featured Toggle -->
+                <div class="flex items-center gap-2 pt-5">
+                  <input
+                    type="checkbox"
+                    id="form-featured"
+                    class="w-4 h-4 text-terracotta-600 rounded border-parchment-300 focus:ring-terracotta-500 cursor-pointer"
+                  />
+                  <label for="form-featured" class="text-xs font-mono font-medium text-charcoal-800 cursor-pointer select-none">
+                    ⭐ Feature on Homepage
+                  </label>
+                </div>
+              </div>
+
+              <!-- Cover Image Upload -->
+              <div class="p-4 rounded-xl bg-white border border-parchment-300 space-y-3">
+                <label class="block text-xs font-mono font-medium text-charcoal-700">
+                  Cover Image (Stored in repository <code class="bg-parchment-100 px-1 py-0.5 rounded text-[11px]">public/images/blogs/</code>)
+                </label>
+                <div class="flex flex-col sm:flex-row items-center gap-4">
+                  <input
+                    type="file"
+                    id="form-cover-file"
+                    accept="image/*"
+                    class="text-xs font-mono file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-parchment-200 file:text-charcoal-800 hover:file:bg-terracotta-50 hover:file:text-terracotta-700 cursor-pointer"
+                  />
+                  <span class="text-xs text-charcoal-400 font-mono">or path:</span>
+                  <input
+                    type="text"
+                    id="form-cover-path"
+                    placeholder="/images/blogs/sample.png"
+                    class="flex-1 px-3 py-1.5 rounded-lg border border-parchment-300 bg-parchment-50 text-xs font-mono text-charcoal-800"
+                  />
+                </div>
+                <div id="image-preview-container" class="hidden pt-2">
+                  <img id="image-preview" src="" alt="Cover preview" class="max-h-40 rounded-lg border border-parchment-300 object-cover" />
+                </div>
+              </div>
+
+              <!-- Markdown Formatting Toolbar -->
+              <div class="flex flex-wrap items-center gap-1.5 p-2 rounded-xl bg-parchment-100 border border-parchment-200 text-xs font-mono">
+                <button type="button" class="toolbar-btn px-2.5 py-1 rounded bg-white hover:bg-parchment-200 text-charcoal-800 border border-parchment-300" data-format="h1">H1</button>
+                <button type="button" class="toolbar-btn px-2.5 py-1 rounded bg-white hover:bg-parchment-200 text-charcoal-800 border border-parchment-300" data-format="h2">H2</button>
+                <button type="button" class="toolbar-btn px-2.5 py-1 rounded bg-white hover:bg-parchment-200 text-charcoal-800 border border-parchment-300" data-format="h3">H3</button>
+                <span class="w-px h-4 bg-parchment-300 mx-1"></span>
+                <button type="button" class="toolbar-btn px-2.5 py-1 rounded bg-white hover:bg-parchment-200 text-charcoal-800 border border-parchment-300 font-bold" data-format="bold">B</button>
+                <button type="button" class="toolbar-btn px-2.5 py-1 rounded bg-white hover:bg-parchment-200 text-charcoal-800 border border-parchment-300 italic" data-format="italic">I</button>
+                <span class="w-px h-4 bg-parchment-300 mx-1"></span>
+                <button type="button" class="toolbar-btn px-2.5 py-1 rounded bg-white hover:bg-parchment-200 text-charcoal-800 border border-parchment-300" data-format="quote">&ldquo; Quote</button>
+                <button type="button" class="toolbar-btn px-2.5 py-1 rounded bg-white hover:bg-parchment-200 text-charcoal-800 border border-parchment-300" data-format="code">&lt;&gt; Code</button>
+                <button type="button" class="toolbar-btn px-2.5 py-1 rounded bg-white hover:bg-parchment-200 text-charcoal-800 border border-parchment-300" data-format="link">Link</button>
+                <button type="button" class="toolbar-btn px-2.5 py-1 rounded bg-white hover:bg-parchment-200 text-charcoal-800 border border-parchment-300" data-format="list">&bull; List</button>
+                <button type="button" class="toolbar-btn px-2.5 py-1 rounded bg-white hover:bg-parchment-200 text-charcoal-800 border border-parchment-300" data-format="table">Table</button>
+                <button type="button" class="toolbar-btn px-2.5 py-1 rounded bg-white hover:bg-parchment-200 text-charcoal-800 border border-parchment-300" data-format="hr">&mdash; Divider</button>
+
+                <!-- Mobile Switch -->
+                <div class="ml-auto lg:hidden flex items-center gap-1">
+                  <button type="button" id="toggle-editor-mobile" class="px-2 py-1 rounded bg-charcoal-900 text-white text-[11px]">Edit</button>
+                  <button type="button" id="toggle-preview-mobile" class="px-2 py-1 rounded bg-white text-charcoal-700 text-[11px] border border-parchment-300">Preview</button>
+                </div>
+              </div>
+
+              <!-- Split Pane: Markdown Editor & Live Preview -->
+              <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 min-h-[500px]">
+                <!-- Editor Textarea -->
+                <div id="editor-pane" class="flex flex-col">
+                  <textarea
+                    id="form-content"
+                    rows="20"
+                    required
+                    placeholder="Write your article in Markdown here...&#10;&#10;## Introduction&#10;Start your technical story...&#10;&#10;```python&#10;print('Hello from Likitha')&#10;```"
+                    class="w-full flex-1 p-4 rounded-xl border border-parchment-300 bg-white text-charcoal-900 font-mono text-sm leading-relaxed focus:outline-none focus:ring-2 focus:ring-terracotta-500 shadow-2xs resize-y"
+                  ></textarea>
+                </div>
+
+                <!-- Live Preview Pane -->
+                <div id="preview-pane" class="hidden lg:flex flex-col p-6 rounded-xl border border-parchment-300 bg-white overflow-y-auto max-h-[600px] shadow-2xs">
+                  <div class="text-[11px] font-mono uppercase tracking-wider text-charcoal-400 pb-3 mb-4 border-b border-parchment-200 flex items-center justify-between">
+                    <span>Live Typography Preview</span>
+                    <span class="text-sage-600 font-semibold">&bull; Real-time</span>
+                  </div>
+                  <div id="live-preview-content" class="prose prose-charcoal max-w-none text-charcoal-800">
+                    <p class="text-charcoal-400 italic">Preview will render as you write...</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action Bar -->
+              <div class="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-xl bg-white border border-parchment-300 shadow-sm">
+                <div class="text-xs text-charcoal-500 font-mono">
+                  <span id="publishing-status">Ready to save</span>
+                </div>
+
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                  <button
+                    type="button"
+                    id="save-draft-btn"
+                    class="flex-1 sm:flex-none px-5 py-2.5 rounded-lg border border-parchment-300 hover:bg-parchment-100 text-charcoal-800 text-xs font-semibold tracking-wide transition-colors cursor-pointer"
+                  >
+                    Save as Draft
+                  </button>
+
+                  <button
+                    type="button"
+                    id="publish-btn"
+                    class="flex-1 sm:flex-none px-6 py-2.5 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 text-xs font-semibold tracking-wide transition-colors shadow-2xs cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <span id="publish-btn-text">Publish Article</span>
+                    <svg id="publish-spinner" class="hidden w-3.5 h-3.5 animate-spin text-white" fill="none" viewBox="0 0 24 24">
+                      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<!-- Client marked script for instant live preview -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+<script>
+  let allArticles: any[] = [];
+  let currentEditingSlug: string | null = null;
+  let coverBase64Data: string | null = null;
+  let coverFileName: string | null = null;
+
+  async function initDashboard() {
+    await fetchSubscriberCount();
+    await loadArticles();
+    setupEventListeners();
+  }
+
+  async function fetchSubscriberCount() {
+    try {
+      const res = await fetch('/api/admin/subscribers');
+      if (res.ok) {
+        const data = await res.json();
+        const count = data.count || 0;
+        const badge = document.getElementById('subscriber-badge-count');
+        const stat = document.getElementById('stat-subscribers');
+        if (badge) badge.textContent = `${count} Subscribers`;
+        if (stat) stat.textContent = count.toString();
+      }
+    } catch (err) {
+      console.warn('Subscriber count fetch error:', err);
+    }
+  }
+
+  async function loadArticles() {
+    try {
+      const res = await fetch('/api/admin/articles');
+      if (!res.ok) return;
+
+      const data = await res.json();
+      allArticles = data.articles || [];
+      renderArticles();
+    } catch (err) {
+      console.error('Failed to load articles:', err);
+    }
+  }
+
+  function renderArticles() {
+    const published = allArticles.filter((a) => !a.draft);
+    const drafts = allArticles.filter((a) => a.draft);
+
+    // Update Counts
+    const statPub = document.getElementById('stat-published');
+    const statDraft = document.getElementById('stat-drafts');
+    const tabCount = document.getElementById('tab-article-count');
+    const filterAll = document.getElementById('filter-count-all');
+    const filterPub = document.getElementById('filter-count-published');
+    const filterDra = document.getElementById('filter-count-drafts');
+
+    if (statPub) statPub.textContent = published.length.toString();
+    if (statDraft) statDraft.textContent = drafts.length.toString();
+    if (tabCount) tabCount.textContent = allArticles.length.toString();
+    if (filterAll) filterAll.textContent = allArticles.length.toString();
+    if (filterPub) filterPub.textContent = published.length.toString();
+    if (filterDra) filterDra.textContent = drafts.length.toString();
+
+    // Render Overview List (top 4)
+    const overviewContainer = document.getElementById('overview-article-list');
+    if (overviewContainer) {
+      if (allArticles.length === 0) {
+        overviewContainer.innerHTML = `
+          <div class="py-8 text-center text-xs text-charcoal-500 font-mono">
+            No articles or drafts created yet. Click <strong>"+ Create New Blog"</strong> to publish your first post!
+          </div>
+        `;
+      } else {
+        overviewContainer.innerHTML = allArticles.slice(0, 4).map((a) => `
+          <div class="p-3.5 rounded-xl border border-parchment-200 hover:border-terracotta-300 bg-parchment-50 flex items-center justify-between gap-4 transition-all">
+            <div class="min-w-0">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-[10px] font-mono px-2 py-0.5 rounded-full ${a.draft ? 'bg-amberGold-100 text-amberGold-700' : 'bg-sage-100 text-sage-700'} uppercase font-bold">
+                  ${a.draft ? 'Draft' : 'Published'}
+                </span>
+                <span class="text-xs font-mono text-charcoal-400">${a.category}</span>
+              </div>
+              <h4 class="font-serif font-bold text-base text-charcoal-900 truncate">${a.title}</h4>
+            </div>
+            <div class="flex items-center gap-2 shrink-0">
+              <button onclick="editArticle('${a.slug}')" class="px-3 py-1 text-xs font-mono bg-white hover:bg-parchment-200 border border-parchment-300 rounded text-charcoal-800 cursor-pointer">Edit</button>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    // Render Full Table
+    renderTable(allArticles);
+  }
+
+  function renderTable(articles: any[]) {
+    const tbody = document.getElementById('articles-table-body');
+    if (!tbody) return;
+
+    if (articles.length === 0) {
+      tbody.innerHTML = `
+        <tr>
+          <td colspan="5" class="py-12 text-center text-xs text-charcoal-500 font-mono">
+            No articles match this view.
+          </td>
+        </tr>
+      `;
+      return;
+    }
+
+    tbody.innerHTML = articles.map((a) => `
+      <tr class="hover:bg-parchment-50 transition-colors">
+        <td class="py-3.5 px-4 font-sans">
+          <div class="font-serif font-bold text-base text-charcoal-900">${a.title}</div>
+          <div class="text-xs text-charcoal-500 line-clamp-1">${a.description || 'No description'}</div>
+        </td>
+        <td class="py-3.5 px-4 text-xs font-mono text-charcoal-600">${a.category}</td>
+        <td class="py-3.5 px-4">
+          <span class="inline-block px-2.5 py-0.5 text-[10px] font-mono uppercase font-bold rounded-full ${
+            a.draft ? 'bg-amberGold-100 text-amberGold-800' : 'bg-sage-100 text-sage-800'
+          }">
+            ${a.draft ? 'Draft' : 'Published'}
+          </span>
+        </td>
+        <td class="py-3.5 px-4 text-xs font-mono text-charcoal-500">${a.pubDate}</td>
+        <td class="py-3.5 px-4 text-right">
+          <div class="inline-flex items-center gap-1.5">
+            <button onclick="editArticle('${a.slug}')" class="px-2.5 py-1 text-xs font-mono bg-white hover:bg-parchment-200 border border-parchment-300 rounded text-charcoal-800 cursor-pointer">
+              Edit
+            </button>
+            <button onclick="togglePublish('${a.slug}', ${!a.draft})" class="px-2.5 py-1 text-xs font-mono bg-white hover:bg-parchment-200 border border-parchment-300 rounded text-charcoal-700 cursor-pointer">
+              ${a.draft ? 'Publish' : 'Unpublish'}
+            </button>
+            <button onclick="deleteArticle('${a.slug}')" class="px-2.5 py-1 text-xs font-mono bg-white hover:bg-terracotta-50 text-terracotta-700 border border-parchment-300 rounded cursor-pointer">
+              Delete
+            </button>
+            ${!a.draft ? `<a href="/blogs/${a.slug}" target="_blank" class="px-2 py-1 text-xs font-mono text-charcoal-500 hover:text-charcoal-900">Live ↗</a>` : ''}
+          </div>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function setupEventListeners() {
+    // Tab switching
+    document.querySelectorAll('.admin-tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tab = (btn as HTMLElement).dataset.tab;
+        if (tab) switchTab(tab);
+      });
+    });
+
+    document.getElementById('quick-create-btn')?.addEventListener('click', () => {
+      openCreateArticle();
+    });
+
+    // Filter badges in articles view
+    document.querySelectorAll('.article-filter-badge').forEach((badge) => {
+      badge.addEventListener('click', () => {
+        document.querySelectorAll('.article-filter-badge').forEach((b) => {
+          b.classList.remove('bg-charcoal-900', 'text-parchment-50');
+          b.classList.add('bg-white', 'text-charcoal-700');
+        });
+        badge.classList.add('bg-charcoal-900', 'text-parchment-50');
+        badge.classList.remove('bg-white', 'text-charcoal-700');
+
+        const filter = (badge as HTMLElement).dataset.filter;
+        if (filter === 'published') {
+          renderTable(allArticles.filter((a) => !a.draft));
+        } else if (filter === 'drafts') {
+          renderTable(allArticles.filter((a) => a.draft));
+        } else {
+          renderTable(allArticles);
+        }
+      });
+    });
+
+    // Real-time title slug generation & live markdown preview
+    const titleInput = document.getElementById('form-title') as HTMLInputElement | null;
+    const slugInput = document.getElementById('form-slug') as HTMLInputElement | null;
+    const slugPreview = document.getElementById('slug-preview');
+    const contentInput = document.getElementById('form-content') as HTMLTextAreaElement | null;
+    const livePreview = document.getElementById('live-preview-content');
+
+    titleInput?.addEventListener('input', () => {
+      if (!currentEditingSlug && slugInput) {
+        const generated = slugifyClient(titleInput.value);
+        slugInput.value = generated;
+        if (slugPreview) slugPreview.textContent = `/blogs/${generated}`;
+      }
+    });
+
+    slugInput?.addEventListener('input', () => {
+      if (slugPreview) slugPreview.textContent = `/blogs/${slugifyClient(slugInput.value)}`;
+    });
+
+    contentInput?.addEventListener('input', () => {
+      updateLivePreview();
+    });
+
+    // Toolbar buttons
+    document.querySelectorAll('.toolbar-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const format = (btn as HTMLElement).dataset.format;
+        if (format) applyFormat(format);
+      });
+    });
+
+    // Cover file picker
+    const filePicker = document.getElementById('form-cover-file') as HTMLInputElement | null;
+    filePicker?.addEventListener('change', () => {
+      const file = filePicker.files?.[0];
+      if (!file) return;
+
+      coverFileName = file.name;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        coverBase64Data = e.target?.result as string;
+        const img = document.getElementById('image-preview') as HTMLImageElement | null;
+        const container = document.getElementById('image-preview-container');
+        if (img && container) {
+          img.src = coverBase64Data;
+          container.classList.remove('hidden');
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Save & Publish Buttons
+    document.getElementById('save-draft-btn')?.addEventListener('click', () => saveArticle(true));
+    document.getElementById('publish-btn')?.addEventListener('click', () => saveArticle(false));
+
+    // Mobile layout toggles
+    document.getElementById('toggle-editor-mobile')?.addEventListener('click', () => {
+      document.getElementById('editor-pane')?.classList.remove('hidden');
+      document.getElementById('preview-pane')?.classList.add('hidden');
+      document.getElementById('toggle-editor-mobile')?.classList.add('bg-charcoal-900', 'text-white');
+      document.getElementById('toggle-preview-mobile')?.classList.remove('bg-charcoal-900', 'text-white');
+    });
+
+    document.getElementById('toggle-preview-mobile')?.addEventListener('click', () => {
+      document.getElementById('editor-pane')?.classList.add('hidden');
+      document.getElementById('preview-pane')?.classList.remove('hidden');
+      document.getElementById('toggle-preview-mobile')?.classList.add('bg-charcoal-900', 'text-white');
+      document.getElementById('toggle-editor-mobile')?.classList.remove('bg-charcoal-900', 'text-white');
+      updateLivePreview();
+    });
+  }
+
+  function updateLivePreview() {
+    const content = (document.getElementById('form-content') as HTMLTextAreaElement | null)?.value || '';
+    const previewContainer = document.getElementById('live-preview-content');
+    if (!previewContainer) return;
+
+    if (!content.trim()) {
+      previewContainer.innerHTML = '<p class="text-charcoal-400 italic">Preview will render as you write...</p>';
+      return;
+    }
+
+    // @ts-ignore
+    if (window.marked) {
+      // @ts-ignore
+      previewContainer.innerHTML = window.marked.parse(content);
+    } else {
+      previewContainer.textContent = content;
+    }
+  }
+
+  function applyFormat(format: string) {
+    const textarea = document.getElementById('form-content') as HTMLTextAreaElement | null;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selected = textarea.value.substring(start, end);
+
+    let replacement = '';
+    switch (format) {
+      case 'h1': replacement = `# ${selected || 'Heading 1'}`; break;
+      case 'h2': replacement = `## ${selected || 'Heading 2'}`; break;
+      case 'h3': replacement = `### ${selected || 'Heading 3'}`; break;
+      case 'bold': replacement = `**${selected || 'bold text'}**`; break;
+      case 'italic': replacement = `*${selected || 'italic text'}*`; break;
+      case 'quote': replacement = `> ${selected || 'A thoughtful quotation.'}`; break;
+      case 'code': replacement = `\`\`\`typescript\n${selected || '// code here'}\n\`\`\``; break;
+      case 'link': replacement = `[${selected || 'Link Title'}](https://example.com)`; break;
+      case 'list': replacement = `- Item 1\n- Item 2\n- Item 3`; break;
+      case 'table': replacement = `| Header 1 | Header 2 |\n| :--- | :--- |\n| Cell 1 | Cell 2 |`; break;
+      case 'hr': replacement = `\n---\n`; break;
+    }
+
+    textarea.setRangeText(replacement, start, end, 'end');
+    textarea.focus();
+    updateLivePreview();
+  }
+
+  function slugifyClient(text: string): string {
+    return text.toLowerCase().trim().replace(/\s+/g, '-').replace(/[^\w\-]+/g, '').replace(/\-\-+/g, '-');
+  }
+
+  (window as any).switchTab = function (tabName: string) {
+    document.querySelectorAll('.admin-tab-btn').forEach((btn) => {
+      const match = (btn as HTMLElement).dataset.tab === tabName;
+      btn.classList.toggle('active', match);
+      btn.classList.toggle('border-terracotta-600', match);
+      btn.classList.toggle('text-charcoal-950', match);
+      btn.classList.toggle('border-transparent', !match);
+      btn.classList.toggle('text-charcoal-600', !match);
+    });
+
+    document.querySelectorAll('.tab-pane').forEach((pane) => {
+      pane.classList.add('hidden');
+    });
+
+    const target = document.getElementById(`tab-content-${tabName}`);
+    if (target) target.classList.remove('hidden');
+
+    if (tabName === 'editor') {
+      setTimeout(() => updateLivePreview(), 50);
+    }
+  };
+
+  (window as any).openCreateArticle = function () {
+    currentEditingSlug = null;
+    coverBase64Data = null;
+    coverFileName = null;
+
+    (document.getElementById('article-form') as HTMLFormElement)?.reset();
+    (document.getElementById('form-slug') as HTMLInputElement).value = '';
+    (document.getElementById('form-date') as HTMLInputElement).value = new Date().toISOString().split('T')[0];
+    (document.getElementById('editor-heading') as HTMLElement).textContent = 'Create New Blog';
+    (document.getElementById('editor-tab-label') as HTMLElement).textContent = '+ Create New Blog';
+    (document.getElementById('slug-preview') as HTMLElement).textContent = '/blogs/your-article-slug';
+    document.getElementById('image-preview-container')?.classList.add('hidden');
+
+    (window as any).switchTab('editor');
+  };
+
+  (window as any).cancelEdit = function () {
+    (window as any).switchTab('articles');
+  };
+
+  (window as any).editArticle = function (slug: string) {
+    const article = allArticles.find((a) => a.slug === slug);
+    if (!article) return;
+
+    currentEditingSlug = slug;
+    coverBase64Data = null;
+    coverFileName = null;
+
+    (document.getElementById('form-title') as HTMLInputElement).value = article.title;
+    (document.getElementById('form-slug') as HTMLInputElement).value = article.slug;
+    (document.getElementById('form-description') as HTMLTextAreaElement).value = article.description;
+    (document.getElementById('form-category') as HTMLSelectElement).value = article.category;
+    (document.getElementById('form-tags') as HTMLInputElement).value = (article.tags || []).join(', ');
+    (document.getElementById('form-date') as HTMLInputElement).value = article.pubDate;
+    (document.getElementById('form-featured') as HTMLInputElement).checked = !!article.featured;
+    (document.getElementById('form-cover-path') as HTMLInputElement).value = article.coverImage || '';
+    (document.getElementById('form-content') as HTMLTextAreaElement).value = article.content || '';
+
+    (document.getElementById('editor-heading') as HTMLElement).textContent = `Edit "${article.title}"`;
+    (document.getElementById('editor-tab-label') as HTMLElement).textContent = `Editing: ${article.slug}`;
+    (document.getElementById('slug-preview') as HTMLElement).textContent = `/blogs/${article.slug}`;
+
+    if (article.coverImage) {
+      const img = document.getElementById('image-preview') as HTMLImageElement | null;
+      const container = document.getElementById('image-preview-container');
+      if (img && container) {
+        img.src = article.coverImage;
+        container.classList.remove('hidden');
+      }
+    } else {
+      document.getElementById('image-preview-container')?.classList.add('hidden');
+    }
+
+    (window as any).switchTab('editor');
+  };
+
+  (window as any).togglePublish = async function (slug: string, newDraftState: boolean) {
+    const article = allArticles.find((a) => a.slug === slug);
+    if (!article) return;
+
+    const action = newDraftState ? 'publish' : 'unpublish (save as draft)';
+    if (!confirm(`Are you sure you want to ${action} "${article.title}"?`)) return;
+
+    try {
+      const res = await fetch('/api/admin/publish', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...article,
+          draft: !newDraftState,
+        }),
+      });
+
+      if (res.ok) {
+        await loadArticles();
+      } else {
+        const data = await res.json();
+        alert(`Error: ${data.error || 'Failed to update status'}`);
+      }
+    } catch (err) {
+      alert('Network error updating article');
+    }
+  };
+
+  (window as any).deleteArticle = async function (slug: string) {
+    if (!confirm(`Are you certain you want to permanently delete article "${slug}"? This cannot be undone.`)) return;
+
+    try {
+      const res = await fetch('/api/admin/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug }),
+      });
+
+      if (res.ok) {
+        await loadArticles();
+      } else {
+        const data = await res.json();
+        alert(`Error: ${data.error || 'Failed to delete'}`);
+      }
+    } catch (err) {
+      alert('Network error deleting article');
+    }
+  };
+
+  async function saveArticle(isDraft: boolean) {
+    const title = (document.getElementById('form-title') as HTMLInputElement)?.value.trim();
+    const slug = (document.getElementById('form-slug') as HTMLInputElement)?.value.trim() || slugifyClient(title);
+    const description = (document.getElementById('form-description') as HTMLTextAreaElement)?.value.trim();
+    const category = (document.getElementById('form-category') as HTMLSelectElement)?.value;
+    const tags = (document.getElementById('form-tags') as HTMLInputElement)?.value;
+    const pubDate = (document.getElementById('form-date') as HTMLInputElement)?.value;
+    const featured = (document.getElementById('form-featured') as HTMLInputElement)?.checked;
+    const coverPath = (document.getElementById('form-cover-path') as HTMLInputElement)?.value.trim();
+    const content = (document.getElementById('form-content') as HTMLTextAreaElement)?.value;
+
+    if (!title) {
+      alert('Please enter an article title.');
+      return;
+    }
+    if (!content) {
+      alert('Please write article content.');
+      return;
+    }
+
+    const publishBtn = document.getElementById('publish-btn') as HTMLButtonElement | null;
+    const draftBtn = document.getElementById('save-draft-btn') as HTMLButtonElement | null;
+    const spinner = document.getElementById('publish-spinner');
+    const statusText = document.getElementById('publishing-status');
+
+    if (publishBtn) publishBtn.disabled = true;
+    if (draftBtn) draftBtn.disabled = true;
+    if (spinner) spinner.classList.remove('hidden');
+    if (statusText) statusText.textContent = isDraft ? 'Saving draft...' : 'Publishing to repository & notifying subscribers...';
+
+    try {
+      const res = await fetch('/api/admin/publish', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title,
+          slug,
+          description,
+          category,
+          tags,
+          pubDate,
+          featured,
+          draft: isDraft,
+          coverImage: coverPath,
+          coverImageData: coverBase64Data,
+          coverImageName: coverFileName,
+          content,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        if (statusText) statusText.textContent = 'Saved successfully!';
+        await loadArticles();
+        setTimeout(() => {
+          (window as any).switchTab('articles');
+        }, 400);
+      } else {
+        alert(`Error: ${data.error || 'Failed to save article'}`);
+        if (statusText) statusText.textContent = 'Failed to save.';
+      }
+    } catch (err) {
+      alert('Network error while saving article.');
+      if (statusText) statusText.textContent = 'Network error.';
+    } finally {
+      if (publishBtn) publishBtn.disabled = false;
+      if (draftBtn) draftBtn.disabled = false;
+      if (spinner) spinner.classList.add('hidden');
+    }
+  }
+
+  // Initialize
+  initDashboard();
+  document.addEventListener('astro:after-swap', initDashboard);
+</script>

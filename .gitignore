@@ -1,6 +1,7 @@
 # Build & Distribution
 dist/
 .astro/
+.vercel/
 
 # Dependencies
 node_modules/

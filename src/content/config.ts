@@ -13,7 +13,7 @@ const blogCollection = defineCollection({
     coverAlt: z.string().optional(),
     featured: z.boolean().default(false),
     draft: z.boolean().default(false),
-    author: z.string().default('Alex Rivera'),
+    author: z.string().default('Likitha Tummapudi'),
   }),
 });
 

@@ -23,127 +23,154 @@ const allTags = await getAllTags();
         All Publications
       </h1>
       <p class="text-lg text-charcoal-600 font-sans leading-relaxed">
-        Every technical essay, code breakdown, architecture breakdown, and weekly retrospective in reverse chronological order. Filter by category, search by keyword, or explore tags below.
+        Every technical essay, code breakdown, and architectural analysis in reverse chronological order. Filter by category, search by keyword, or explore tags below.
       </p>
     </header>
 
-    <!-- Interactive Filter Controls Bar -->
-    <div class="p-6 rounded-2xl bg-white border border-parchment-300 shadow-2xs mb-10 space-y-6">
-      <!-- Search Input -->
-      <div class="relative">
-        <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-          <svg class="w-5 h-5 text-charcoal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-        </div>
-        <input
-          type="text"
-          id="archive-search-input"
-          placeholder="Filter by title, description, or keyword..."
-          class="w-full pl-11 pr-4 py-3 rounded-xl border border-parchment-300 bg-parchment-50 text-charcoal-900 placeholder-charcoal-400 text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-500 focus:bg-white transition-all font-sans"
-        />
-      </div>
+    {
+      allPosts.length > 0 ? (
+        <>
+          <!-- Interactive Filter Controls Bar -->
+          <div class="p-6 rounded-2xl bg-white border border-parchment-300 shadow-2xs mb-10 space-y-6">
+            <!-- Search Input -->
+            <div class="relative">
+              <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                <svg class="w-5 h-5 text-charcoal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <circle cx="11" cy="11" r="8"></circle>
+                  <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                </svg>
+              </div>
+              <input
+                type="text"
+                id="archive-search-input"
+                placeholder="Filter by title, description, or keyword..."
+                class="w-full pl-11 pr-4 py-3 rounded-xl border border-parchment-300 bg-parchment-50 text-charcoal-900 placeholder-charcoal-400 text-sm focus:outline-none focus:ring-2 focus:ring-terracotta-500 focus:bg-white transition-all font-sans"
+              />
+            </div>
 
-      <!-- Categories Filter Tabs -->
-      <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-        <span class="text-xs font-mono text-charcoal-500 uppercase tracking-wider shrink-0 mr-1">
-          Category:
-        </span>
-        <button
-          type="button"
-          class="category-filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium border border-parchment-300 bg-charcoal-900 text-parchment-50 transition-all shrink-0 cursor-pointer"
-          data-category="all"
-        >
-          All ({allPosts.length})
-        </button>
-        {
-          categories.map((cat) => (
+            <!-- Categories Filter Tabs -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+              <span class="text-xs font-mono text-charcoal-500 uppercase tracking-wider shrink-0 mr-1">
+                Category:
+              </span>
+              <button
+                type="button"
+                class="category-filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium border border-parchment-300 bg-charcoal-900 text-parchment-50 transition-all shrink-0 cursor-pointer"
+                data-category="all"
+              >
+                All ({allPosts.length})
+              </button>
+              {
+                categories.map((cat) => (
+                  <button
+                    type="button"
+                    class="category-filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium border border-parchment-300 bg-white text-charcoal-700 hover:border-terracotta-300 hover:text-terracotta-700 transition-all shrink-0 cursor-pointer"
+                    data-category={cat.name}
+                  >
+                    {cat.name} ({cat.count})
+                  </button>
+                ))
+              }
+            </div>
+
+            <!-- Tag Filter Pills -->
+            {allTags.length > 0 && (
+              <div class="flex flex-wrap items-center gap-1.5 pt-2 border-t border-parchment-200 text-xs">
+                <span class="font-mono text-charcoal-500 uppercase tracking-wider text-[11px] mr-2">
+                  Popular Tags:
+                </span>
+                {allTags.slice(0, 8).map((t) => (
+                  <button
+                    type="button"
+                    class="tag-filter-btn px-2.5 py-0.5 rounded bg-parchment-100 hover:bg-parchment-200 border border-parchment-200 text-charcoal-600 transition-colors font-mono cursor-pointer"
+                    data-tag={t.name}
+                  >
+                    #{t.name}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <!-- Active Filters & Results Summary -->
+          <div class="flex items-center justify-between text-xs font-mono text-charcoal-500 mb-6">
+            <span id="results-count-label">
+              Showing {allPosts.length} of {allPosts.length} articles
+            </span>
+
             <button
               type="button"
-              class="category-filter-btn px-3.5 py-1.5 rounded-full text-xs font-medium border border-parchment-300 bg-white text-charcoal-700 hover:border-terracotta-300 hover:text-terracotta-700 transition-all shrink-0 cursor-pointer"
-              data-category={cat.name}
+              id="reset-filters-btn"
+              class="hidden text-terracotta-600 hover:underline cursor-pointer"
             >
-              {cat.name} ({cat.count})
+              Clear filters &times;
             </button>
-          ))
-        }
-      </div>
+          </div>
 
-      <!-- Tag Filter Pills -->
-      <div class="flex flex-wrap items-center gap-1.5 pt-2 border-t border-parchment-200 text-xs">
-        <span class="font-mono text-charcoal-500 uppercase tracking-wider text-[11px] mr-2">
-          Popular Tags:
-        </span>
-        {
-          allTags.slice(0, 8).map((t) => (
+          <!-- Articles Grid -->
+          <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {allPosts.map((post) => (
+              <div
+                class="article-grid-item"
+                data-title={post.data.title.toLowerCase()}
+                data-description={post.data.description.toLowerCase()}
+                data-category={post.data.category}
+                data-tags={post.data.tags.join(',').toLowerCase()}
+              >
+                <PostCard post={post} />
+              </div>
+            ))}
+          </div>
+
+          <!-- Empty Filter Match State -->
+          <div
+            id="archive-empty-state"
+            class="hidden py-16 px-4 text-center rounded-2xl bg-parchment-100 border border-dashed border-parchment-300 my-8"
+          >
+            <div class="w-12 h-12 rounded-full bg-parchment-200 text-charcoal-600 flex items-center justify-center mx-auto mb-3">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </div>
+            <h3 class="font-serif text-xl font-bold text-charcoal-900 mb-1">
+              No articles match your criteria
+            </h3>
+            <p class="text-xs text-charcoal-600 max-w-sm mx-auto mb-4">
+              Try clearing your search term or switching to another category.
+            </p>
             <button
               type="button"
-              class="tag-filter-btn px-2.5 py-0.5 rounded bg-parchment-100 hover:bg-parchment-200 border border-parchment-200 text-charcoal-600 transition-colors font-mono cursor-pointer"
-              data-tag={t.name}
+              id="empty-reset-btn"
+              class="px-4 py-2 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 text-xs font-semibold transition-colors"
             >
-              #{t.name}
+              Reset Filters
             </button>
-          ))
-        }
-      </div>
-    </div>
-
-    <!-- Active Filters & Results Summary -->
-    <div class="flex items-center justify-between text-xs font-mono text-charcoal-500 mb-6">
-      <span id="results-count-label">
-        Showing {allPosts.length} of {allPosts.length} articles
-      </span>
-
-      <button
-        type="button"
-        id="reset-filters-btn"
-        class="hidden text-terracotta-600 hover:underline cursor-pointer"
-      >
-        Clear filters &times;
-      </button>
-    </div>
-
-    <!-- Articles Grid -->
-    <div id="articles-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {allPosts.map((post) => (
-        <div
-          class="article-grid-item"
-          data-title={post.data.title.toLowerCase()}
-          data-description={post.data.description.toLowerCase()}
-          data-category={post.data.category}
-          data-tags={post.data.tags.join(',').toLowerCase()}
-        >
-          <PostCard post={post} />
+          </div>
+        </>
+      ) : (
+        <!-- Zero Articles Published Empty State -->
+        <div class="py-20 text-center rounded-2xl bg-white border border-parchment-300 shadow-2xs p-8 max-w-xl mx-auto my-6">
+          <div class="w-14 h-14 rounded-full bg-parchment-100 text-charcoal-500 flex items-center justify-center mx-auto mb-4 border border-parchment-200">
+            <svg class="w-7 h-7 text-terracotta-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+            </svg>
+          </div>
+          <h3 class="font-serif text-3xl font-bold text-charcoal-950 mb-3">
+            No stories yet. Something interesting is coming.
+          </h3>
+          <p class="text-sm text-charcoal-600 font-sans leading-relaxed max-w-md mx-auto mb-8">
+            The publication is currently empty as fresh writings are being finalized. Subscribe using the button in the navigation to get notified the moment the first article is published.
+          </p>
+          <a
+            href="/"
+            class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 text-xs font-semibold tracking-wide transition-colors"
+          >
+            &larr; Return to Homepage
+          </a>
         </div>
-      ))}
-    </div>
-
-    <!-- Empty State -->
-    <div
-      id="archive-empty-state"
-      class="hidden py-16 px-4 text-center rounded-2xl bg-parchment-100 border border-dashed border-parchment-300 my-8"
-    >
-      <div class="w-12 h-12 rounded-full bg-parchment-200 text-charcoal-600 flex items-center justify-center mx-auto mb-3">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </div>
-      <h3 class="font-serif text-xl font-bold text-charcoal-900 mb-1">
-        No articles match your criteria
-      </h3>
-      <p class="text-xs text-charcoal-600 max-w-sm mx-auto mb-4">
-        Try clearing your search term or switching to another category.
-      </p>
-      <button
-        type="button"
-        id="empty-reset-btn"
-        class="px-4 py-2 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 text-xs font-semibold transition-colors"
-      >
-        Reset Filters
-      </button>
-    </div>
+      )
+    }
   </div>
 </BaseLayout>
 
@@ -157,6 +184,8 @@ const allTags = await getAllTags();
     const emptyState = document.getElementById('archive-empty-state');
     const resetBtn = document.getElementById('reset-filters-btn');
     const emptyResetBtn = document.getElementById('empty-reset-btn');
+
+    if (!searchInput && catButtons.length === 0) return;
 
     let currentCategory = 'all';
     let currentTag = '';
@@ -204,7 +233,7 @@ const allTags = await getAllTags();
       }
 
       if (emptyState) {
-        if (visibleCount === 0) {
+        if (visibleCount === 0 && items.length > 0) {
           emptyState.classList.remove('hidden');
         } else {
           emptyState.classList.add('hidden');

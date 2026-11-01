@@ -16,7 +16,7 @@ export interface SiteConfig {
   social: {
     github: string;
     linkedin: string;
-    twitter: string;
+    email: string;
   };
   nav: Array<{
     title: string;
@@ -32,23 +32,23 @@ export interface SiteConfig {
 
 export const siteConfig: SiteConfig = {
   name: 'Chronicles & Code',
-  title: 'Chronicles & Code — Technical Journal & Explorations',
-  description: 'An editorial publication exploring computer science, systems programming, AI/ML, and the engineering craft.',
+  title: 'Chronicles & Code — Likitha Tummapudi',
+  description: 'An editorial publication exploring computer science, systems, machine learning, and personal engineering journeys by Likitha Tummapudi.',
   tagline: 'Ideas, Experiments & Everything In Between',
   url: 'https://my-editorial-blog.vercel.app',
   author: {
-    name: 'Alex Rivera', // Easily customizable placeholder
-    role: 'Computer Science Scholar & Software Engineer',
-    bio: 'Passionate about distributed systems, machine learning fundamentals, and writing clear, principled code. Documenting weekly discoveries and lessons learned.',
+    name: 'Likitha Tummapudi',
+    role: 'Computer Science Undergraduate & Software Developer',
+    bio: 'Pursuing B.Tech in CSE at VIT-AP University (2024–2028, CGPA: 9.14). Passionate about software development, AI, machine learning, and quantum computing.',
     avatar: '/images/avatar.svg',
-    academic: 'B.Tech in Computer Science & Engineering',
-    location: 'Bangalore, India',
-    email: 'alex.rivera@example.com',
+    academic: 'B.Tech in Computer Science and Engineering — VIT-AP University (2024–2028)',
+    location: 'Andhra Pradesh, India',
+    email: 'likitha.tummapudi1@gmail.com',
   },
   social: {
-    github: 'https://github.com/example-user',
-    linkedin: 'https://linkedin.com/in/example-user',
-    twitter: 'https://x.com/example-user',
+    github: 'https://github.com/LikithaTummapudi',
+    linkedin: 'https://www.linkedin.com/in/likithatummapudi/',
+    email: 'mailto:likitha.tummapudi1@gmail.com',
   },
   nav: [
     { title: 'Home', href: '/' },
@@ -58,33 +58,45 @@ export const siteConfig: SiteConfig = {
   ],
   categories: [
     {
+      name: 'Technology',
+      slug: 'technology',
+      description: 'Emerging tech, modern software paradigms, and industry developments.',
+      color: 'charcoal',
+    },
+    {
       name: 'Artificial Intelligence',
       slug: 'artificial-intelligence',
-      description: 'Foundations of modern AI, LLMs, attention mechanisms, and neural architectures.',
+      description: 'Foundations of AI, neural networks, language models, and practical implementations.',
+      color: 'terracotta',
+    },
+    {
+      name: 'Machine Learning',
+      slug: 'machine-learning',
+      description: 'Predictive modeling, data preprocessing, regression, classification, and benchmarks.',
       color: 'terracotta',
     },
     {
       name: 'Programming',
       slug: 'programming',
-      description: 'API design, software architecture patterns, type systems, and pragmatic code.',
+      description: 'Clean code, architecture patterns, object-oriented design, and languages.',
       color: 'sage',
-    },
-    {
-      name: 'Learning & Experiences',
-      slug: 'learning-experiences',
-      description: 'Weekly reflections, deep dives into new languages, and engineering retrospectives.',
-      color: 'amberGold',
     },
     {
       name: 'Computer Science',
       slug: 'computer-science',
-      description: 'Core data structures, algorithms, operating system internals, and theory.',
+      description: 'Data structures, algorithms, DBMS, operating systems, and core fundamentals.',
       color: 'charcoal',
+    },
+    {
+      name: 'Learning & Experiences',
+      slug: 'learning-experiences',
+      description: 'Personal reflections, study roadmaps, academic insights, and growth milestones.',
+      color: 'amberGold',
     },
     {
       name: 'Projects & Experiments',
       slug: 'projects-experiments',
-      description: 'Hands-on prototypes, side quests, performance benchmarks, and labs.',
+      description: 'Hands-on applications, machine learning prototypes, and research explorations.',
       color: 'terracotta',
     },
   ],
