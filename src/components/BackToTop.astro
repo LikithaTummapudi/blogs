@@ -1,0 +1,41 @@
+---
+// BackToTop.astro: Floating smooth scroll to top button
+---
+
+<button
+  type="button"
+  id="back-to-top"
+  aria-label="Back to top"
+  class="fixed bottom-6 right-6 z-40 p-2.5 rounded-full bg-white border border-parchment-300 text-charcoal-700 hover:text-terracotta-600 hover:border-terracotta-300 shadow-md transition-all duration-200 opacity-0 pointer-events-none translate-y-3 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-500"
+>
+  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+  </svg>
+</button>
+
+<script>
+  function setupBackToTop() {
+    const btn = document.getElementById('back-to-top');
+    if (!btn) return;
+
+    function toggleVisibility() {
+      if (window.scrollY > 400) {
+        btn?.classList.remove('opacity-0', 'pointer-events-none', 'translate-y-3');
+        btn?.classList.add('opacity-100', 'translate-y-0');
+      } else {
+        btn?.classList.add('opacity-0', 'pointer-events-none', 'translate-y-3');
+        btn?.classList.remove('opacity-100', 'translate-y-0');
+      }
+    }
+
+    btn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    window.addEventListener('scroll', toggleVisibility, { passive: true });
+    toggleVisibility();
+  }
+
+  setupBackToTop();
+  document.addEventListener('astro:after-swap', setupBackToTop);
+</script>

@@ -1,0 +1,43 @@
+---
+import BlogPostLayout from '@layouts/BlogPostLayout.astro';
+import { getAllBlogs, getRelatedPosts, type PostWithMeta } from '@utils/content';
+
+export async function getStaticPaths() {
+  const blogs = await getAllBlogs();
+
+  return blogs.map((post, index) => {
+    // In our sorted array, index 0 is newest, so next chronological post is index - 1, prev is index + 1
+    const nextPost = index > 0 ? blogs[index - 1] : null;
+    const prevPost = index < blogs.length - 1 ? blogs[index + 1] : null;
+
+    return {
+      params: { slug: post.slug },
+      props: {
+        post,
+        prevPost,
+        nextPost,
+      },
+    };
+  });
+}
+
+interface Props {
+  post: PostWithMeta;
+  prevPost: PostWithMeta | null;
+  nextPost: PostWithMeta | null;
+}
+
+const { post, prevPost, nextPost } = Astro.props;
+const relatedPosts = await getRelatedPosts(post.slug, post.data.category, post.data.tags, 3);
+const { Content, headings } = await post.render();
+---
+
+<BlogPostLayout
+  post={post}
+  headings={headings}
+  prevPost={prevPost}
+  nextPost={nextPost}
+  relatedPosts={relatedPosts}
+>
+  <Content />
+</BlogPostLayout>

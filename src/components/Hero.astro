@@ -1,0 +1,93 @@
+---
+import { siteConfig } from '@config/site';
+---
+
+<section class="relative pt-12 pb-16 md:pt-20 md:pb-24 border-b border-parchment-200 overflow-hidden">
+  <!-- Subtle decorative background motif -->
+  <div class="absolute right-0 top-1/2 -translate-y-1/2 translate-x-1/4 w-96 h-96 rounded-full bg-terracotta-100/40 blur-3xl pointer-events-none"></div>
+  <div class="absolute left-1/4 -top-24 w-72 h-72 rounded-full bg-sage-100/40 blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+      <!-- Left Column: Typography -->
+      <div class="lg:col-span-8 flex flex-col items-start">
+        <!-- Eyebrow label -->
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-parchment-200 border border-parchment-300 text-[11px] font-mono tracking-widest text-charcoal-700 uppercase mb-6 shadow-2xs">
+          <span class="w-1.5 h-1.5 rounded-full bg-terracotta-600"></span>
+          A Personal Knowledge Journal
+        </div>
+
+        <!-- Main Headline -->
+        <h1 class="font-serif text-4xl sm:text-5xl md:text-6xl font-bold tracking-tight text-charcoal-950 leading-[1.12] mb-6">
+          Ideas, Experiments &amp; <span class="italic font-normal text-terracotta-700">Everything</span> In Between.
+        </h1>
+
+        <!-- Introduction text -->
+        <p class="text-lg sm:text-xl text-charcoal-600 font-sans leading-relaxed max-w-2xl mb-8">
+          Welcome to my digital workshop. This is an intentional space where I document weekly technical discoveries, deconstruct complex computer science paradigms, build pragmatic systems, and reflect candidly on the craft of software engineering.
+        </p>
+
+        <!-- Action buttons & mentor welcome note -->
+        <div class="flex flex-wrap items-center gap-4">
+          <a
+            href="#featured-article"
+            class="inline-flex items-center justify-center px-6 py-3 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 font-medium text-sm transition-all duration-200 shadow-sm group focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta-500"
+          >
+            Explore Featured Article
+            <svg class="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+            </svg>
+          </a>
+
+          <a
+            href="/blogs"
+            class="inline-flex items-center justify-center px-5 py-3 rounded-lg border border-parchment-300 bg-white hover:bg-parchment-100 text-charcoal-800 font-medium text-sm transition-colors shadow-2xs"
+          >
+            Browse All Articles
+          </a>
+        </div>
+
+        <!-- Weekly publication badge -->
+        <div class="mt-8 flex items-center gap-3 text-xs text-charcoal-500 border-t border-parchment-200/80 pt-4 w-full">
+          <span class="font-mono text-terracotta-600 font-semibold">Weekly Cadence:</span>
+          <span>New in-depth technical essays released every Sunday evening.</span>
+        </div>
+      </div>
+
+      <!-- Right Column: Editorial visual badge -->
+      <div class="hidden lg:flex lg:col-span-4 justify-center">
+        <div class="relative p-6 rounded-2xl bg-white border border-parchment-300 shadow-sm max-w-sm w-full">
+          <!-- Geometric accent mark -->
+          <div class="absolute -top-3 -right-3 w-8 h-8 rounded-full bg-terracotta-500 text-white flex items-center justify-center text-xs font-serif italic shadow-sm">
+            &#10022;
+          </div>
+
+          <div class="flex items-center gap-3.5 pb-4 border-b border-parchment-200">
+            <img
+              src={siteConfig.author.avatar}
+              alt={siteConfig.author.name}
+              class="w-12 h-12 rounded-full border border-parchment-300 object-cover bg-parchment-100"
+            />
+            <div>
+              <h3 class="font-serif font-bold text-base text-charcoal-900 leading-tight">
+                {siteConfig.author.name}
+              </h3>
+              <p class="text-xs text-charcoal-500 font-sans">
+                {siteConfig.author.role}
+              </p>
+            </div>
+          </div>
+
+          <p class="text-xs text-charcoal-600 mt-4 leading-relaxed italic">
+            "{siteConfig.author.bio}"
+          </p>
+
+          <div class="mt-5 pt-4 border-t border-parchment-200 flex items-center justify-between text-xs text-charcoal-500 font-mono">
+            <span>Focus Areas</span>
+            <span class="text-terracotta-700 font-medium">AI &bull; Systems &bull; Architecture</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

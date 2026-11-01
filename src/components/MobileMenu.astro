@@ -1,0 +1,151 @@
+---
+import { siteConfig } from '@config/site';
+
+interface Props {
+  currentPath?: string;
+}
+
+const { currentPath = Astro.url.pathname } = Astro.props;
+---
+
+<div
+  id="mobile-drawer"
+  class="fixed inset-0 z-50 transform translate-x-full transition-transform duration-300 ease-in-out md:hidden"
+  aria-hidden="true"
+>
+  <!-- Backdrop -->
+  <div id="mobile-backdrop" class="fixed inset-0 bg-charcoal-950/40 backdrop-blur-xs"></div>
+
+  <!-- Drawer Container -->
+  <div class="fixed inset-y-0 right-0 w-full max-w-xs bg-parchment-50 shadow-2xl border-l border-parchment-200 p-6 flex flex-col justify-between overflow-y-auto">
+    <div>
+      <!-- Drawer Header -->
+      <div class="flex items-center justify-between pb-6 border-b border-parchment-200">
+        <a href="/" class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded bg-charcoal-900 text-parchment-50 font-serif font-bold text-sm flex items-center justify-center">
+            C
+          </div>
+          <span class="font-serif font-bold text-lg text-charcoal-900">{siteConfig.name}</span>
+        </a>
+        <button
+          type="button"
+          id="mobile-close-btn"
+          aria-label="Close menu"
+          class="p-2 text-charcoal-600 hover:text-charcoal-900 rounded-lg hover:bg-parchment-200"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- Navigation Links -->
+      <nav class="mt-6 flex flex-col space-y-1">
+        {
+          siteConfig.nav.map((item) => {
+            const isActive = currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href));
+            return (
+              <a
+                href={item.href}
+                class={`px-4 py-3 rounded-lg text-base font-medium transition-colors ${
+                  isActive
+                    ? 'bg-parchment-200 text-terracotta-700 font-semibold'
+                    : 'text-charcoal-700 hover:bg-parchment-100 hover:text-charcoal-950'
+                }`}
+              >
+                {item.title}
+              </a>
+            );
+          })
+        }
+      </nav>
+
+      <!-- Search in Mobile -->
+      <div class="mt-6 pt-6 border-t border-parchment-200">
+        <button
+          type="button"
+          id="mobile-search-btn"
+          class="w-full flex items-center gap-3 px-4 py-2.5 rounded-lg border border-parchment-300 bg-parchment-100 text-charcoal-600 hover:bg-parchment-200 transition-colors text-sm"
+        >
+          <svg class="w-4 h-4 text-charcoal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span>Search articles...</span>
+        </button>
+      </div>
+
+      <!-- Subscribe in Mobile -->
+      <div class="mt-4">
+        <button
+          type="button"
+          id="mobile-subscribe-btn"
+          class="w-full py-2.5 px-4 rounded-lg bg-charcoal-900 text-parchment-50 text-sm font-medium hover:bg-terracotta-600 transition-colors"
+        >
+          Subscribe to Newsletter
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Footer -->
+    <div class="pt-6 border-t border-parchment-200 text-xs text-charcoal-500 flex flex-col gap-2">
+      <p>{siteConfig.tagline}</p>
+      <div class="flex items-center gap-4 pt-1">
+        <a href={siteConfig.social.github} target="_blank" rel="noopener noreferrer" class="hover:text-charcoal-900">GitHub</a>
+        <a href={siteConfig.social.linkedin} target="_blank" rel="noopener noreferrer" class="hover:text-charcoal-900">LinkedIn</a>
+        <a href={siteConfig.social.twitter} target="_blank" rel="noopener noreferrer" class="hover:text-charcoal-900">Twitter</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setupMobileMenu() {
+    const trigger = document.getElementById('mobile-menu-btn');
+    const closeBtn = document.getElementById('mobile-close-btn');
+    const drawer = document.getElementById('mobile-drawer');
+    const backdrop = document.getElementById('mobile-backdrop');
+    const mobileSearch = document.getElementById('mobile-search-btn');
+    const mobileSubscribe = document.getElementById('mobile-subscribe-btn');
+
+    function openMenu() {
+      if (!drawer) return;
+      drawer.classList.remove('translate-x-full');
+      drawer.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMenu() {
+      if (!drawer) return;
+      drawer.classList.add('translate-x-full');
+      drawer.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    trigger?.addEventListener('click', openMenu);
+    closeBtn?.addEventListener('click', closeMenu);
+    backdrop?.addEventListener('click', closeMenu);
+
+    mobileSearch?.addEventListener('click', () => {
+      closeMenu();
+      const searchTrigger = document.getElementById('search-trigger-btn');
+      searchTrigger?.click();
+    });
+
+    mobileSubscribe?.addEventListener('click', () => {
+      closeMenu();
+      const newsTrigger = document.getElementById('newsletter-trigger-btn');
+      newsTrigger?.click();
+    });
+
+    // Close on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && drawer && !drawer.classList.contains('translate-x-full')) {
+        closeMenu();
+      }
+    });
+  }
+
+  setupMobileMenu();
+  document.addEventListener('astro:after-swap', setupMobileMenu);
+</script>

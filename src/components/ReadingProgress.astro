@@ -1,0 +1,47 @@
+---
+// ReadingProgress.astro: Visual reading progress bar at top of article page
+---
+
+<div
+  id="reading-progress-container"
+  class="fixed top-0 left-0 w-full h-1 z-50 bg-parchment-200/50 pointer-events-none"
+  aria-hidden="true"
+>
+  <div
+    id="reading-progress-bar"
+    class="h-full bg-terracotta-600 transition-all duration-75 ease-out w-0"
+  ></div>
+</div>
+
+<script>
+  function setupReadingProgress() {
+    const bar = document.getElementById('reading-progress-bar');
+    if (!bar) return;
+
+    function updateProgress() {
+      const article = document.querySelector('article');
+      if (!article) return;
+
+      const articleTop = article.offsetTop;
+      const articleHeight = article.offsetHeight;
+      const windowHeight = window.innerHeight;
+      const scrollY = window.scrollY;
+
+      const totalScrollable = articleHeight - windowHeight;
+      if (totalScrollable <= 0) {
+        bar.style.width = '0%';
+        return;
+      }
+
+      const currentScroll = scrollY - articleTop;
+      const progress = Math.min(Math.max((currentScroll / totalScrollable) * 100, 0), 100);
+      bar.style.width = `${progress}%`;
+    }
+
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    updateProgress();
+  }
+
+  setupReadingProgress();
+  document.addEventListener('astro:after-swap', setupReadingProgress);
+</script>

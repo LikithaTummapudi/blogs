@@ -1,0 +1,105 @@
+---
+import type { PostWithMeta } from '@utils/content';
+import { formatDate } from '@utils/content';
+import CategoryBadge from './CategoryBadge.astro';
+
+interface Props {
+  post: PostWithMeta;
+}
+
+const { post } = Astro.props;
+---
+
+<section id="featured-article" class="py-12 border-b border-parchment-200">
+  <div class="flex items-center justify-between mb-8">
+    <div class="flex items-center gap-2.5">
+      <span class="inline-block w-2.5 h-2.5 rounded-full bg-terracotta-600"></span>
+      <h2 class="text-xs font-mono font-bold tracking-widest uppercase text-charcoal-700">
+        Featured Publication
+      </h2>
+    </div>
+    <span class="text-xs font-mono text-charcoal-400">Editor's Pick</span>
+  </div>
+
+  <article class="group relative rounded-2xl bg-white border border-parchment-300 hover:border-terracotta-300 transition-all duration-300 overflow-hidden shadow-2xs hover:shadow-md">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-0">
+      <!-- Image Column (5 cols) -->
+      <div class="lg:col-span-5 relative overflow-hidden bg-charcoal-900 min-h-[260px] lg:min-h-full">
+        <a href={`/blogs/${post.slug}`} class="block w-full h-full">
+          <img
+            src={post.data.coverImage}
+            alt={post.data.coverAlt || post.data.title}
+            class="w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-500"
+            loading="eager"
+          />
+        </a>
+      </div>
+
+      <!-- Content Column (7 cols) -->
+      <div class="lg:col-span-7 p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
+        <div>
+          <!-- Category & Metadata Header -->
+          <div class="flex flex-wrap items-center gap-3 mb-4">
+            <CategoryBadge category={post.data.category} size="md" />
+            <span class="text-xs text-charcoal-400">&bull;</span>
+            <span class="text-xs font-mono text-charcoal-500">
+              {formatDate(post.data.pubDate)}
+            </span>
+            <span class="text-xs text-charcoal-400">&bull;</span>
+            <span class="text-xs font-mono text-terracotta-700 font-medium">
+              {post.readingTime}
+            </span>
+          </div>
+
+          <!-- Title -->
+          <h3 class="font-serif text-2xl sm:text-3xl lg:text-3xl font-bold text-charcoal-950 group-hover:text-terracotta-700 transition-colors leading-tight mb-4">
+            <a href={`/blogs/${post.slug}`} class="focus:outline-none">
+              {post.data.title}
+            </a>
+          </h3>
+
+          <!-- Excerpt / Description -->
+          <p class="text-charcoal-600 font-sans text-base leading-relaxed line-clamp-3 mb-6">
+            {post.data.description}
+          </p>
+
+          <!-- Tags -->
+          <div class="flex flex-wrap gap-1.5 mb-6">
+            {
+              post.data.tags.map((tag) => (
+                <a
+                  href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                  class="text-xs font-mono px-2.5 py-0.5 rounded bg-parchment-100 hover:bg-parchment-200 text-charcoal-600 transition-colors"
+                >
+                  #{tag}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Read Article Action -->
+        <div class="pt-6 border-t border-parchment-200 flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <div class="w-7 h-7 rounded-full bg-parchment-200 flex items-center justify-center text-[10px] font-bold text-charcoal-700 font-serif">
+              AR
+            </div>
+            <span class="text-xs text-charcoal-600 font-medium font-sans">
+              {post.data.author}
+            </span>
+          </div>
+
+          <a
+            href={`/blogs/${post.slug}`}
+            class="inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700 group-hover:translate-x-0.5 transition-all"
+          >
+            Read Article
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+</section>

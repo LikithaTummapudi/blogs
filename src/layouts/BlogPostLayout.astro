@@ -1,0 +1,291 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import CategoryBadge from '@components/CategoryBadge.astro';
+import TableOfContents from '@components/TableOfContents.astro';
+import ReadingProgress from '@components/ReadingProgress.astro';
+import PostCard from '@components/PostCard.astro';
+import { formatDate, type PostWithMeta } from '@utils/content';
+import { siteConfig } from '@config/site';
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  post: PostWithMeta;
+  headings: MarkdownHeading[];
+  prevPost?: PostWithMeta | null;
+  nextPost?: PostWithMeta | null;
+  relatedPosts?: PostWithMeta[];
+}
+
+const { post, headings, prevPost, nextPost, relatedPosts = [] } = Astro.props;
+const currentUrl = new URL(Astro.url.pathname, Astro.site || siteConfig.url).toString();
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  image={post.data.coverImage}
+  articleDate={post.data.pubDate}
+  articleAuthor={post.data.author}
+  type="article"
+>
+  <ReadingProgress />
+
+  <article class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+    <!-- Breadcrumb & Back Link -->
+    <div class="mb-8 flex items-center justify-between text-xs font-mono text-charcoal-500">
+      <a
+        href="/blogs"
+        class="inline-flex items-center gap-1.5 text-charcoal-600 hover:text-terracotta-600 transition-colors group"
+      >
+        <svg class="w-4 h-4 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Back to All Articles
+      </a>
+
+      <div class="flex items-center gap-2">
+        <span class="text-charcoal-400">Published in</span>
+        <a href={`/categories/${post.data.category.toLowerCase().replace(/\s+/g, '-')}`} class="text-terracotta-700 hover:underline">
+          {post.data.category}
+        </a>
+      </div>
+    </div>
+
+    <!-- Article Header -->
+    <header class="max-w-3xl mx-auto text-center mb-12">
+      <!-- Category & Meta Bar -->
+      <div class="flex items-center justify-center gap-3 mb-6">
+        <CategoryBadge category={post.data.category} size="md" />
+        <span class="text-xs text-charcoal-400">&bull;</span>
+        <span class="text-xs font-mono text-charcoal-600">
+          {formatDate(post.data.pubDate)}
+        </span>
+        <span class="text-xs text-charcoal-400">&bull;</span>
+        <span class="text-xs font-mono text-terracotta-700 font-semibold">
+          {post.readingTime}
+        </span>
+      </div>
+
+      <!-- Article Title -->
+      <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-charcoal-950 leading-[1.18] mb-6">
+        {post.data.title}
+      </h1>
+
+      <!-- Article Subtitle / Description -->
+      <p class="text-lg sm:text-xl text-charcoal-600 leading-relaxed font-sans mb-8 max-w-2xl mx-auto">
+        {post.data.description}
+      </p>
+
+      <!-- Author Card & Date Info -->
+      <div class="inline-flex items-center gap-3.5 px-4 py-2 rounded-full bg-parchment-100 border border-parchment-200">
+        <img
+          src={siteConfig.author.avatar}
+          alt={post.data.author}
+          class="w-8 h-8 rounded-full border border-parchment-300 object-cover bg-white"
+        />
+        <div class="text-left">
+          <p class="text-xs font-semibold text-charcoal-900 font-sans leading-tight">
+            {post.data.author}
+          </p>
+          <p class="text-[11px] text-charcoal-500 font-mono">
+            {siteConfig.author.role}
+          </p>
+        </div>
+        {
+          post.data.updatedDate && (
+            <span class="hidden sm:inline-block text-[11px] font-mono text-charcoal-400 border-l border-parchment-300 pl-3">
+              Updated {formatDate(post.data.updatedDate)}
+            </span>
+          )
+        }
+      </div>
+    </header>
+
+    <!-- Cover Image -->
+    <div class="max-w-4xl mx-auto mb-14 rounded-2xl overflow-hidden border border-parchment-300 shadow-sm bg-charcoal-950">
+      <img
+        src={post.data.coverImage}
+        alt={post.data.coverAlt || post.data.title}
+        class="w-full max-h-[500px] object-cover object-center"
+      />
+      {
+        post.data.coverAlt && (
+          <div class="px-4 py-2.5 bg-parchment-100/80 border-t border-parchment-200 text-center text-xs font-mono text-charcoal-500">
+            {post.data.coverAlt}
+          </div>
+        )
+      }
+    </div>
+
+    <!-- Article Body with Sticky Table of Contents -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start max-w-5xl mx-auto">
+      <!-- Main Content (8 cols on desktop) -->
+      <div class="lg:col-span-8 min-w-0">
+        <div class="prose prose-lg max-w-none prose-charcoal">
+          <slot />
+        </div>
+
+        <!-- Article Tags -->
+        <div class="mt-12 pt-6 border-t border-parchment-200">
+          <div class="flex items-center gap-2 mb-3 text-xs font-mono font-bold uppercase tracking-wider text-charcoal-500">
+            <span>Tags &amp; Topics:</span>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            {
+              post.data.tags.map((tag) => (
+                <a
+                  href={`/tags/${tag.toLowerCase().replace(/\s+/g, '-')}`}
+                  class="text-xs font-mono px-3 py-1 rounded-md bg-parchment-100 hover:bg-parchment-200 text-charcoal-700 transition-colors border border-parchment-200"
+                >
+                  #{tag}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Share & Mentorship Feedback Bar -->
+        <div class="mt-10 p-6 rounded-xl bg-parchment-100 border border-parchment-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div class="text-center sm:text-left">
+            <h4 class="font-serif font-bold text-base text-charcoal-950">Feedback or Thoughts?</h4>
+            <p class="text-xs text-charcoal-600 mt-0.5">
+              I read every comment and critique. Reach out on LinkedIn or GitHub.
+            </p>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <!-- Copy Article Link Button -->
+            <button
+              type="button"
+              id="copy-article-link-btn"
+              class="px-3 py-1.5 rounded-lg bg-white border border-parchment-300 hover:bg-parchment-50 text-xs font-medium text-charcoal-700 transition-colors flex items-center gap-1.5 shadow-2xs"
+            >
+              <svg class="w-3.5 h-3.5 text-charcoal-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+              </svg>
+              <span id="copy-link-text">Copy Link</span>
+            </button>
+
+            <!-- Share on Twitter -->
+            <a
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.data.title)}&url=${encodeURIComponent(currentUrl)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="p-2 rounded-lg bg-white border border-parchment-300 hover:bg-parchment-50 text-charcoal-700 transition-colors shadow-2xs"
+              aria-label="Share on X / Twitter"
+            >
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+              </svg>
+            </a>
+
+            <!-- Share on LinkedIn -->
+            <a
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(currentUrl)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="p-2 rounded-lg bg-white border border-parchment-300 hover:bg-parchment-50 text-charcoal-700 transition-colors shadow-2xs"
+              aria-label="Share on LinkedIn"
+            >
+              <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Next & Previous Article Navigation -->
+        <nav class="mt-12 pt-8 border-t border-parchment-200 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {
+            prevPost ? (
+              <a
+                href={`/blogs/${prevPost.slug}`}
+                class="group p-4 rounded-xl border border-parchment-200 bg-white hover:border-terracotta-300 hover:bg-parchment-100 transition-all flex flex-col justify-between shadow-2xs"
+              >
+                <div class="text-[11px] font-mono text-charcoal-400 mb-1 flex items-center gap-1">
+                  <span>&larr;</span> Previous Article
+                </div>
+                <h5 class="font-serif font-bold text-sm text-charcoal-900 group-hover:text-terracotta-700 transition-colors line-clamp-2">
+                  {prevPost.data.title}
+                </h5>
+              </a>
+            ) : (
+              <div class="hidden sm:block"></div>
+            )
+          }
+
+          {
+            nextPost ? (
+              <a
+                href={`/blogs/${nextPost.slug}`}
+                class="group p-4 rounded-xl border border-parchment-200 bg-white hover:border-terracotta-300 hover:bg-parchment-100 transition-all flex flex-col justify-between text-right shadow-2xs"
+              >
+                <div class="text-[11px] font-mono text-charcoal-400 mb-1 flex items-center justify-end gap-1">
+                  Next Article <span>&rarr;</span>
+                </div>
+                <h5 class="font-serif font-bold text-sm text-charcoal-900 group-hover:text-terracotta-700 transition-colors line-clamp-2">
+                  {nextPost.data.title}
+                </h5>
+              </a>
+            ) : (
+              <div class="hidden sm:block"></div>
+            )
+          }
+        </nav>
+      </div>
+
+      <!-- Sticky Table of Contents (4 cols on desktop) -->
+      <div class="lg:col-span-4 hidden lg:block">
+        <TableOfContents headings={headings} />
+      </div>
+    </div>
+
+    <!-- Related Articles Section -->
+    {
+      relatedPosts.length > 0 && (
+        <section class="mt-20 pt-12 border-t border-parchment-200">
+          <div class="flex items-center justify-between mb-8">
+            <h3 class="font-serif text-2xl font-bold text-charcoal-950">
+              Related Publications
+            </h3>
+            <a
+              href="/blogs"
+              class="text-xs font-mono text-terracotta-700 hover:underline inline-flex items-center gap-1"
+            >
+              All Articles &rarr;
+            </a>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {relatedPosts.map((related) => (
+              <PostCard post={related} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </article>
+</BaseLayout>
+
+<script>
+  function setupCopyLink() {
+    const btn = document.getElementById('copy-article-link-btn');
+    const textSpan = document.getElementById('copy-link-text');
+
+    btn?.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        if (textSpan) textSpan.textContent = 'Copied!';
+        btn.classList.add('bg-sage-50', 'text-sage-700', 'border-sage-300');
+        setTimeout(() => {
+          if (textSpan) textSpan.textContent = 'Copy Link';
+          btn.classList.remove('bg-sage-50', 'text-sage-700', 'border-sage-300');
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy URL', err);
+      }
+    });
+  }
+
+  setupCopyLink();
+  document.addEventListener('astro:after-swap', setupCopyLink);
+</script>

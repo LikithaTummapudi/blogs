@@ -1,0 +1,160 @@
+import typography from '@tailwindcss/typography';
+
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      colors: {
+        parchment: {
+          50: '#FAF7F2',
+          100: '#F5EFE6',
+          200: '#ECE3D4',
+          300: '#DFD3C0',
+          400: '#C8B79D',
+          500: '#AA9476',
+        },
+        charcoal: {
+          50: '#F6F6F6',
+          100: '#E7E7E6',
+          200: '#D1CFCD',
+          300: '#B0ACA8',
+          400: '#8A8480',
+          500: '#736E67',
+          600: '#5A554F',
+          700: '#3D3A37',
+          800: '#282624',
+          900: '#1A1918',
+          950: '#0E0D0D',
+        },
+        terracotta: {
+          50: '#FDF6F4',
+          100: '#F9EBE6',
+          200: '#F3D5CA',
+          300: '#EABAA9',
+          400: '#DE8B72',
+          500: '#C2593F',
+          600: '#A8432A',
+          700: '#8A321D',
+          800: '#6E2718',
+        },
+        sage: {
+          50: '#F4F7F5',
+          100: '#E6EEE9',
+          200: '#CFDDD3',
+          300: '#ABC3B2',
+          400: '#7DA487',
+          500: '#568462',
+          600: '#3D6B56',
+          700: '#2E5040',
+        },
+        amberGold: {
+          50: '#FDF8F0',
+          100: '#FAEFDD',
+          200: '#F4DCB5',
+          300: '#ECC386',
+          400: '#DF9F4C',
+          500: '#B86C25',
+          600: '#9E551B',
+        },
+      },
+      fontFamily: {
+        serif: ['Newsreader', 'Georgia', 'Playfair Display', 'serif'],
+        sans: ['"Plus Jakarta Sans"', 'Inter', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', 'sans-serif'],
+        mono: ['"JetBrains Mono"', '"Fira Code"', 'monospace'],
+      },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            color: theme('colors.charcoal.700'),
+            lineHeight: '1.8',
+            maxWidth: '72ch',
+            p: {
+              marginBottom: '1.4em',
+            },
+            h1: {
+              color: theme('colors.charcoal.900'),
+              fontFamily: theme('fontFamily.serif').join(', '),
+              fontWeight: '600',
+              letterSpacing: '-0.02em',
+            },
+            h2: {
+              color: theme('colors.charcoal.900'),
+              fontFamily: theme('fontFamily.serif').join(', '),
+              fontWeight: '600',
+              letterSpacing: '-0.015em',
+              marginTop: '2em',
+              marginBottom: '0.8em',
+            },
+            h3: {
+              color: theme('colors.charcoal.900'),
+              fontFamily: theme('fontFamily.serif').join(', '),
+              fontWeight: '600',
+              marginTop: '1.6em',
+              marginBottom: '0.6em',
+            },
+            blockquote: {
+              fontFamily: theme('fontFamily.serif').join(', '),
+              fontStyle: 'italic',
+              fontWeight: '400',
+              color: theme('colors.charcoal.800'),
+              borderLeftColor: theme('colors.terracotta.500'),
+              borderLeftWidth: '3px',
+              paddingLeft: '1.25em',
+              backgroundColor: theme('colors.parchment.100'),
+              padding: '1em 1.5em',
+              borderRadius: '0.25rem',
+            },
+            code: {
+              color: theme('colors.terracotta.700'),
+              backgroundColor: theme('colors.parchment.100'),
+              paddingLeft: '0.35rem',
+              paddingRight: '0.35rem',
+              paddingTop: '0.15rem',
+              paddingBottom: '0.15rem',
+              borderRadius: '0.25rem',
+              fontWeight: '500',
+              fontSize: '0.875em',
+            },
+            'code::before': { content: '""' },
+            'code::after': { content: '""' },
+            hr: {
+              borderColor: theme('colors.parchment.300'),
+              marginTop: '3em',
+              marginBottom: '3em',
+            },
+            strong: {
+              color: theme('colors.charcoal.900'),
+              fontWeight: '600',
+            },
+            a: {
+              color: theme('colors.terracotta.600'),
+              textDecoration: 'underline',
+              textUnderlineOffset: '3px',
+              textDecorationColor: theme('colors.terracotta.300'),
+              '&:hover': {
+                color: theme('colors.terracotta.700'),
+                textDecorationColor: theme('colors.terracotta.600'),
+              },
+            },
+            table: {
+              fontSize: '0.9em',
+            },
+            th: {
+              color: theme('colors.charcoal.900'),
+              fontWeight: '600',
+              borderBottomColor: theme('colors.parchment.300'),
+            },
+            td: {
+              borderBottomColor: theme('colors.parchment.200'),
+            },
+          },
+        },
+      }),
+    },
+  },
+  plugins: [
+    typography,
+  ],
+};

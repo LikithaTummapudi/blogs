@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAF7F2" />
+      <stop offset="100%" stop-color="#ECE3D4" />
+    </linearGradient>
+    <linearGradient id="terracottaGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#C2593F" />
+      <stop offset="100%" stop-color="#8A321D" />
+    </linearGradient>
+  </defs>
+  <!-- Background Circle -->
+  <circle cx="60" cy="60" r="58" fill="url(#bgGrad)" stroke="#DFD3C0" stroke-width="2"/>
+  <!-- Decorative Ring -->
+  <circle cx="60" cy="60" r="50" fill="none" stroke="#C2593F" stroke-width="1" stroke-dasharray="3 3"/>
+  <!-- Head & Torso Minimalist Editorial Silhouette -->
+  <path d="M60 30 A16 16 0 1 1 60 62 A16 16 0 1 1 60 30" fill="#282624" />
+  <path d="M28 98 C32 76 44 70 60 70 C76 70 88 76 92 98 Z" fill="#282624" />
+  <!-- Small stylish glasses or collar accent -->
+  <circle cx="54" cy="45" r="4.5" fill="none" stroke="#FAF7F2" stroke-width="1.5" />
+  <circle cx="66" cy="45" r="4.5" fill="none" stroke="#FAF7F2" stroke-width="1.5" />
+  <line x1="58.5" y1="45" x2="61.5" y2="45" stroke="#FAF7F2" stroke-width="1.5" />
+  <circle cx="60" cy="84" r="2.5" fill="#C2593F" />
+</svg>

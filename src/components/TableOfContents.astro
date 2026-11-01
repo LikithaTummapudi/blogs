@@ -1,0 +1,96 @@
+---
+import type { MarkdownHeading } from 'astro';
+
+interface Props {
+  headings: MarkdownHeading[];
+}
+
+const { headings } = Astro.props;
+
+// Filter for H2 and H3 headings
+const filteredHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{
+  filteredHeadings.length > 0 && (
+    <aside class="toc-container hidden lg:block sticky top-28 self-start w-64 max-h-[calc(100vh-8rem)] overflow-y-auto pl-4 border-l-2 border-parchment-200">
+      <div class="flex items-center gap-2 mb-3 text-xs font-mono font-bold uppercase tracking-wider text-charcoal-700">
+        <svg class="w-3.5 h-3.5 text-terracotta-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h10M4 18h14" />
+        </svg>
+        Table of Contents
+      </div>
+
+      <nav class="space-y-1">
+        {filteredHeadings.map((heading) => (
+          <a
+            href={`#${heading.slug}`}
+            data-heading-slug={heading.slug}
+            class={`toc-link block text-xs leading-relaxed transition-all duration-150 py-1 hover:text-terracotta-600 ${
+              heading.depth === 3 ? 'pl-3 text-charcoal-500' : 'font-medium text-charcoal-700'
+            }`}
+          >
+            {heading.text}
+          </a>
+        ))}
+      </nav>
+    </aside>
+  )
+}
+
+<script>
+  function setupTOCSpy() {
+    const links = document.querySelectorAll<HTMLAnchorElement>('.toc-link');
+    if (links.length === 0) return;
+
+    const headingElements: HTMLElement[] = [];
+    links.forEach((link) => {
+      const slug = link.getAttribute('data-heading-slug');
+      if (slug) {
+        const el = document.getElementById(slug);
+        if (el) headingElements.push(el);
+      }
+    });
+
+    if (headingElements.length === 0) return;
+
+    let activeSlug = '';
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            activeSlug = entry.target.id;
+            updateActiveLink();
+          }
+        });
+      },
+      {
+        rootMargin: '-80px 0% -60% 0%',
+        threshold: 0.1,
+      }
+    );
+
+    headingElements.forEach((el) => observer.observe(el));
+
+    function updateActiveLink() {
+      links.forEach((link) => {
+        const slug = link.getAttribute('data-heading-slug');
+        if (slug === activeSlug) {
+          link.classList.add('text-terracotta-600', 'font-semibold', 'translate-x-1');
+          link.classList.remove('text-charcoal-500', 'text-charcoal-700');
+        } else {
+          link.classList.remove('text-terracotta-600', 'font-semibold', 'translate-x-1');
+          if (link.classList.contains('pl-3')) {
+            link.classList.add('text-charcoal-500');
+          } else {
+            link.classList.add('text-charcoal-700');
+          }
+        }
+      });
+    }
+  }
+
+  setupTOCSpy();
+  document.addEventListener('astro:after-swap', setupTOCSpy);
+</script>

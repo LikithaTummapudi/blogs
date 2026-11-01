@@ -1,0 +1,158 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/Hero.astro';
+import FeaturedPost from '@components/FeaturedPost.astro';
+import PostCard from '@components/PostCard.astro';
+import { getAllBlogs, getFeaturedBlog, getAllCategories } from '@utils/content';
+import { siteConfig } from '@config/site';
+
+const allPosts = await getAllBlogs();
+const featuredPost = await getFeaturedBlog();
+const categories = await getAllCategories();
+
+// Get the latest 6 posts (excluding the featured one if you wish, or keeping newest first)
+const latestPosts = allPosts.slice(0, 6);
+---
+
+<BaseLayout
+  title={siteConfig.title}
+  description={siteConfig.description}
+>
+  <!-- Hero Section -->
+  <Hero />
+
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Featured Article Section -->
+    {featuredPost && <FeaturedPost post={featuredPost} />}
+
+    <!-- Latest Articles Grid Section -->
+    <section class="py-16 border-b border-parchment-200">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+        <div>
+          <div class="inline-flex items-center gap-2 text-xs font-mono font-bold tracking-widest uppercase text-charcoal-700 mb-2">
+            <span class="w-2 h-2 rounded-full bg-sage-600"></span>
+            Chronological Archive
+          </div>
+          <h2 class="font-serif text-3xl font-bold text-charcoal-950">
+            Latest Publications
+          </h2>
+        </div>
+
+        <a
+          href="/blogs"
+          class="inline-flex items-center gap-1.5 text-sm font-semibold text-terracotta-600 hover:text-terracotta-700 transition-colors group"
+        >
+          View All {allPosts.length} Articles
+          <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+          </svg>
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {latestPosts.map((post) => (
+          <PostCard post={post} />
+        ))}
+      </div>
+
+      {latestPosts.length === 0 && (
+        <div class="py-12 text-center text-charcoal-500 font-sans">
+          No articles published yet. New articles will appear here automatically.
+        </div>
+      )}
+    </section>
+
+    <!-- Categories Directory Section -->
+    <section class="py-16 border-b border-parchment-200">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <div class="text-xs font-mono font-bold tracking-widest uppercase text-charcoal-700 mb-1">
+            Taxonomy &amp; Themes
+          </div>
+          <h2 class="font-serif text-2xl sm:text-3xl font-bold text-charcoal-950">
+            Explore by Category
+          </h2>
+        </div>
+        <a href="/categories" class="text-xs font-mono text-terracotta-700 hover:underline">
+          All Categories &rarr;
+        </a>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {
+          categories.map((cat) => (
+            <a
+              href={`/categories/${cat.slug}`}
+              class="group p-6 rounded-xl bg-white border border-parchment-300 hover:border-terracotta-300 transition-all duration-200 flex flex-col justify-between shadow-2xs hover:shadow-sm"
+            >
+              <div>
+                <div class="flex items-center justify-between mb-3">
+                  <span class="text-xs font-mono font-semibold px-2.5 py-0.5 rounded-full bg-parchment-100 text-charcoal-700 uppercase">
+                    {cat.count} {cat.count === 1 ? 'Article' : 'Articles'}
+                  </span>
+                  <span class="text-charcoal-400 group-hover:text-terracotta-600 group-hover:translate-x-1 transition-all">
+                    &rarr;
+                  </span>
+                </div>
+                <h3 class="font-serif font-bold text-lg text-charcoal-950 group-hover:text-terracotta-700 transition-colors mb-2">
+                  {cat.name}
+                </h3>
+                <p class="text-xs text-charcoal-600 line-clamp-2 leading-relaxed">
+                  {cat.description}
+                </p>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+
+    <!-- Author & Mentor Preview Section -->
+    <section class="py-16">
+      <div class="rounded-2xl bg-parchment-100 border border-parchment-300 p-8 sm:p-12 relative overflow-hidden">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          <div class="md:col-span-3 flex justify-center">
+            <div class="relative">
+              <img
+                src={siteConfig.author.avatar}
+                alt={siteConfig.author.name}
+                class="w-32 h-32 rounded-full border-2 border-parchment-300 object-cover bg-white shadow-sm"
+              />
+              <div class="absolute bottom-0 right-0 w-6 h-6 rounded-full bg-sage-600 text-white flex items-center justify-center text-xs shadow-sm font-bold">
+                ✓
+              </div>
+            </div>
+          </div>
+
+          <div class="md:col-span-9 space-y-4 text-center md:text-left">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-parchment-300 text-[11px] font-mono uppercase tracking-wider text-charcoal-700 shadow-2xs">
+              About the Author
+            </div>
+            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-charcoal-950">
+              Curiosity-driven engineering and weekly accountability.
+            </h2>
+            <p class="text-sm sm:text-base text-charcoal-600 leading-relaxed max-w-2xl">
+              I am {siteConfig.author.name}, currently pursuing {siteConfig.author.academic}. I started this publication as a disciplined commitment to write weekly technical syntheses, deepen my engineering fundamentals, and receive constructive feedback from my mentors and peers.
+            </p>
+            <div class="pt-2 flex flex-wrap items-center justify-center md:justify-start gap-4">
+              <a
+                href="/about"
+                class="inline-flex items-center justify-center px-5 py-2.5 rounded-lg bg-charcoal-900 hover:bg-terracotta-600 text-parchment-50 text-xs font-semibold tracking-wide transition-colors shadow-2xs"
+              >
+                Read Complete Bio &rarr;
+              </a>
+              <a
+                href={siteConfig.social.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-flex items-center justify-center px-4 py-2.5 rounded-lg bg-white border border-parchment-300 hover:bg-parchment-200 text-charcoal-700 text-xs font-medium transition-colors"
+              >
+                GitHub Profile
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>

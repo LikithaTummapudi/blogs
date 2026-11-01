@@ -1,0 +1,45 @@
+---
+import { slugify } from '@utils/content';
+
+interface Props {
+  category: string;
+  size?: 'sm' | 'md';
+  clickable?: boolean;
+}
+
+const { category, size = 'sm', clickable = true } = Astro.props;
+
+// Determine color scheme based on category
+const lower = category.toLowerCase();
+let colorClasses = 'bg-parchment-200 text-charcoal-800 border-parchment-300 hover:bg-parchment-300';
+
+if (lower.includes('intelligence') || lower.includes('ai') || lower.includes('machine learning')) {
+  colorClasses = 'bg-terracotta-50 text-terracotta-700 border-terracotta-200 hover:bg-terracotta-100';
+} else if (lower.includes('programming') || lower.includes('software')) {
+  colorClasses = 'bg-sage-50 text-sage-700 border-sage-200 hover:bg-sage-100';
+} else if (lower.includes('learning') || lower.includes('experience')) {
+  colorClasses = 'bg-amberGold-50 text-amberGold-600 border-amberGold-200 hover:bg-amberGold-100';
+} else if (lower.includes('project') || lower.includes('experiment')) {
+  colorClasses = 'bg-parchment-200 text-charcoal-800 border-parchment-300 hover:bg-parchment-300';
+}
+
+const sizeClasses = size === 'sm' ? 'text-xs px-2.5 py-0.5' : 'text-sm px-3.5 py-1';
+const slug = slugify(category);
+---
+
+{
+  clickable ? (
+    <a
+      href={`/categories/${slug}`}
+      class={`inline-flex items-center font-medium rounded-full border transition-colors duration-150 tracking-wide uppercase ${sizeClasses} ${colorClasses}`}
+    >
+      {category}
+    </a>
+  ) : (
+    <span
+      class={`inline-flex items-center font-medium rounded-full border tracking-wide uppercase ${sizeClasses} ${colorClasses}`}
+    >
+      {category}
+    </span>
+  )
+}

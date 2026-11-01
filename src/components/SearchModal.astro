@@ -1,0 +1,281 @@
+---
+import { getAllBlogs } from '@utils/content';
+
+const allPosts = await getAllBlogs();
+const searchIndex = allPosts.map((post) => ({
+  slug: post.slug,
+  title: post.data.title,
+  description: post.data.description,
+  category: post.data.category,
+  tags: post.data.tags,
+  pubDate: post.data.pubDate,
+  readingTime: post.readingTime,
+}));
+---
+
+<div
+  id="search-modal"
+  class="fixed inset-0 z-50 hidden items-start justify-center pt-16 sm:pt-24 px-4 bg-charcoal-950/50 backdrop-blur-xs transition-opacity duration-200"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="search-modal-title"
+>
+  <!-- Modal Dialog -->
+  <div class="relative w-full max-w-2xl bg-white rounded-2xl shadow-2xl border border-parchment-300 overflow-hidden flex flex-col max-h-[80vh] animate-in fade-in zoom-in-95 duration-150">
+    <!-- Search Input Bar -->
+    <div class="flex items-center px-4 py-3.5 border-b border-parchment-200 gap-3 bg-parchment-50">
+      <svg class="w-5 h-5 text-charcoal-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+      <input
+        type="text"
+        id="search-input"
+        placeholder="Search articles by title, topic, or keyword..."
+        class="w-full bg-transparent text-charcoal-900 placeholder-charcoal-400 text-base focus:outline-none font-sans"
+        autocomplete="off"
+        spellcheck="false"
+      />
+      <button
+        type="button"
+        id="search-close-btn"
+        class="p-1.5 rounded-lg text-charcoal-400 hover:text-charcoal-700 hover:bg-parchment-200 transition-colors"
+        aria-label="Close search"
+      >
+        <kbd class="px-2 py-0.5 text-xs font-mono bg-white border border-parchment-300 rounded text-charcoal-500">
+          ESC
+        </kbd>
+      </button>
+    </div>
+
+    <!-- Quick Category Filter Pills -->
+    <div class="flex items-center gap-1.5 px-4 py-2 border-b border-parchment-100 bg-parchment-100/50 overflow-x-auto text-xs">
+      <span class="text-charcoal-500 shrink-0 font-mono text-[11px] mr-1">Filter:</span>
+      <button type="button" class="search-category-filter px-2 py-0.5 rounded bg-white border border-parchment-300 text-charcoal-700 hover:bg-terracotta-50 hover:text-terracotta-700 transition-colors" data-cat="all">
+        All
+      </button>
+      <button type="button" class="search-category-filter px-2 py-0.5 rounded bg-white border border-parchment-300 text-charcoal-700 hover:bg-terracotta-50 hover:text-terracotta-700 transition-colors" data-cat="Artificial Intelligence">
+        AI
+      </button>
+      <button type="button" class="search-category-filter px-2 py-0.5 rounded bg-white border border-parchment-300 text-charcoal-700 hover:bg-terracotta-50 hover:text-terracotta-700 transition-colors" data-cat="Programming">
+        Programming
+      </button>
+      <button type="button" class="search-category-filter px-2 py-0.5 rounded bg-white border border-parchment-300 text-charcoal-700 hover:bg-terracotta-50 hover:text-terracotta-700 transition-colors" data-cat="Learning & Experiences">
+        Learning
+      </button>
+    </div>
+
+    <!-- Results Container -->
+    <div id="search-results" class="p-4 overflow-y-auto space-y-2 flex-1">
+      <div id="search-initial-state" class="py-8 text-center text-sm text-charcoal-500">
+        <p class="font-serif text-lg text-charcoal-800 mb-1">What would you like to explore?</p>
+        <p class="text-xs">Type keywords like <span class="font-mono text-terracotta-700">"Transformers"</span>, <span class="font-mono text-terracotta-700">"APIs"</span>, or <span class="font-mono text-terracotta-700">"Rust"</span>.</p>
+      </div>
+      <div id="search-empty-state" class="hidden py-8 text-center text-sm text-charcoal-500">
+        <p class="font-serif text-lg text-charcoal-800 mb-1">No matching articles found</p>
+        <p class="text-xs">Try adjusting your query or exploring our categories.</p>
+      </div>
+      <div id="search-items-list" class="space-y-2"></div>
+    </div>
+
+    <!-- Modal Footer -->
+    <div class="px-4 py-2.5 border-t border-parchment-200 bg-parchment-50 flex items-center justify-between text-xs text-charcoal-500 font-mono">
+      <div class="flex items-center gap-3">
+        <span><kbd class="px-1.5 py-0.5 bg-white border border-parchment-300 rounded text-[10px]">↑</kbd> <kbd class="px-1.5 py-0.5 bg-white border border-parchment-300 rounded text-[10px]">↓</kbd> navigate</span>
+        <span><kbd class="px-1.5 py-0.5 bg-white border border-parchment-300 rounded text-[10px]">↵</kbd> select</span>
+      </div>
+      <span id="search-result-count">3 articles indexed</span>
+    </div>
+  </div>
+</div>
+
+<script type="application/json" id="search-index-json" set:html={JSON.stringify(searchIndex)} />
+
+<script>
+  function setupSearch() {
+    const modal = document.getElementById('search-modal');
+    const input = document.getElementById('search-input') as HTMLInputElement | null;
+    const triggerBtn = document.getElementById('search-trigger-btn');
+    const closeBtn = document.getElementById('search-close-btn');
+    const resultsContainer = document.getElementById('search-items-list');
+    const initialState = document.getElementById('search-initial-state');
+    const emptyState = document.getElementById('search-empty-state');
+    const countLabel = document.getElementById('search-result-count');
+    const catFilters = document.querySelectorAll('.search-category-filter');
+
+    if (!modal || !input || !resultsContainer) return;
+
+    let searchData: Array<{
+      slug: string;
+      title: string;
+      description: string;
+      category: string;
+      tags: string[];
+      pubDate: string;
+      readingTime: string;
+    }> = [];
+
+    try {
+      const raw = document.getElementById('search-index-json')?.textContent;
+      if (raw) searchData = JSON.parse(raw);
+    } catch (e) {
+      console.error('Failed to parse search index', e);
+    }
+
+    let selectedIndex = -1;
+    let selectedCat = 'all';
+
+    function openSearch() {
+      modal?.classList.remove('hidden');
+      modal?.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => input?.focus(), 50);
+      renderResults(input?.value || '');
+    }
+
+    function closeSearch() {
+      modal?.classList.add('hidden');
+      modal?.classList.remove('flex');
+      document.body.style.overflow = '';
+      if (input) input.value = '';
+      selectedIndex = -1;
+    }
+
+    triggerBtn?.addEventListener('click', openSearch);
+    closeBtn?.addEventListener('click', closeSearch);
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeSearch();
+    });
+
+    // Keyboard shortcut Ctrl+K or Cmd+K or / to open
+    document.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (modal.classList.contains('hidden')) {
+          openSearch();
+        } else {
+          closeSearch();
+        }
+      } else if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        closeSearch();
+      }
+    });
+
+    catFilters.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        catFilters.forEach((b) => b.classList.remove('bg-terracotta-600', 'text-white'));
+        btn.classList.add('bg-terracotta-600', 'text-white');
+        selectedCat = (btn as HTMLElement).dataset.cat || 'all';
+        renderResults(input?.value || '');
+      });
+    });
+
+    input.addEventListener('input', () => {
+      renderResults(input.value);
+    });
+
+    input.addEventListener('keydown', (e) => {
+      const items = resultsContainer.querySelectorAll<HTMLAnchorElement>('.search-result-item');
+      if (items.length === 0) return;
+
+      if (e.key === 'ArrowDown') {
+        e.preventDefault();
+        selectedIndex = (selectedIndex + 1) % items.length;
+        updateItemSelection(items);
+      } else if (e.key === 'ArrowUp') {
+        e.preventDefault();
+        selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+        updateItemSelection(items);
+      } else if (e.key === 'Enter') {
+        e.preventDefault();
+        if (selectedIndex >= 0 && selectedIndex < items.length) {
+          items[selectedIndex].click();
+        } else if (items.length > 0) {
+          items[0].click();
+        }
+      }
+    });
+
+    function updateItemSelection(items: NodeListOf<HTMLAnchorElement>) {
+      items.forEach((item, idx) => {
+        if (idx === selectedIndex) {
+          item.classList.add('bg-parchment-200', 'border-terracotta-400');
+          item.scrollIntoView({ block: 'nearest' });
+        } else {
+          item.classList.remove('bg-parchment-200', 'border-terracotta-400');
+        }
+      });
+    }
+
+    function renderResults(query: string) {
+      const q = query.trim().toLowerCase();
+      selectedIndex = -1;
+
+      let filtered = searchData;
+      if (selectedCat !== 'all') {
+        filtered = filtered.filter((item) => item.category.toLowerCase() === selectedCat.toLowerCase());
+      }
+
+      if (q) {
+        filtered = filtered.filter((item) => {
+          const matchTitle = item.title.toLowerCase().includes(q);
+          const matchDesc = item.description.toLowerCase().includes(q);
+          const matchCat = item.category.toLowerCase().includes(q);
+          const matchTags = item.tags.some((t) => t.toLowerCase().includes(q));
+          return matchTitle || matchDesc || matchCat || matchTags;
+        });
+      }
+
+      if (countLabel) {
+        countLabel.textContent = `${filtered.length} article${filtered.length === 1 ? '' : 's'} found`;
+      }
+
+      if (resultsContainer && initialState && emptyState) {
+        if (!q && selectedCat === 'all') {
+          initialState.classList.remove('hidden');
+          emptyState.classList.add('hidden');
+          resultsContainer.innerHTML = '';
+          return;
+        }
+
+        initialState.classList.add('hidden');
+
+        if (filtered.length === 0) {
+          emptyState.classList.remove('hidden');
+          resultsContainer.innerHTML = '';
+          return;
+        }
+
+        emptyState.classList.add('hidden');
+        resultsContainer.innerHTML = filtered
+          .map(
+            (item, idx) => `
+            <a
+              href="/blogs/${item.slug}"
+              class="search-result-item block p-3.5 rounded-xl border border-parchment-200 hover:border-terracotta-300 hover:bg-parchment-100 transition-all duration-150 group"
+              data-index="${idx}"
+            >
+              <div class="flex items-center justify-between gap-2 mb-1.5">
+                <span class="text-[10px] font-mono font-semibold uppercase tracking-wider text-terracotta-700 bg-terracotta-50 px-2 py-0.5 rounded">
+                  ${item.category}
+                </span>
+                <span class="text-xs text-charcoal-400 font-mono">${item.readingTime}</span>
+              </div>
+              <h4 class="font-serif font-bold text-base text-charcoal-950 group-hover:text-terracotta-700 transition-colors leading-snug">
+                ${item.title}
+              </h4>
+              <p class="text-xs text-charcoal-600 line-clamp-2 mt-1">
+                ${item.description}
+              </p>
+            </a>
+          `
+          )
+          .join('');
+      }
+    }
+  }
+
+  setupSearch();
+  document.addEventListener('astro:after-swap', setupSearch);
+</script>
