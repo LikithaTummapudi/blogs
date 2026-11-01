@@ -1,0 +1,343 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
+  <defs>
+    <!-- Background Wall Gradient -->
+    <linearGradient id="wallGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FAF6F0" />
+      <stop offset="50%" stop-color="#F4ECE1" />
+      <stop offset="100%" stop-color="#EBE1D2" />
+    </linearGradient>
+
+    <!-- Warm Sunlight Beam Gradient -->
+    <linearGradient id="sunBeam" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF8E7" stop-opacity="0.45" />
+      <stop offset="60%" stop-color="#FFECC7" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#FFE0A8" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Wood Desk Gradient -->
+    <linearGradient id="deskWood" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#E8DFD1" />
+      <stop offset="40%" stop-color="#DDD2C1" />
+      <stop offset="100%" stop-color="#CBBCA8" />
+    </linearGradient>
+
+    <!-- Terracotta Glaze -->
+    <linearGradient id="terracottaGlaze" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#D76B50" />
+      <stop offset="60%" stop-color="#C2593F" />
+      <stop offset="100%" stop-color="#9C3C24" />
+    </linearGradient>
+
+    <!-- Golden Brown Book Spine -->
+    <linearGradient id="goldBook" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#D9A566" />
+      <stop offset="40%" stop-color="#C68F4D" />
+      <stop offset="100%" stop-color="#AA7436" />
+    </linearGradient>
+
+    <!-- Sage Plant Gradient -->
+    <linearGradient id="sageLeaf" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6B907D" />
+      <stop offset="100%" stop-color="#446855" />
+    </linearGradient>
+
+    <!-- Laptop Screen Glow -->
+    <linearGradient id="ideScreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#242831" />
+      <stop offset="100%" stop-color="#181B22" />
+    </linearGradient>
+
+    <!-- Drop Shadows -->
+    <filter id="softShadow" x="-10%" y="-10%" width="125%" height="125%">
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#4A3828" flood-opacity="0.08" />
+    </filter>
+    <filter id="crispShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="4" flood-color="#4A3828" flood-opacity="0.1" />
+    </filter>
+  </defs>
+
+  <!-- Background Wall Canvas -->
+  <rect width="500" height="500" fill="url(#wallGrad)" />
+
+  <!-- Ambient Artful Architectural Arch Frame -->
+  <path d="M 60 500 L 60 180 A 190 190 0 0 1 440 180 L 440 500 Z" fill="#F8F1E7" opacity="0.6" />
+  <path d="M 75 500 L 75 185 A 175 175 0 0 1 425 185 L 425 500 Z" fill="none" stroke="#E5DACB" stroke-width="1.2" stroke-dasharray="4 6" opacity="0.7" />
+
+  <!-- Window Sill & Warm Morning Sunlight Streaks -->
+  <polygon points="0,0 260,0 480,500 120,500" fill="url(#sunBeam)" />
+
+  <!-- Floating Minimalist Wall Shelf (Background) -->
+  <g id="wall-shelf" opacity="0.85">
+    <rect x="290" y="70" width="170" height="9" rx="2" fill="#D3C5B2" />
+    <polygon points="310,79 320,95 324,95 314,79" fill="#B3A38E" />
+    <polygon points="425,79 435,95 439,95 429,79" fill="#B3A38E" />
+    
+    <!-- Mini Potted Succulent on Shelf -->
+    <path d="M 330 70 L 344 70 L 341 52 L 333 52 Z" fill="#C2593F" />
+    <circle cx="337" cy="48" r="5" fill="#5F8572" />
+    <circle cx="333" cy="44" r="4" fill="#4E7360" />
+    <circle cx="341" cy="44" r="4" fill="#6B927E" />
+    
+    <!-- Small Framed Art Print on Shelf -->
+    <rect x="360" y="32" width="34" height="38" rx="2" fill="#FFFFFF" stroke="#C4B5A0" stroke-width="1.5" />
+    <circle cx="377" cy="46" r="6" fill="#DFA675" opacity="0.7" />
+    <path d="M 364 64 L 372 54 L 382 64 Z" fill="#A8624D" />
+    <path d="M 376 64 L 384 56 L 391 64 Z" fill="#698575" />
+
+    <!-- Tiny Ceramic Vase -->
+    <path d="M 412 70 C 410 60 416 50 419 46 L 423 46 C 426 50 432 60 430 70 Z" fill="#E8DED0" stroke="#CBBBA7" stroke-width="1" />
+    <!-- Dried Botanical Stems -->
+    <path d="M 421 46 Q 425 32 432 24" stroke="#B8A793" stroke-width="1.2" fill="none" stroke-linecap="round" />
+    <circle cx="432" cy="24" r="2" fill="#D4A373" />
+    <path d="M 421 46 Q 418 30 414 20" stroke="#B8A793" stroke-width="1.2" fill="none" stroke-linecap="round" />
+    <circle cx="414" cy="20" r="2" fill="#C2593F" />
+  </g>
+
+  <!-- Large Hanging / Trailing Leaf Plant (Top Left Corner) -->
+  <g id="hanging-plant" transform="translate(15, -10)">
+    <!-- Planter Rim -->
+    <ellipse cx="65" cy="55" rx="26" ry="7" fill="#C2593F" />
+    <path d="M 40 55 C 42 78 50 92 65 92 C 80 92 88 78 90 55 Z" fill="url(#terracottaGlaze)" />
+    <!-- Ropes -->
+    <line x1="44" y1="55" x2="65" y2="0" stroke="#C4B49E" stroke-width="1.5" />
+    <line x1="86" y1="55" x2="65" y2="0" stroke="#C4B49E" stroke-width="1.5" />
+    <!-- Trailing Ivy & Pothos Vines -->
+    <path d="M 52 70 Q 40 100 46 145 Q 50 175 42 205" stroke="#486D5A" stroke-width="1.8" fill="none" />
+    <path d="M 75 75 Q 88 115 82 155 Q 78 185 85 220" stroke="#3F614F" stroke-width="1.8" fill="none" />
+    <!-- Heart-shaped Leaves -->
+    <path d="M 42 95 C 32 90 32 108 42 112 C 52 108 52 90 42 95 Z" fill="#678E7A" />
+    <path d="M 48 135 C 36 130 36 148 48 154 C 58 148 58 130 48 135 Z" fill="#527865" />
+    <path d="M 44 175 C 34 170 34 186 44 192 C 54 186 54 170 44 175 Z" fill="#608774" />
+    <path d="M 82 105 C 92 100 92 118 82 124 C 72 118 72 100 82 105 Z" fill="#577E6A" />
+    <path d="M 80 145 C 92 140 92 158 80 164 C 70 158 70 140 80 145 Z" fill="#6E9783" />
+    <path d="M 83 185 C 95 180 95 198 83 204 C 73 198 73 180 83 185 Z" fill="#4B705D" />
+  </g>
+
+  <!-- Wooden Desk Surface -->
+  <g id="desk-surface">
+    <!-- Back Desk Bevel -->
+    <polygon points="0,270 500,270 500,278 0,278" fill="#BFAF9B" />
+    <!-- Desk Main Plane -->
+    <rect x="0" y="278" width="500" height="222" fill="url(#deskWood)" />
+    <!-- Warm Wood Grain Lines (Subtle) -->
+    <path d="M 0 310 Q 250 305 500 310" stroke="#D3C6B3" stroke-width="1" fill="none" opacity="0.6" />
+    <path d="M 0 365 Q 250 360 500 365" stroke="#D3C6B3" stroke-width="1" fill="none" opacity="0.6" />
+    <path d="M 0 420 Q 250 415 500 420" stroke="#D3C6B3" stroke-width="1" fill="none" opacity="0.6" />
+  </g>
+
+  <!-- Soft Ambient Shadow Layer under Desk Items -->
+  <ellipse cx="140" cy="390" rx="95" ry="30" fill="#9C8B76" opacity="0.2" />
+  <ellipse cx="360" cy="420" rx="90" ry="25" fill="#9C8B76" opacity="0.22" />
+  <ellipse cx="270" cy="330" rx="45" ry="14" fill="#9C8B76" opacity="0.18" />
+  <ellipse cx="430" cy="340" rx="40" ry="14" fill="#9C8B76" opacity="0.22" />
+
+  <!-- Item 1: Stack of Technical & Design Books (Back Left) -->
+  <g id="book-stack" transform="translate(45, 220)" filter="url(#crispShadow)">
+    <!-- Book 1 (Bottom - Deep Charcoal) -->
+    <path d="M 10 75 L 140 75 L 138 95 L 8 95 Z" fill="#2E333D" />
+    <rect x="135" y="78" width="7" height="14" fill="#F4EFE6" /> <!-- Pages -->
+    <text x="35" y="89" font-family="monospace" font-size="7.5" fill="#D3DAE5" letter-spacing="1">DESIGN PATTERNS</text>
+    <rect x="12" y="77" width="4" height="16" fill="#C2593F" /> <!-- Spine tag -->
+
+    <!-- Book 2 (Middle - Terracotta Rust) -->
+    <path d="M 18 56 L 135 56 L 133 74 L 16 74 Z" fill="url(#terracottaGlaze)" />
+    <rect x="130" y="59" width="7" height="12" fill="#F4EFE6" /> <!-- Pages -->
+    <text x="32" y="68" font-family="serif" font-style="italic" font-size="8" fill="#FFE8DF">Algorithms &amp; Logic</text>
+
+    <!-- Book 3 (Top - Golden Ochre) -->
+    <path d="M 25 39 L 128 39 L 126 55 L 23 55 Z" fill="url(#goldBook)" />
+    <rect x="123" y="42" width="6" height="11" fill="#F4EFE6" /> <!-- Pages -->
+    <text x="38" y="50" font-family="monospace" font-weight="bold" font-size="7" fill="#4A2E12">ARTIFICIAL INTEL</text>
+
+    <!-- Peeking Silk Ribbon Bookmark -->
+    <path d="M 85 55 Q 88 70 82 85 Q 80 92 84 96" stroke="#FAF6EE" stroke-width="2.5" fill="none" stroke-linecap="round" />
+  </g>
+
+  <!-- Item 2: Open Laptop with Subtle Code (Center-Left) -->
+  <g id="open-laptop" transform="translate(110, 240)" filter="url(#softShadow)">
+    <!-- Screen Bevel Outer -->
+    <rect x="15" y="15" width="165" height="110" rx="8" fill="#363A44" stroke="#252830" stroke-width="1.8" />
+    <!-- Web Camera Dot -->
+    <circle cx="97" cy="21" r="1.5" fill="#1C1E24" />
+
+    <!-- Glowing Screen Display (Dark Theme Code Editor) -->
+    <rect x="22" y="27" width="151" height="92" rx="4" fill="url(#ideScreen)" />
+
+    <!-- Window Control Dots -->
+    <circle cx="32" cy="36" r="2.2" fill="#E06C75" />
+    <circle cx="39" cy="36" r="2.2" fill="#E5C07B" />
+    <circle cx="46" cy="36" r="2.2" fill="#98C379" />
+
+    <!-- Editor Tab -->
+    <path d="M 58 31 L 98 31 L 94 41 L 58 41 Z" fill="#2E3440" />
+    <text x="64" y="38" font-family="monospace" font-size="5.5" fill="#D8DEE9">about.ts</text>
+
+    <!-- Subtle Programming Code Syntax Lines -->
+    <!-- Line 1: import statement -->
+    <text x="32" y="51" font-family="monospace" font-size="6" fill="#C678DD">const</text>
+    <text x="54" y="51" font-family="monospace" font-size="6" fill="#61AFEF">builder</text>
+    <text x="82" y="51" font-family="monospace" font-size="6" fill="#56B6C2">=</text>
+    <text x="90" y="51" font-family="monospace" font-size="6" fill="#98C379">"Likitha"</text>
+    <text x="124" y="51" font-family="monospace" font-size="6" fill="#ABB2BF">;</text>
+
+    <!-- Line 2: function definition -->
+    <text x="32" y="61" font-family="monospace" font-size="6" fill="#C678DD">async function</text>
+    <text x="84" y="61" font-family="monospace" font-size="6" fill="#61AFEF">create</text>
+    <text x="110" y="61" font-family="monospace" font-size="6" fill="#ABB2BF">() &#123;</text>
+
+    <!-- Line 3: indent statement -->
+    <text x="42" y="71" font-family="monospace" font-size="6" fill="#E5C07B">await</text>
+    <text x="65" y="71" font-family="monospace" font-size="6" fill="#61AFEF">explore</text>
+    <text x="96" y="71" font-family="monospace" font-size="6" fill="#ABB2BF">([</text>
+    <text x="103" y="71" font-family="monospace" font-size="6" fill="#98C379">'AI'</text>
+    <text x="118" y="71" font-family="monospace" font-size="6" fill="#ABB2BF">, </text>
+    <text x="124" y="71" font-family="monospace" font-size="6" fill="#98C379">'Web'</text>
+    <text x="144" y="71" font-family="monospace" font-size="6" fill="#ABB2BF">]);</text>
+
+    <!-- Line 4: return statement -->
+    <text x="42" y="81" font-family="monospace" font-size="6" fill="#C678DD">return</text>
+    <text x="70" y="81" font-family="monospace" font-size="6" fill="#D19A66">learnByBuilding</text>
+    <text x="135" y="81" font-family="monospace" font-size="6" fill="#ABB2BF">();</text>
+
+    <!-- Line 5: close bracket -->
+    <text x="32" y="91" font-family="monospace" font-size="6" fill="#ABB2BF">&#125;</text>
+
+    <!-- Cursor Pulse -->
+    <line x1="40" y1="87" x2="40" y2="92" stroke="#528BFF" stroke-width="1.5" />
+
+    <!-- Miniature Model Architecture Node Diagram (in side panel) -->
+    <rect x="148" y="44" width="20" height="68" fill="#1C1E26" rx="2" />
+    <circle cx="158" cy="54" r="3" fill="#E06C75" />
+    <line x1="158" y1="57" x2="158" y2="65" stroke="#5C6370" stroke-width="1" />
+    <circle cx="158" cy="68" r="3" fill="#61AFEF" />
+    <line x1="158" y1="71" x2="158" y2="79" stroke="#5C6370" stroke-width="1" />
+    <circle cx="158" cy="82" r="3" fill="#98C379" />
+
+    <!-- Laptop Base / Lower Keyboard Chassis -->
+    <polygon points="0,125 195,125 180,140 15,140" fill="#BFC5CE" stroke="#9FA6B2" stroke-width="1.2" />
+    <!-- Trackpad -->
+    <rect x="80" y="128" width="35" height="10" rx="1.5" fill="#A8AFBB" />
+    <line x1="90" y1="126" x2="105" y2="126" stroke="#8D94A0" stroke-width="1.2" stroke-linecap="round" />
+  </g>
+
+  <!-- Item 3: Ceramic Coffee Mug with Saucer (Right Foreground) -->
+  <g id="coffee-mug" transform="translate(370, 350)" filter="url(#crispShadow)">
+    <!-- Wooden Coaster -->
+    <ellipse cx="32" cy="48" rx="34" ry="10" fill="#D3C0A9" stroke="#BAA58C" stroke-width="1.2" />
+    <ellipse cx="32" cy="47" rx="30" ry="8" fill="#DECBB5" />
+
+    <!-- Mug Body (Terracotta Glaze) -->
+    <path d="M 12 18 C 12 44 20 50 32 50 C 44 50 52 44 52 18 Z" fill="url(#terracottaGlaze)" stroke="#8A341E" stroke-width="1.5" />
+    
+    <!-- Mug Handle -->
+    <path d="M 50 24 C 63 24 63 42 50 44" fill="none" stroke="#8A341E" stroke-width="3.5" stroke-linecap="round" />
+
+    <!-- Mug Rim & Coffee Surface -->
+    <ellipse cx="32" cy="18" rx="20" ry="6.5" fill="#4A2F21" stroke="#8A341E" stroke-width="1.2" />
+    <ellipse cx="32" cy="18" rx="17" ry="5" fill="#65422E" />
+
+    <!-- Creamy Latte Art Rosette / Heart -->
+    <path d="M 32 15 C 27 12 25 17 32 20 C 39 17 37 12 32 15 Z" fill="#E8D5C2" opacity="0.85" />
+    <line x1="32" y1="14" x2="32" y2="21" stroke="#523524" stroke-width="0.8" />
+
+    <!-- Delicate Rising Steam Vapor (Warm and Cozy) -->
+    <path d="M 27 6 C 24 -2 31 -8 26 -16" stroke="#C2593F" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.4" />
+    <path d="M 36 8 C 39 0 32 -6 35 -14" stroke="#C2593F" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.4" />
+  </g>
+
+  <!-- Item 4: Open Spiral Notebook with Sketches & Notes (Center-Right Foreground) -->
+  <g id="notebook-ideas" transform="translate(240, 350)" filter="url(#crispShadow)">
+    <!-- Left Page -->
+    <polygon points="10,25 75,12 75,82 10,95" fill="#FCFAF6" stroke="#DFD4C4" stroke-width="1.5" />
+    <!-- Right Page -->
+    <polygon points="75,12 140,25 140,95 75,82" fill="#FAF6EE" stroke="#DFD4C4" stroke-width="1.5" />
+
+    <!-- Brass Spiral Binding -->
+    <circle cx="75" cy="18" r="3" fill="#D4A373" />
+    <circle cx="75" cy="28" r="3" fill="#D4A373" />
+    <circle cx="75" cy="38" r="3" fill="#D4A373" />
+    <circle cx="75" cy="48" r="3" fill="#D4A373" />
+    <circle cx="75" cy="58" r="3" fill="#D4A373" />
+    <circle cx="75" cy="68" r="3" fill="#D4A373" />
+    <circle cx="75" cy="78" r="3" fill="#D4A373" />
+
+    <!-- Left Page Content: Ideas & Architecture Doodle -->
+    <text x="18" y="32" font-family="serif" font-style="italic" font-size="7" font-weight="bold" fill="#C2593F">Project Ideas</text>
+    <line x1="18" y1="36" x2="68" y2="28" stroke="#DCD0C0" stroke-width="0.8" />
+    <!-- Small Neural Node Sketch -->
+    <circle cx="28" cy="48" r="2.5" fill="none" stroke="#7E7263" stroke-width="0.8" />
+    <circle cx="28" cy="60" r="2.5" fill="none" stroke="#7E7263" stroke-width="0.8" />
+    <circle cx="50" cy="54" r="2.5" fill="#C2593F" />
+    <line x1="30.5" y1="48" x2="47.5" y2="54" stroke="#A89B89" stroke-width="0.7" />
+    <line x1="30.5" y1="60" x2="47.5" y2="54" stroke="#A89B89" stroke-width="0.7" />
+    <!-- Handwritten Idea Notes Lines -->
+    <line x1="20" y1="72" x2="65" y2="64" stroke="#8E8170" stroke-width="1" stroke-linecap="round" />
+    <line x1="20" y1="80" x2="58" y2="73" stroke="#8E8170" stroke-width="1" stroke-linecap="round" />
+
+    <!-- Right Page Content: Todo & Algorithm Checkmarks -->
+    <text x="84" y="32" font-family="serif" font-style="italic" font-size="7" font-weight="bold" fill="#3D4450">Experiments</text>
+    <!-- Checkmarks -->
+    <polyline points="85,42 87,44 91,40" stroke="#5E8E76" stroke-width="1.2" fill="none" stroke-linecap="round" />
+    <line x1="95" y1="42" x2="130" y2="48" stroke="#7A6D5D" stroke-width="1" stroke-linecap="round" />
+    
+    <polyline points="85,52 87,54 91,50" stroke="#5E8E76" stroke-width="1.2" fill="none" stroke-linecap="round" />
+    <line x1="95" y1="52" x2="128" y2="58" stroke="#7A6D5D" stroke-width="1" stroke-linecap="round" />
+
+    <circle cx="88" cy="62" r="2.5" stroke="#C2593F" stroke-width="1" fill="none" />
+    <line x1="95" y1="62" x2="132" y2="68" stroke="#7A6D5D" stroke-width="1" stroke-linecap="round" />
+
+    <line x1="84" y1="74" x2="125" y2="81" stroke="#B0A392" stroke-width="0.8" stroke-dasharray="2 2" />
+
+    <!-- Elegant Brass Pen Resting on Notebook -->
+    <polygon points="120,35 124,32 152,80 148,83" fill="#D4A373" />
+    <polygon points="152,80 156,87 148,83" fill="#4A3422" />
+    <line x1="120" y1="35" x2="124" y2="32" stroke="#FAF7F2" stroke-width="1" />
+  </g>
+
+  <!-- Item 5: Potted Desk Plant (Monstera / Fiddle Leaf in Terracotta Planter - Right Edge) -->
+  <g id="desk-plant" transform="translate(415, 275)" filter="url(#crispShadow)">
+    <!-- Terracotta Planter Pot -->
+    <polygon points="8,55 42,55 37,95 13,95" fill="url(#terracottaGlaze)" stroke="#8E3420" stroke-width="1.5" />
+    <rect x="6" y="50" width="38" height="6" rx="2" fill="#D76B50" stroke="#8E3420" stroke-width="1.2" />
+
+    <!-- Rich Soil -->
+    <ellipse cx="25" cy="51" rx="16" ry="2.5" fill="#3D291F" />
+
+    <!-- Botanical Leaves (Sage and Forest Green) -->
+    <!-- Leaf 1 (Left arching) -->
+    <path d="M 24 51 Q 10 32 -4 34 Q 4 18 22 45" fill="url(#sageLeaf)" />
+    <!-- Leaf 2 (Center tall) -->
+    <path d="M 25 51 Q 25 15 28 2 Q 38 18 26 48" fill="#5F8873" />
+    <!-- Leaf 3 (Right arching) -->
+    <path d="M 26 51 Q 42 30 55 35 Q 46 16 27 45" fill="url(#sageLeaf)" />
+    <!-- Leaf 4 (Front low) -->
+    <path d="M 23 51 Q 12 42 6 48 Q 12 58 24 53" fill="#4B6E5C" />
+  </g>
+
+  <!-- Item 6: Creative Stationery & Details (Center-Back) -->
+  <g id="stationery" transform="translate(265, 280)">
+    <!-- Pastel Terracotta Sticky Notes Pad with subtle corner curl -->
+    <rect x="0" y="5" width="28" height="28" rx="2" fill="#E8A593" opacity="0.9" />
+    <rect x="1" y="4" width="28" height="28" rx="2" fill="#F0B5A5" />
+    <!-- Little handwritten heart / star mark -->
+    <path d="M 12 14 Q 15 11 18 14 Q 15 20 12 14 Z" fill="#C2593F" opacity="0.8" />
+
+    <!-- Wood / Brass Ruler peeking out -->
+    <polygon points="35,10 75,5 77,15 37,20" fill="#E2BA84" stroke="#BFA075" stroke-width="0.8" />
+    <line x1="42" y1="9" x2="43" y2="15" stroke="#7A5C38" stroke-width="0.8" />
+    <line x1="48" y1="8" x2="49" y2="13" stroke="#7A5C38" stroke-width="0.6" />
+    <line x1="54" y1="7" x2="55" y2="15" stroke="#7A5C38" stroke-width="0.8" />
+    <line x1="60" y1="6" x2="61" y2="13" stroke="#7A5C38" stroke-width="0.6" />
+    <line x1="66" y1="5" x2="67" y2="15" stroke="#7A5C38" stroke-width="0.8" />
+  </g>
+
+  <!-- Foreground Atmospheric Particles / Warm Dust Motes in Sunbeam -->
+  <g opacity="0.5" fill="#FFE8BF">
+    <circle cx="160" cy="180" r="1.5" />
+    <circle cx="210" cy="140" r="1.2" />
+    <circle cx="280" cy="220" r="1.8" />
+    <circle cx="340" cy="190" r="1.2" />
+    <circle cx="230" cy="290" r="1.5" />
+    <circle cx="390" cy="260" r="1.4" />
+  </g>
+</svg>
