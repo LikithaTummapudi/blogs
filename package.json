@@ -7,7 +7,11 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "postinstall": "node scripts/patch-vercel-adapter.cjs"
+  },
+  "engines": {
+    "node": "22.x"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.19",
