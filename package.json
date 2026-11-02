@@ -7,8 +7,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro",
-    "postinstall": "node scripts/patch-rollup.cjs"
+    "astro": "astro"
   },
   "engines": {
     "node": "22.x"

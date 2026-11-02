@@ -47,17 +47,26 @@ export const POST: APIRoute = async ({ request }) => {
 
     // 1. Handle Cover Image Upload if provided as base64
     if (coverImageData) {
-      const extension = (coverImageName || 'cover.png').split('.').pop() || 'png';
+      const rawExt = (coverImageName || 'cover.png').split('.').pop()?.toLowerCase() || 'png';
+      const validExtensions = ['png', 'jpg', 'jpeg', 'webp', 'svg', 'gif'];
+      const extension = validExtensions.includes(rawExt) ? rawExt : 'png';
       const safeImageFileName = `${cleanSlug}.${extension}`;
       const repoImagePath = `public/images/blogs/${safeImageFileName}`;
 
-      const buffer = Buffer.from(coverImageData.replace(/^data:image\/\w+;base64,/, ''), 'base64');
-      await commitFileToRepo(
+      const base64Index = coverImageData.indexOf(';base64,');
+      const base64Str = base64Index !== -1 ? coverImageData.slice(base64Index + 8) : coverImageData;
+      const buffer = Buffer.from(base64Str, 'base64');
+
+      const imgCommit = await commitFileToRepo(
         repoImagePath,
         buffer,
         `upload(image): add cover for ${title}`,
         user.github_token
       );
+
+      if (!imgCommit.success) {
+        console.warn('Image commit warning:', imgCommit.error);
+      }
 
       finalCoverImage = `/images/blogs/${safeImageFileName}`;
     }
