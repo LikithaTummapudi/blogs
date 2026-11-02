@@ -1,8 +1,8 @@
 import crypto from 'node:crypto';
 
-export const ADMIN_USERNAME = (process.env.ADMIN_USERNAME || 'LikithaTummapudi').toLowerCase();
-export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || 'LikithaLucky#1';
-const SESSION_SECRET = process.env.SESSION_SECRET || 'likitha-blog-editorial-secret-key-2026';
+export const ADMIN_USERNAME = (process.env.ADMIN_USERNAME || '').toLowerCase();
+export const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || '';
+const SESSION_SECRET = process.env.SESSION_SECRET || '';
 
 // 30 days in seconds (30 * 24 * 60 * 60 = 2,592,000)
 export const SESSION_DURATION_SECONDS = 30 * 24 * 60 * 60;
