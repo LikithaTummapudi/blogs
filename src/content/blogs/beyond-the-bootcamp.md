@@ -4,12 +4,13 @@ description: "A reflection on my PixelCompute training experience—from the sel
 pubDate: 2026-11-01
 category: "Learning & Experiences"
 tags: ["PixelCompute","Learning Journey","JavaScript","Coding","Bootcamp","Experience","Time Management","Problem Solving","Personal Growth"]
-coverImage: ""
+coverImage: "/images/blogs/beyond-the-bootcamp.png"
 coverAlt: "Beyond the Bootcamp"
 featured: true
 draft: false
 author: "Likitha Tummapudi"
 ---
+
 
 # I Wasn't Selected. Here's What My PixelCompute Journey Taught Me.
 
@@ -128,3 +129,4 @@ Sometimes, an experience doesn't give you the result you were hoping for. Instea
 For me, that means continuing to learn, practising under timed conditions, and becoming more confident not just in explaining code, but in solving problems when the clock is ticking.
 
 And perhaps that's what I'll remember most about this journey.
+
