@@ -5,7 +5,7 @@ import vercel from '@astrojs/vercel/serverless';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://my-editorial-blog.vercel.app',
+  site: 'https://blogs-nine-beryl.vercel.app',
   output: 'hybrid',
   adapter: vercel(),
   integrations: [

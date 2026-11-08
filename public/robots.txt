@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://likithatummapudi.github.io/blogs/sitemap-index.xml
+Sitemap: https://blogs-nine-beryl.vercel.app/sitemap-index.xml
